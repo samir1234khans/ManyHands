@@ -4,13 +4,14 @@ Thank you for helping build a place where people can undertake work that is too 
 
 ## Start here
 
-1. Read [`AGENTS.md`](AGENTS.md), the [constitution](docs/CONSTITUTION.md), [product contract](docs/PRODUCT.md), and [roadmap](docs/ROADMAP.md).
-2. Find an open issue. New contributors should prefer issues marked `good first issue` or `help wanted`.
-3. Comment with the outcome you want to own and your intended approach. This prevents duplicate effort and lets maintainers share hidden context.
-4. Fork the repository unless you are an official maintainer, then create one short-lived issue branch from current `main`.
-5. Update the matching agent handoff when work spans sessions or contributors.
-6. Open a draft pull request when a coherent checkpoint is useful but incomplete.
-7. Run the relevant quality gates and make the pull request review-ready only when the exact head is verified.
+1. Read [`AGENTS.md`](AGENTS.md) for the verified operational status, then use [`docs/README.md`](docs/README.md) to choose the product, engineering, design, security, community, or operations reading path relevant to your work.
+2. Read the [constitution](docs/CONSTITUTION.md), [product contract](docs/PRODUCT.md), and [roadmap](docs/ROADMAP.md) before changing product meaning or scope.
+3. Find an open issue. New contributors should prefer issues marked `good first issue` or `help wanted`.
+4. Comment with the outcome you want to own and your intended approach. This prevents duplicate effort and lets maintainers share hidden context.
+5. Fork the repository unless you are an official maintainer, then create one short-lived issue branch from current `main`.
+6. Update the matching agent handoff when work spans sessions or contributors.
+7. Open a draft pull request when a coherent checkpoint is useful but incomplete.
+8. Run the relevant quality gates and make the pull request review-ready only when the exact head is verified.
 
 For a substantial product or architecture change, open a proposal before implementation. Small fixes do not need ceremony, but they still need a clear issue or reproducible context.
 
@@ -130,7 +131,7 @@ Use these terms consistently:
 - **Steward**: the accountable caretaker of a project.
 - **Evidence**: a verifiable signal of progress, such as a release, merged pull request, demo, or completed milestone.
 
-See [the domain model](docs/DOMAIN_MODEL.md) for authoritative definitions.
+See [the domain model](docs/DOMAIN_MODEL.md) for authoritative definitions and the [documentation map](docs/README.md) for the plain-language and role-specific reading paths.
 
 ## Review, merge, and cleanup
 
