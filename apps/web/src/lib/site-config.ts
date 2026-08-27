@@ -8,6 +8,12 @@ export const siteConfig = {
   roadmapUrl: "https://github.com/samir1234khans/ManyHands/issues/2",
   issuesUrl: "https://github.com/samir1234khans/ManyHands/issues",
   contributingUrl: "https://github.com/samir1234khans/ManyHands/blob/main/CONTRIBUTING.md",
+  accessibilityUrl: "/accessibility",
+  accessibilityGuideUrl:
+    "https://github.com/samir1234khans/ManyHands/blob/main/docs/ACCESSIBILITY.md",
+  accessibilityReportUrl:
+    "https://github.com/samir1234khans/ManyHands/issues/new?template=accessibility_barrier.yml",
+  securityUrl: "https://github.com/samir1234khans/ManyHands/blob/main/SECURITY.md",
   licenseUrl: "https://github.com/samir1234khans/ManyHands/blob/main/LICENSE",
   licenseName: "GNU AGPL v3 or later",
 } as const;
