@@ -1,6 +1,5 @@
 name: Offer to help
-about: Introduce the kind of contribution you would like to make when no existing issue fits.
-description: Tell maintainers how you would like to contribute without inventing busywork.
+description: Tell maintainers how you would like to contribute when no existing issue fits.
 title: "[Contribution]: "
 body:
   - type: markdown
