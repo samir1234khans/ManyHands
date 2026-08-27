@@ -10,9 +10,9 @@ The idea is simple:
 
 ## Status
 
-ManyHands is **pre-alpha**. The contributor-ready repository foundation is complete: the product contract, architecture, domain model, contribution workflow, governance, roadmap, licensing, issue forms, repository taxonomy, and foundation checks are on `main`.
+ManyHands is **pre-alpha**. The contributor-ready repository foundation is complete, and the first production-shaped application shell lives in [`apps/web`](apps/web). It is intentionally small: public content, accessible states, strict TypeScript, automated quality gates, browser smoke tests, and no premature authentication or database layer.
 
-Application implementation begins with [issue #3: bootstrap the TypeScript application workspace and quality gates](../../issues/3) on the short-lived branch `feat/3-bootstrap-application`. The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
+The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
 
 This repository is also the first project ManyHands will coordinate. **ManyHands will build ManyHands.**
 
@@ -47,9 +47,62 @@ ManyHands will not become another source-code host, a generic social network, a 
 
 Read the full product contract in [`docs/PRODUCT.md`](docs/PRODUCT.md) and the non-negotiable principles in [`docs/CONSTITUTION.md`](docs/CONSTITUTION.md).
 
+## Run it locally
+
+### Requirements
+
+- Node.js **24.19.0**
+- pnpm **11.20.0**
+
+The repository records the Node version in `.nvmrc` and `.node-version`, and the exact package manager in `package.json`.
+
+```bash
+npm install --global pnpm@11.20.0
+pnpm install --frozen-lockfile
+cp apps/web/.env.example apps/web/.env.local
+pnpm dev
+```
+
+Open `http://localhost:3000`. `SITE_URL` is optional for local development; the application falls back to that same origin.
+
+### Quality commands
+
+```bash
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+For the production-browser smoke suite and screenshot artifacts:
+
+```bash
+pnpm exec playwright install chromium
+pnpm build
+pnpm test:e2e
+```
+
+Run every non-browser gate with `pnpm verify`. See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the repository shape, environment policy, CI behavior, and troubleshooting.
+
+## Repository shape
+
+```text
+apps/
+  web/                    # Next.js App Router application
+
+tests/
+  unit/                   # Fast configuration and domain-independent tests
+  e2e/                    # Production-server browser smoke tests
+
+docs/                     # Product, architecture, governance, and operations contracts
+```
+
+Shared packages will be created only when a real boundary exists. Future domain, data, GitHub-integration, and UI packages belong under `packages/` as described in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); empty placeholder packages are deliberately avoided.
+
 ## Help build it
 
-Start with the [public roadmap](../../issues/2), the [next implementation issue](../../issues/3), or the open issues marked [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+Start with the [public roadmap](../../issues/2) or the open issues marked [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
 Before contributing, read:
 
@@ -81,7 +134,9 @@ ManyHands uses the GNU Affero General Public License so users of modified networ
 
 ## Initial technology direction
 
-The accepted starting direction is a TypeScript web application, a PostgreSQL database, GitHub authentication plus a least-privilege GitHub App, and a self-hostable deployment model. The exact implementation contract is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and can evolve through Architecture Decision Records.
+The accepted starting direction is a strict-TypeScript Next.js application, a PostgreSQL database, GitHub authentication plus a least-privilege GitHub App, and a self-hostable deployment model. The database and identity layers intentionally begin in later roadmap issues.
+
+The exact implementation contract is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and can evolve through Architecture Decision Records.
 
 ## License
 

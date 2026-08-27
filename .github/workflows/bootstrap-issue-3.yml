@@ -1,0 +1,65 @@
+name: Bootstrap issue 3 lockfile
+
+on:
+  push:
+    branches:
+      - feat/3-bootstrap-application
+    paths:
+      - package.json
+      - pnpm-workspace.yaml
+      - apps/web/package.json
+      - .github/workflows/bootstrap-issue-3.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bootstrap-issue-3-lockfile
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    if: github.repository == 'samir1234khans/ManyHands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out implementation branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/3-bootstrap-application
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.20.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.19.0
+
+      - name: Generate the reviewed dependency graph
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Format maintained application files
+        run: pnpm format
+
+      - name: Commit the lockfile and retire this one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/bootstrap-issue-3.yml
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: generate the reproducible workspace lockfile"
+          git push origin HEAD:feat/3-bootstrap-application
