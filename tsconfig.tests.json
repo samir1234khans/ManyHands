@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node"]
+  },
+  "include": [
+    "playwright.config.ts",
+    "vitest.config.ts",
+    "tests/**/*.ts",
+    "apps/web/src/lib/**/*.ts"
+  ],
+  "exclude": ["node_modules", "apps/web/.next"]
+}

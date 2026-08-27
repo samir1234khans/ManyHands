@@ -39,15 +39,25 @@ jobs:
             CODE_OF_CONDUCT.md
             SECURITY.md
             CHANGELOG.md
+            package.json
+            pnpm-lock.yaml
+            pnpm-workspace.yaml
+            tsconfig.base.json
             docs/CONSTITUTION.md
             docs/PRODUCT.md
             docs/DOMAIN_MODEL.md
             docs/ARCHITECTURE.md
             docs/ROADMAP.md
             docs/AI_CONTRIBUTIONS.md
+            docs/DEVELOPMENT.md
+            apps/web/package.json
+            apps/web/src/app/layout.tsx
+            apps/web/src/app/page.tsx
+            tests/e2e/home.spec.ts
             .github/CODEOWNERS
             .github/PULL_REQUEST_TEMPLATE.md
             .github/repository-taxonomy.json
+            .github/workflows/application-ci.yml
             .github/workflows/sync-repository-taxonomy.yml
           )
 
@@ -57,6 +67,34 @@ jobs:
               exit 1
             fi
           done
+
+      - name: Verify runtime and package-manager pins
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node_pin="$(tr -d '[:space:]' < .nvmrc)"
+          node_version_file="$(tr -d '[:space:]' < .node-version)"
+
+          if [[ "$node_pin" != "$node_version_file" ]]; then
+            echo ".nvmrc and .node-version disagree" >&2
+            exit 1
+          fi
+
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+          package_manager = package.get("packageManager", "")
+          if not package_manager.startswith("pnpm@"):
+              raise SystemExit("package.json must pin pnpm through packageManager")
+
+          engine = package.get("engines", {}).get("node", "")
+          node_pin = Path(".nvmrc").read_text(encoding="utf-8").strip()
+          if node_pin not in engine:
+              raise SystemExit("the Node engine range must include the pinned Node version")
+          PY
 
       - name: Verify licensing declaration
         shell: bash

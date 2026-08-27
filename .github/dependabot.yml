@@ -9,4 +9,20 @@ updates:
       prefix: chore
       include: scope
 
-# Add the npm ecosystem after the application workspace and lockfile exist.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    versioning-strategy: increase-if-necessary
+    groups:
+      application-runtime:
+        patterns:
+          - next
+          - react
+          - react-dom
+      development-tooling:
+        dependency-type: development
+    commit-message:
+      prefix: chore
+      include: scope
