@@ -1,0 +1,46 @@
+name: Normalize generated database type bytes
+
+on:
+  push:
+    branches:
+      - feat/4-data-foundation
+    paths:
+      - .github/workflows/normalize-generated-types.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: normalize-generated-database-types
+  cancel-in-progress: false
+
+jobs:
+  normalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out implementation branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/4-data-foundation
+          fetch-depth: 0
+
+      - name: Normalize generated file and retire this workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path("packages/data/src/database.types.ts")
+          path.write_bytes(path.read_bytes().rstrip(b"\n") + b"\n")
+          PY
+
+          rm .github/workflows/normalize-generated-types.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add packages/data/src/database.types.ts .github/workflows/normalize-generated-types.yml
+          git commit -m 'chore: normalize generated database type bytes'
+          git push origin HEAD:feat/4-data-foundation
