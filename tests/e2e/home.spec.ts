@@ -23,7 +23,9 @@ test.describe("public application shell", () => {
     );
   });
 
-  test("keeps meaningful public content available when JavaScript is disabled", async ({ browser }) => {
+  test("keeps meaningful public content available when JavaScript is disabled", async ({
+    browser,
+  }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
 
