@@ -4,11 +4,11 @@ project: "ManyHands"
 repository: "samir1234khans/ManyHands"
 default_branch: "main"
 current_milestone: "v0.1 — Foundation"
-status_verified_at_utc: "2026-08-27T22:45:18Z"
+status_verified_at_utc: "2026-08-27T23:10:44Z"
 snapshot_main_commit: "1f829d82381a865fba34df139d5faaa33275cc3b"
 primary_active_issue: "5"
 primary_active_branch: "feat/5-github-auth-profile"
-primary_active_commit: "e36d0cbe1fafd18b3c252cb8f84cbfece2d6d4b1"
+primary_active_commit: "2467c163bca8eed622901a10aa8fa3cac44a8864"
 primary_active_status: "in_progress"
 primary_active_pr: "35"
 ---
@@ -79,7 +79,7 @@ When sources disagree, verify GitHub and update the stale document. Do not make 
 
 | Issue | Branch | Pull request | State | Last recorded commit | Handoff |
 |---|---|---|---|---|---|
-| #5 — GitHub sign-in and contributor profiles | `feat/5-github-auth-profile` | Draft #35 | `in_progress` | `e36d0cbe1fafd18b3c252cb8f84cbfece2d6d4b1` | `docs/agent-status/issue-5.md` |
+| #5 — GitHub sign-in and contributor profiles | `feat/5-github-auth-profile` | Draft #35 | `in_progress` | `2467c163bca8eed622901a10aa8fa3cac44a8864` | `docs/agent-status/issue-5.md` |
 
 Issue #6 remains blocked until the complete identity/profile vertical slice is merged.
 
