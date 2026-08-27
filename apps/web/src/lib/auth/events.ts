@@ -1,11 +1,7 @@
 import "server-only";
 
 export type IdentityEventName =
-  | "oauth_start"
-  | "oauth_callback"
-  | "sign_out"
-  | "profile_update"
-  | "account_deletion";
+  "oauth_start" | "oauth_callback" | "sign_out" | "profile_update" | "account_deletion";
 
 export type IdentityEventOutcome = "allowed" | "completed" | "denied" | "failed";
 
@@ -25,7 +21,10 @@ export interface IdentityLogRecord {
 }
 
 function sanitizeToken(value: string, fallback: string): string {
-  const normalized = value.trim().toLowerCase().replace(/[^a-z0-9_./-]/g, "_");
+  const normalized = value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_./-]/g, "_");
   return normalized.slice(0, 80) || fallback;
 }
 

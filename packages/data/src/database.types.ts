@@ -176,7 +176,29 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      admin_restore_account: {
+        Args: { target_auth_user_id: string }
+        Returns: boolean
+      }
+      admin_suspend_account: {
+        Args: { reason: string; target_auth_user_id: string }
+        Returns: boolean
+      }
+      current_account_context: {
+        Args: never
+        Returns: {
+          account_id: string
+          status: Database["private"]["Enums"]["account_status"]
+        }[]
+      }
+      request_account_deletion: {
+        Args: never
+        Returns: Database["private"]["Enums"]["account_status"]
+      }
+      restore_failed_account_deletion: {
+        Args: { target_auth_user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       availability_level: "unavailable" | "limited" | "open"

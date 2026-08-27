@@ -6,7 +6,10 @@ import { getPublicSupabaseConfig, resolveApplicationOrigin } from "@/lib/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 function redirectToError(origin: string, reason: string): NextResponse {
-  return NextResponse.redirect(new URL(`/auth/error?reason=${encodeURIComponent(reason)}`, origin), 303);
+  return NextResponse.redirect(
+    new URL(`/auth/error?reason=${encodeURIComponent(reason)}`, origin),
+    303,
+  );
 }
 
 function hasGitHubIdentity(appMetadata: Record<string, unknown>): boolean {
@@ -25,13 +28,23 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   if (providerError) {
     const reason = providerError === "access_denied" ? "provider_denied" : "provider_error";
-    logIdentityEvent({ name: "oauth_callback", outcome: "denied", reason, route: "/auth/callback" });
+    logIdentityEvent({
+      name: "oauth_callback",
+      outcome: "denied",
+      reason,
+      route: "/auth/callback",
+    });
     return redirectToError(origin, reason);
   }
 
   if (!code || !getPublicSupabaseConfig()) {
     const reason = code ? "configuration" : "missing_code";
-    logIdentityEvent({ name: "oauth_callback", outcome: "failed", reason, route: "/auth/callback" });
+    logIdentityEvent({
+      name: "oauth_callback",
+      outcome: "failed",
+      reason,
+      route: "/auth/callback",
+    });
     return redirectToError(origin, reason);
   }
 
@@ -39,7 +52,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
   if (exchangeError) {
-    logIdentityEvent({ name: "oauth_callback", outcome: "failed", reason: "exchange_failed", route: "/auth/callback" });
+    logIdentityEvent({
+      name: "oauth_callback",
+      outcome: "failed",
+      reason: "exchange_failed",
+      route: "/auth/callback",
+    });
     return redirectToError(origin, "exchange_failed");
   }
 
@@ -50,7 +68,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   if (userError || !user || !hasGitHubIdentity(user.app_metadata)) {
     await supabase.auth.signOut({ scope: "local" });
-    logIdentityEvent({ name: "oauth_callback", outcome: "failed", reason: "identity_invalid", route: "/auth/callback" });
+    logIdentityEvent({
+      name: "oauth_callback",
+      outcome: "failed",
+      reason: "identity_invalid",
+      route: "/auth/callback",
+    });
     return redirectToError(origin, "identity_invalid");
   }
 

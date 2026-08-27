@@ -6,7 +6,10 @@ import { getPublicSupabaseConfig, resolveApplicationOrigin } from "@/lib/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 function errorRedirect(origin: string, reason: string): NextResponse {
-  return NextResponse.redirect(new URL(`/auth/error?reason=${encodeURIComponent(reason)}`, origin), 303);
+  return NextResponse.redirect(
+    new URL(`/auth/error?reason=${encodeURIComponent(reason)}`, origin),
+    303,
+  );
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -15,7 +18,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const origin = resolveApplicationOrigin(request.url);
 
   if (!origin || !getPublicSupabaseConfig()) {
-    logIdentityEvent({ name: "oauth_start", outcome: "failed", reason: "configuration", route: "/auth/start" });
+    logIdentityEvent({
+      name: "oauth_start",
+      outcome: "failed",
+      reason: "configuration",
+      route: "/auth/start",
+    });
     return errorRedirect(origin ?? request.nextUrl.origin, "configuration");
   }
 
@@ -31,7 +39,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   });
 
   if (error || !data.url) {
-    logIdentityEvent({ name: "oauth_start", outcome: "failed", reason: "provider_initialization", route: "/auth/start" });
+    logIdentityEvent({
+      name: "oauth_start",
+      outcome: "failed",
+      reason: "provider_initialization",
+      route: "/auth/start",
+    });
     return errorRedirect(origin, "provider_unavailable");
   }
 
@@ -40,7 +53,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     providerUrl = new URL(data.url);
   } catch {
-    logIdentityEvent({ name: "oauth_start", outcome: "failed", reason: "invalid_provider_url", route: "/auth/start" });
+    logIdentityEvent({
+      name: "oauth_start",
+      outcome: "failed",
+      reason: "invalid_provider_url",
+      route: "/auth/start",
+    });
     return errorRedirect(origin, "provider_unavailable");
   }
 

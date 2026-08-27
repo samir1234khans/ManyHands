@@ -9,10 +9,7 @@ import {
 import type { User } from "@supabase/supabase-js";
 
 import { getPublicSupabaseConfig } from "@/lib/env";
-import {
-  createServerSupabaseClient,
-  type ServerSupabaseClient,
-} from "@/lib/supabase/server";
+import { createServerSupabaseClient, type ServerSupabaseClient } from "@/lib/supabase/server";
 
 export interface CurrentAccountContext {
   readonly accountId: string;
@@ -48,9 +45,7 @@ export async function getCurrentAccountContext(): Promise<CurrentAccountContext 
     return null;
   }
 
-  const { data: accountRows, error: accountError } = await supabase.rpc(
-    "current_account_context",
-  );
+  const { data: accountRows, error: accountError } = await supabase.rpc("current_account_context");
   const account = accountRows?.[0];
 
   if (

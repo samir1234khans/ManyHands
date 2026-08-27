@@ -55,9 +55,7 @@ export function requirePublicSupabaseConfig(): PublicSupabaseConfig {
 
 export function getServerSupabaseSecret(): string | null {
   return (
-    process.env.SUPABASE_SECRET_KEY?.trim() ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ||
-    null
+    process.env.SUPABASE_SECRET_KEY?.trim() || process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || null
   );
 }
 
