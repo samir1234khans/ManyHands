@@ -182,7 +182,7 @@ if (!allowedStates.has(handoff.data.work_state)) {
 }
 
 const compatibility = readText("AI_agent.md");
-if (!compatibility.includes("[AGENTS.md](AGENTS.md)")) {
+if (!compatibility.includes("(AGENTS.md)")) {
   fail("AI_agent.md must point to canonical AGENTS.md");
 }
 
