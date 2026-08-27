@@ -11,7 +11,7 @@ A first-time contributor can understand the project in roughly this order:
 3. [`CONSTITUTION.md`](CONSTITUTION.md) — promises that product, architecture, governance, and funding decisions must preserve.
 4. [`PRODUCT.md`](PRODUCT.md) — users, v0 scope, explicit non-goals, critical flows, and the self-hosting acceptance test.
 5. [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — how to claim work, create a branch, verify changes, open a pull request, and clean up afterward.
-6. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](../issues/2) — implementation order and current outcomes.
+6. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](https://github.com/samir1234khans/ManyHands/issues/2) — implementation order and current outcomes.
 7. [`BRANCHING.md`](BRANCHING.md) — issue-linked branch naming, draft-work promotion, handoff, review, merge, and cleanup.
 
 After that, choose the path matching the work you intend to do.
