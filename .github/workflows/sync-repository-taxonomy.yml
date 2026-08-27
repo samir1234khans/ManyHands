@@ -1,0 +1,153 @@
+name: Sync repository taxonomy
+
+on:
+  push:
+    branches:
+      - chore/repository-taxonomy
+    paths:
+      - .github/repository-taxonomy.json
+      - .github/workflows/sync-repository-taxonomy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: repository-taxonomy
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'samir1234khans/ManyHands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Create or update labels, milestones, and issue assignments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          repository = os.environ["REPOSITORY"]
+          token = os.environ["GITHUB_TOKEN"]
+          api_root = f"https://api.github.com/repos/{repository}"
+          taxonomy = json.loads(Path(".github/repository-taxonomy.json").read_text(encoding="utf-8"))
+
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {token}",
+              "User-Agent": "ManyHands-repository-taxonomy",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+
+          def request(method: str, path: str, payload=None):
+              data = None if payload is None else json.dumps(payload).encode("utf-8")
+              req = urllib.request.Request(
+                  f"{api_root}{path}",
+                  data=data,
+                  headers={**headers, "Content-Type": "application/json"},
+                  method=method,
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      body = response.read().decode("utf-8")
+                      return None if not body else json.loads(body)
+              except urllib.error.HTTPError as error:
+                  body = error.read().decode("utf-8", errors="replace")
+                  raise RuntimeError(f"GitHub API {method} {path} failed with {error.code}: {body}") from error
+
+          def paginated(path: str):
+              separator = "&" if "?" in path else "?"
+              page = 1
+              records = []
+              while True:
+                  batch = request("GET", f"{path}{separator}per_page=100&page={page}")
+                  records.extend(batch)
+                  if len(batch) < 100:
+                      return records
+                  page += 1
+
+          labels_by_name = {item["name"]: item for item in paginated("/labels")}
+          for label in taxonomy["labels"]:
+              name = label["name"]
+              payload = {
+                  "color": label["color"].lstrip("#"),
+                  "description": label["description"],
+              }
+              existing = labels_by_name.get(name)
+              if existing:
+                  encoded_name = urllib.parse.quote(existing["name"], safe="")
+                  updated = request("PATCH", f"/labels/{encoded_name}", {"new_name": name, **payload})
+                  labels_by_name[name] = updated
+                  print(f"updated label: {name}")
+              else:
+                  created = request("POST", "/labels", {"name": name, **payload})
+                  labels_by_name[name] = created
+                  print(f"created label: {name}")
+
+          milestones_by_title = {
+              item["title"]: item for item in paginated("/milestones?state=all")
+          }
+          for milestone in taxonomy["milestones"]:
+              title = milestone["title"]
+              payload = {
+                  "title": title,
+                  "description": milestone["description"],
+                  "state": "open",
+              }
+              existing = milestones_by_title.get(title)
+              if existing:
+                  updated = request("PATCH", f"/milestones/{existing['number']}", payload)
+                  milestones_by_title[title] = updated
+                  print(f"updated milestone: {title}")
+              else:
+                  created = request("POST", "/milestones", payload)
+                  milestones_by_title[title] = created
+                  print(f"created milestone: {title}")
+
+          configured_labels = set(labels_by_name)
+          for issue_number, assignment in taxonomy["issues"].items():
+              unknown = sorted(set(assignment["labels"]) - configured_labels)
+              if unknown:
+                  raise RuntimeError(f"Issue #{issue_number} references unknown labels: {unknown}")
+
+              milestone_title = assignment["milestone"]
+              milestone = milestones_by_title.get(milestone_title)
+              if milestone is None:
+                  raise RuntimeError(
+                      f"Issue #{issue_number} references unknown milestone: {milestone_title}"
+                  )
+
+              request(
+                  "PATCH",
+                  f"/issues/{issue_number}",
+                  {
+                      "labels": assignment["labels"],
+                      "milestone": milestone["number"],
+                  },
+              )
+              print(
+                  f"configured issue #{issue_number}: "
+                  f"{milestone_title}; {', '.join(assignment['labels'])}"
+              )
+
+          print(
+              f"taxonomy synchronized: {len(taxonomy['labels'])} custom labels, "
+              f"{len(taxonomy['milestones'])} milestones, "
+              f"{len(taxonomy['issues'])} issues"
+          )
+          PY
