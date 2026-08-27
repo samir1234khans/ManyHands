@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
-import "./identity.css";
 
 function resolveMetadataBase(): URL {
   const candidate = process.env.SITE_URL;
