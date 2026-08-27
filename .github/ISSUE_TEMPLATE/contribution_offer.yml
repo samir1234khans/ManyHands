@@ -1,0 +1,60 @@
+name: Offer to help
+about: Introduce the kind of contribution you would like to make when no existing issue fits.
+description: Tell maintainers how you would like to contribute without inventing busywork.
+title: "[Contribution]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Existing `good first issue` and `help wanted` tasks are usually the fastest route. Use this form when your skill or idea does not match one yet.
+  - type: textarea
+    id: interest
+    attributes:
+      label: What part of the mission interests you?
+    validations:
+      required: true
+  - type: checkboxes
+    id: skills
+    attributes:
+      label: How would you like to help?
+      options:
+        - label: Product research or domain expertise
+        - label: UX or visual design
+        - label: Frontend engineering
+        - label: Backend, database, or integrations
+        - label: Security or privacy
+        - label: Testing or accessibility
+        - label: Documentation, writing, or translation
+        - label: Moderation or community operations
+        - label: DevOps or self-hosting
+  - type: textarea
+    id: experience
+    attributes:
+      label: Relevant context
+      description: Experience is optional. Links to prior work can help maintainers find a suitable task.
+  - type: dropdown
+    id: size
+    attributes:
+      label: Preferred contribution shape
+      options:
+        - A small first contribution
+        - A focused feature or research task
+        - Ongoing review or maintenance
+        - Pairing with another contributor
+        - I am flexible
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Onboarding preferences
+      description: Share only what you are comfortable making public, such as written communication, pairing, or extra setup context.
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Working agreement
+      options:
+        - label: I have read the contribution guide and Code of Conduct.
+          required: true
+        - label: I understand that maintainers may suggest a different task or say that the project is not ready for this contribution yet.
+          required: true

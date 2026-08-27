@@ -1,0 +1,80 @@
+name: Problem-first product proposal
+description: Propose a product change by describing the unmet need before prescribing implementation.
+title: "[Proposal]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ManyHands is problem first. Start with the people, situation, and evidence—not a preferred framework or screen.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the product contract, roadmap, and existing issues.
+          required: true
+        - label: I am open to solutions other than the first implementation I imagined.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What cannot people do today, or what is unnecessarily difficult?
+      placeholder: Project stewards cannot clearly hand off an inactive project without losing context...
+    validations:
+      required: true
+  - type: textarea
+    id: affected
+    attributes:
+      label: Who is affected and in what situation?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Examples, research, observed workflows, comparable products, or a reproducible case.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe what becomes possible without locking the implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing alternatives or workarounds
+      description: What do people use today, and why is it insufficient?
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+      description: What should this proposal deliberately not solve?
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and affected contracts
+      description: Consider safety, privacy, abuse, accessibility, authorization, data, GitHub permissions, and scope.
+  - type: textarea
+    id: possible_solutions
+    attributes:
+      label: Possible approaches
+      description: Optional. List more than one where possible and state trade-offs.
+  - type: dropdown
+    id: willingness
+    attributes:
+      label: How could you help?
+      options:
+        - I can research or clarify the problem
+        - I can design the experience
+        - I can implement and test it
+        - I can review domain or security implications
+        - I mainly need this and can provide feedback
+        - Not sure yet
+    validations:
+      required: true

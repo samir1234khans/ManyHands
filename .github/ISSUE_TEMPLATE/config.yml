@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/samir1234khans/ManyHands/blob/main/SECURITY.md
+    about: Please follow the private reporting instructions. Do not publish a vulnerability as an issue.
+  - name: Contribution guide
+    url: https://github.com/samir1234khans/ManyHands/blob/main/CONTRIBUTING.md
+    about: Read the contribution workflow before starting substantial work.
+  - name: Product and architecture decisions
+    url: https://github.com/samir1234khans/ManyHands/tree/main/docs
+    about: Check the product contract, constitution, domain model, roadmap, and ADRs first.

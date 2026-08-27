@@ -1,0 +1,104 @@
+name: Repository health
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-health-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  foundation:
+    name: foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify required foundation files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required=(
+            README.md
+            LICENSE
+            CONTRIBUTING.md
+            GOVERNANCE.md
+            CODE_OF_CONDUCT.md
+            SECURITY.md
+            CHANGELOG.md
+            docs/CONSTITUTION.md
+            docs/PRODUCT.md
+            docs/DOMAIN_MODEL.md
+            docs/ARCHITECTURE.md
+            docs/ROADMAP.md
+            docs/AI_CONTRIBUTIONS.md
+            .github/CODEOWNERS
+            .github/PULL_REQUEST_TEMPLATE.md
+          )
+
+          for path in "${required[@]}"; do
+            if [[ ! -s "$path" ]]; then
+              echo "Required file is missing or empty: $path" >&2
+              exit 1
+            fi
+          done
+
+      - name: Verify licensing declaration
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq "SPDX-License-Identifier: AGPL-3.0-or-later" LICENSE
+          grep -Fq "GNU AGPL v3 or later" README.md
+
+      - name: Reject tracked secrets and editor debris
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          tracked_env_files="$(git ls-files | grep -E '(^|/)\.env($|\.)' | grep -vE '(^|/)\.env\.example$' || true)"
+          if [[ -n "$tracked_env_files" ]]; then
+            echo "Environment files must not be committed:" >&2
+            echo "$tracked_env_files" >&2
+            exit 1
+          fi
+
+          tracked_debris="$(git ls-files | grep -E '(^|/)(\.DS_Store|Thumbs\.db)$' || true)"
+          if [[ -n "$tracked_debris" ]]; then
+            echo "Operating-system debris is tracked:" >&2
+            echo "$tracked_debris" >&2
+            exit 1
+          fi
+
+      - name: Validate YAML files
+        shell: bash
+        run: |
+          set -euo pipefail
+          ruby <<'RUBY'
+          require "yaml"
+
+          files = Dir[".github/**/*.{yml,yaml}"]
+          abort "No YAML files found" if files.empty?
+
+          files.each do |file|
+            YAML.safe_load(File.read(file), permitted_classes: [], aliases: true)
+            puts "valid: #{file}"
+          end
+          RUBY
+
+      - name: Check whitespace errors
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
