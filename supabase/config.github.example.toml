@@ -1,0 +1,7 @@
+# Copy this provider section into supabase/config.toml for real local GitHub OAuth.
+# The env() values are read from the repository-root .env file.
+[auth.external.github]
+enabled = true
+client_id = "env(GITHUB_CLIENT_ID)"
+secret = "env(GITHUB_SECRET)"
+redirect_uri = ""
