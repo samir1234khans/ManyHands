@@ -109,6 +109,7 @@ Run every non-browser gate with `pnpm verify`.
 Read:
 
 - [`docs/README.md`](docs/README.md) for role-based reading paths and the authority of each document;
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) for plain-language product terms, distinctions, and one complete example;
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;
 - [`docs/DATABASE.md`](docs/DATABASE.md) for migrations, grants, RLS, tests, generated types, and local database operations;
 - [`docs/DATA_LIFECYCLE.md`](docs/DATA_LIFECYCLE.md) for retention, suspension, export, deletion, and anonymization;
@@ -162,6 +163,7 @@ Before contributing, read:
 
 - [`AGENTS.md`](AGENTS.md)
 - [`docs/README.md`](docs/README.md)
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 - [`docs/BRANCHING.md`](docs/BRANCHING.md)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md)

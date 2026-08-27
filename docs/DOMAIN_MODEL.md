@@ -2,6 +2,8 @@
 
 This document defines product language and invariants before database tables are designed. Storage can change; these meanings should not drift accidentally.
 
+For an everyday-language explanation and a complete worked example, read [`GLOSSARY.md`](GLOSSARY.md). This domain model remains authoritative when wording differs.
+
 ## Entity map
 
 ```mermaid
