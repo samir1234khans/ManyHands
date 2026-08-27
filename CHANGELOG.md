@@ -19,4 +19,5 @@ The format follows Keep a Changelog principles, and releases will use semantic v
 - Server-rendered public homepage that remains readable without JavaScript.
 - Vitest unit checks plus Playwright production smoke tests and narrow/wide screenshot evidence.
 - Pull-request CI for formatting, linting, type checking, tests, production build, and browser verification.
+- Official ESLint compatibility bridge for the current Next.js lint preset on ESLint 10.
 - Local development, repository-shape, environment, dependency, and troubleshooting documentation.
