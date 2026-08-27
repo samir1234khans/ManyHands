@@ -133,11 +133,11 @@
     },
     "4": {
       "milestone": "v0.1 — Foundation",
-      "labels": ["enhancement", "infrastructure", "security", "area: identity", "ready"]
+      "labels": ["enhancement", "infrastructure", "security", "area: identity"]
     },
     "5": {
       "milestone": "v0.1 — Foundation",
-      "labels": ["enhancement", "security", "area: identity", "blocked"]
+      "labels": ["enhancement", "security", "area: identity", "ready"]
     },
     "6": {
       "milestone": "v0.2 — Problems",
