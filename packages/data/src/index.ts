@@ -1,3 +1,5 @@
+import type { Database } from "./database.types";
+
 export { Constants } from "./database.types";
 
 export type {
@@ -9,8 +11,6 @@ export type {
   TablesInsert,
   TablesUpdate,
 } from "./database.types";
-
-import type { Database } from "./database.types";
 
 export type AccountRow = Database["private"]["Tables"]["accounts"]["Row"];
 export type ContributorProfileRow = Database["public"]["Tables"]["contributor_profiles"]["Row"];
