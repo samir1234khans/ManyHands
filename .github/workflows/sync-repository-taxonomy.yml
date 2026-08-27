@@ -3,7 +3,7 @@ name: Sync repository taxonomy
 on:
   push:
     branches:
-      - chore/repository-taxonomy
+      - main
     paths:
       - .github/repository-taxonomy.json
       - .github/workflows/sync-repository-taxonomy.yml
