@@ -33,6 +33,7 @@ jobs:
           required=(
             README.md
             LICENSE
+            NOTICE
             CONTRIBUTING.md
             GOVERNANCE.md
             CODE_OF_CONDUCT.md
@@ -59,7 +60,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -Fq "SPDX-License-Identifier: AGPL-3.0-or-later" LICENSE
+          grep -Fq "GNU AFFERO GENERAL PUBLIC LICENSE" LICENSE
+          grep -Fq "Version 3, 19 November 2007" LICENSE
+          grep -Fq "SPDX-License-Identifier: AGPL-3.0-or-later" NOTICE
           grep -Fq "GNU AGPL v3 or later" README.md
 
       - name: Reject tracked secrets and editor debris

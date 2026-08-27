@@ -59,11 +59,13 @@ Before contributing, read:
 
 ### The official forking policy
 
-🍴 **Fork it. Improve it. Make us mildly jealous.**
+🍴 **Fork it. Make it better. Make me jealous.**
 
-Copy the homework. Improve the homework. Send the homework back.
+**Copy the homework. Improve the homework. Send the homework back.**
 
-You are welcome to submit a pull request or launch your own version. ManyHands uses the GNU Affero General Public License so improvements to networked versions remain available to the commons. See [`docs/LICENSING.md`](docs/LICENSING.md) for the practical explanation.
+Seriously: submit a pull request, launch your own flavor, or build the version that makes the original look undercaffeinated. Just keep covered improvements open so everyone—including the upstream project—can learn from them and use them under the same license.
+
+ManyHands uses the GNU Affero General Public License so users of modified networked versions can obtain the corresponding source. See [`docs/LICENSING.md`](docs/LICENSING.md) for the practical explanation.
 
 ## Working agreements
 

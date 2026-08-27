@@ -13,11 +13,11 @@ For a substantial product or architecture change, open a proposal before impleme
 
 ## Forking is encouraged
 
-🍴 **Fork it. Improve it. Make us mildly jealous.**
+🍴 **Fork it. Make it better. Make me jealous.**
 
-Copy the homework. Improve the homework. Send the homework back.
+**Copy the homework. Improve the homework. Send the homework back.**
 
-Pull requests are welcome, and independent versions are welcome. Please preserve the project’s open-source obligations and clearly distinguish an independent fork from the official ManyHands instance.
+Pull requests are welcome, and independent versions are welcome. Build a cleaner version, a stranger version, or the version that proves us delightfully wrong. Please preserve the project’s open-source obligations and clearly distinguish an independent fork from the official ManyHands instance.
 
 ## Branching model
 
