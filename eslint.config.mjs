@@ -14,14 +14,15 @@ const ignores = {
   ],
 };
 
-export default [
+const eslintConfig = [
   ignores,
   ...fixupConfigRules(nextVitals),
   ...fixupConfigRules(nextTypeScript),
   {
-    files: ["tests/**/*.ts", "*.config.ts"],
     rules: {
       "@next/next/no-html-link-for-pages": "off",
     },
   },
 ];
+
+export default eslintConfig;
