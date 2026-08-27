@@ -10,9 +10,9 @@ The idea is simple:
 
 ## Status
 
-ManyHands is **pre-alpha**. The contributor-ready repository foundation is complete, and the first production-shaped application shell lives in [`apps/web`](apps/web). It is intentionally small: public content, accessible states, strict TypeScript, automated quality gates, browser smoke tests, and no premature authentication or database layer.
+ManyHands is **pre-alpha**. The contributor-ready repository and production-shaped application shell are complete. The source now also contains the first secure PostgreSQL/Supabase foundation: reproducible local migrations, stable internal accounts, privacy-safe contributor profiles, explicit grants, Row Level Security, lifecycle/anonymization tests, typed application authorization, generated schema types, and isolated database CI.
 
-The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
+Authentication UI, GitHub sign-in, account recovery, and the first real profile flow remain in [issue #5](../../issues/5). The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
 
 This repository is also the first project ManyHands will coordinate. **ManyHands will build ManyHands.**
 
@@ -53,8 +53,11 @@ Read the full product contract in [`docs/PRODUCT.md`](docs/PRODUCT.md) and the n
 
 - Node.js **24.19.0**
 - pnpm **11.20.0**
+- Docker Desktop or Docker Engine for database work
 
-The repository records the Node version in `.nvmrc` and `.node-version`, and the exact package manager in `package.json`.
+The repository records the Node version in `.nvmrc` and `.node-version`, the exact package manager in `package.json`, and the pinned Supabase CLI in the committed dependency graph.
+
+### Application
 
 ```bash
 npm install --global pnpm@11.20.0
@@ -64,6 +67,23 @@ pnpm dev
 ```
 
 Open `http://localhost:3000`. `SITE_URL` is optional for local development; the application falls back to that same origin.
+
+### Database
+
+```bash
+pnpm db:start
+pnpm db:reset
+pnpm db:test
+pnpm db:lint
+```
+
+Delete the disposable local stack when finished:
+
+```bash
+pnpm db:stop
+```
+
+The database is rebuilt from immutable migrations and a deliberately non-personal, secret-free seed. A hosted Supabase project or production credential is not required.
 
 ### Quality commands
 
@@ -83,7 +103,13 @@ pnpm build
 pnpm test:e2e
 ```
 
-Run every non-browser gate with `pnpm verify`. See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the repository shape, environment policy, CI behavior, and troubleshooting.
+Run every non-browser gate with `pnpm verify`.
+
+Read:
+
+- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;
+- [`docs/DATABASE.md`](docs/DATABASE.md) for migrations, grants, RLS, tests, generated types, and local database operations;
+- [`docs/DATA_LIFECYCLE.md`](docs/DATA_LIFECYCLE.md) for retention, suspension, export, deletion, and anonymization.
 
 ## Repository shape
 
@@ -91,18 +117,39 @@ Run every non-browser gate with `pnpm verify`. See [`docs/DEVELOPMENT.md`](docs/
 apps/
   web/                    # Next.js App Router application
 
+packages/
+  domain/                 # Typed capability policies and domain invariants
+  data/                   # Generated database types and typed data boundaries
+
+supabase/
+  config.toml             # CLI-generated local project contract
+  migrations/             # Immutable PostgreSQL migrations
+  tests/database/         # pgTAP grants, RLS, suspension, and deletion tests
+  seed.sql                # Synthetic, non-personal, secret-free seed
+
 tests/
-  unit/                   # Fast configuration and domain-independent tests
+  unit/                   # Fast application and authorization-policy tests
   e2e/                    # Production-server browser smoke tests
 
-docs/                     # Product, architecture, governance, and operations contracts
+docs/                     # Product, architecture, lifecycle, governance, and operations contracts
 ```
 
-Shared packages will be created only when a real boundary exists. Future domain, data, GitHub-integration, and UI packages belong under `packages/` as described in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); empty placeholder packages are deliberately avoided.
+Shared packages exist only when a real boundary and consumer exist. Empty placeholder packages are deliberately avoided.
+
+## Security and privacy baseline
+
+- Public browsing and learning do not require an account.
+- Authentication identity is separate from stable ManyHands attribution and authorization.
+- Email, OAuth records, tokens, reports, and moderator notes do not belong in public profiles.
+- Public database access requires explicit grants plus Row Level Security.
+- Server actions must also enforce the centralized capability policy; RLS is defense in depth.
+- Suspended users retain attribution but cannot perform protected writes.
+- Account deletion detaches the authentication identity and scrubs optional profile data while preserving neutral historical attribution.
+- Production or service-role secrets never enter the browser, repository, seed, test output, or pull-request workflow.
 
 ## Help build it
 
-Start with the [public roadmap](../../issues/2) or the open issues marked [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+Start with the [public roadmap](../../issues/2), the issues marked [`ready`](../../issues?q=is%3Aissue+is%3Aopen+label%3Aready), or the newcomer-safe work marked [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
 Before contributing, read:
 
@@ -134,9 +181,9 @@ ManyHands uses the GNU Affero General Public License so users of modified networ
 
 ## Initial technology direction
 
-The accepted starting direction is a strict-TypeScript Next.js application, a PostgreSQL database, GitHub authentication plus a least-privilege GitHub App, and a self-hostable deployment model. The database and identity layers intentionally begin in later roadmap issues.
+The accepted starting direction is a strict-TypeScript Next.js application, a PostgreSQL/Supabase data foundation, GitHub authentication plus a least-privilege GitHub App, and a self-hostable deployment model.
 
-The exact implementation contract is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and can evolve through Architecture Decision Records.
+The exact implementation contract is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and evolves through reviewed Architecture Decision Records in [`docs/decisions`](docs/decisions/README.md).
 
 ## License
 
