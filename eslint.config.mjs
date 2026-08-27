@@ -1,3 +1,4 @@
+import { fixupConfigRules } from "@eslint/compat";
 import nextTypeScript from "eslint-config-next/typescript";
 import nextVitals from "eslint-config-next/core-web-vitals";
 
@@ -15,8 +16,8 @@ const ignores = {
 
 export default [
   ignores,
-  ...nextVitals,
-  ...nextTypeScript,
+  ...fixupConfigRules(nextVitals),
+  ...fixupConfigRules(nextTypeScript),
   {
     files: ["tests/**/*.ts", "*.config.ts"],
     rules: {
