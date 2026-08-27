@@ -74,7 +74,7 @@ security definer
 set search_path = ''
 as $function$
 declare
-  restored boolean;
+  restored_count integer;
 begin
   update private.accounts
   set
@@ -83,8 +83,8 @@ begin
   where auth_user_id = target_auth_user_id
     and status = 'deletion_requested'::private.account_status;
 
-  get diagnostics restored = row_count;
-  return restored;
+  get diagnostics restored_count = row_count;
+  return restored_count > 0;
 end;
 $function$;
 
@@ -104,7 +104,7 @@ security definer
 set search_path = ''
 as $function$
 declare
-  suspended boolean;
+  suspended_count integer;
 begin
   if reason is null or char_length(btrim(reason)) not between 1 and 500 then
     raise exception 'suspension reason must be between 1 and 500 characters' using errcode = '22023';
@@ -119,8 +119,8 @@ begin
   where auth_user_id = target_auth_user_id
     and status in ('active'::private.account_status, 'suspended'::private.account_status);
 
-  get diagnostics suspended = row_count;
-  return suspended;
+  get diagnostics suspended_count = row_count;
+  return suspended_count > 0;
 end;
 $function$;
 
@@ -132,7 +132,7 @@ security definer
 set search_path = ''
 as $function$
 declare
-  restored boolean;
+  restored_count integer;
 begin
   update private.accounts
   set
@@ -142,8 +142,8 @@ begin
   where auth_user_id = target_auth_user_id
     and status = 'suspended'::private.account_status;
 
-  get diagnostics restored = row_count;
-  return restored;
+  get diagnostics restored_count = row_count;
+  return restored_count > 0;
 end;
 $function$;
 
