@@ -1,0 +1,31 @@
+export {
+  AuthorizationError,
+  accountStatuses,
+  anonymousPrincipal,
+  createAccountPrincipal,
+  decideAuthorization,
+  globalRoles,
+  profileVisibilities,
+  projectRoles,
+  requireAuthorization,
+} from "./authorization";
+
+export type {
+  AccountPrincipal,
+  AccountStatus,
+  AnonymousPrincipal,
+  AuthorizationAllowed,
+  AuthorizationDecision,
+  AuthorizationDenied,
+  AuthorizationDenialReason,
+  AuthorizationRequest,
+  Capability,
+  CreateAccountPrincipalInput,
+  GlobalRole,
+  Principal,
+  PrivateReportResource,
+  ProfileResource,
+  ProfileVisibility,
+  ProjectResource,
+  ProjectRole,
+} from "./authorization";
