@@ -37,7 +37,7 @@ Closes #
 - [ ] Completed, pending, blocked, and unverified work are distinguished honestly.
 - [ ] Tests cover behavior and important failure paths.
 - [ ] Authorization is enforced server-side where required.
-- [ ] UI changes are keyboard accessible and respect reduced motion.
+- [ ] User-facing changes include relevant axe, keyboard, assistive-technology, reflow/zoom, reduced-motion, forced-colors, and narrow-screen evidence from `docs/ACCESSIBILITY.md`; pending manual evidence is stated honestly.
 - [ ] No secret, private data, proprietary code, or unclear-license material is included.
 - [ ] Documentation, migrations, generated types, and ADRs are updated when contracts changed.
 - [ ] `AGENTS.md` or the matching issue handoff is updated, or this change does not alter repository status.

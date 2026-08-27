@@ -109,6 +109,7 @@ Run every non-browser gate with `pnpm verify`.
 Read:
 
 - [`docs/README.md`](docs/README.md) for role-based reading paths and the authority of each document;
+- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) for the WCAG 2.2 AA target, engineering rules, automated checks, and manual test protocol;
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;
 - [`docs/DATABASE.md`](docs/DATABASE.md) for migrations, grants, RLS, tests, generated types, and local database operations;
 - [`docs/DATA_LIFECYCLE.md`](docs/DATA_LIFECYCLE.md) for retention, suspension, export, deletion, and anonymization;
@@ -166,6 +167,7 @@ Before contributing, read:
 - [`docs/BRANCHING.md`](docs/BRANCHING.md)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md)
 - [`docs/AI_CONTRIBUTIONS.md`](docs/AI_CONTRIBUTIONS.md)
 - [`GOVERNANCE.md`](GOVERNANCE.md)
 

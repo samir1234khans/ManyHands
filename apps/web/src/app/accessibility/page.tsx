@@ -53,9 +53,9 @@ export default function AccessibilityPage() {
           <p className="eyebrow">Participation is the product</p>
           <h1>Accessibility at ManyHands</h1>
           <p className="content-lead">
-            ManyHands cannot help more people build together if the product itself blocks people
-            who use keyboards, assistive technology, zoom, reduced motion, narrow screens, slow
-            devices, or limited bandwidth.
+            ManyHands cannot help more people build together if the product itself blocks people who
+            use keyboards, assistive technology, zoom, reduced motion, narrow screens, slow devices,
+            or limited bandwidth.
           </p>
           <p className="product-boundary">
             Target: WCAG 2.2 Level AA, plus explicit project requirements for constrained devices
@@ -88,9 +88,9 @@ export default function AccessibilityPage() {
               detectable violation is introduced.
             </p>
             <p>
-              Automated tools cannot decide whether an explanation is understandable, a focus
-              order is useful, an announcement is excessive, or a real task is comfortable with a
-              screen reader. Core journeys also require documented manual testing.
+              Automated tools cannot decide whether an explanation is understandable, a focus order
+              is useful, an announcement is excessive, or a real task is comfortable with a screen
+              reader. Core journeys also require documented manual testing.
             </p>
             <a className="text-link" href={siteConfig.accessibilityGuideUrl}>
               Read the engineering and manual test baseline
@@ -118,7 +118,11 @@ export default function AccessibilityPage() {
           </div>
         </section>
 
-        <section className="content-section report-section" id="report" aria-labelledby="report-title">
+        <section
+          className="content-section report-section"
+          id="report"
+          aria-labelledby="report-title"
+        >
           <div>
             <p className="section-kicker">Tell us what blocked you</p>
             <h2 id="report-title">Report an accessibility barrier</h2>

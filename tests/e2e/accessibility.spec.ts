@@ -91,7 +91,9 @@ test.describe("automated accessibility baseline", () => {
     });
 
     expect(styles.scrollBehavior).toBe("auto");
-    expect(styles.buttonTransitionDuration).toMatch(/^(0s|0\.01ms|0\.00001s)(, (0s|0\.01ms|0\.00001s))*$/);
+    expect(styles.buttonTransitionDuration).toMatch(
+      /^(0s|0\.01ms|0\.00001s)(, (0s|0\.01ms|0\.00001s))*$/,
+    );
   });
 
   test("core content and focus remain visible in forced-colors mode", async ({ page }) => {
@@ -106,15 +108,16 @@ test.describe("automated accessibility baseline", () => {
     await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
   });
 
-  test("the public statement exposes an accessibility barrier reporting route", async ({ page }) => {
+  test("the public statement exposes an accessibility barrier reporting route", async ({
+    page,
+  }) => {
     await page.goto("/accessibility");
 
     await expect(
       page.getByRole("heading", { level: 1, name: "Accessibility at ManyHands" }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: /Open the accessibility barrier form/ })).toHaveAttribute(
-      "href",
-      /accessibility_barrier\.yml/,
-    );
+    await expect(
+      page.getByRole("link", { name: /Open the accessibility barrier form/ }),
+    ).toHaveAttribute("href", /accessibility_barrier\.yml/);
   });
 });

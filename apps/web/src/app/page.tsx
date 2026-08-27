@@ -91,7 +91,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="hero shell" aria-labelledby="hero-title">
           <div className="hero-copy-block">
             <p className="eyebrow">
@@ -246,6 +246,7 @@ export default function HomePage() {
           <p>ManyHands is free software. Fork it, improve it, and send the homework back.</p>
           <nav aria-label="Project resources">
             <a href={siteConfig.repositoryUrl}>View source</a>
+            <a href={siteConfig.accessibilityUrl}>Accessibility</a>
             <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>
             <a href={siteConfig.roadmapUrl}>Roadmap</a>
           </nav>

@@ -47,6 +47,7 @@ Write a new ADR when a decision changes a durable boundary, trust model, data-ow
 
 These explain how to apply the contracts and decisions. They should be updated when the real workflow changes.
 
+- [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — WCAG 2.2 AA target, interaction rules, automated checks, and manual evidence protocol.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — system boundaries, modules, GitHub integration rules, threat model, data consistency, observability, and delivery strategy.
 - [`DEVELOPMENT.md`](DEVELOPMENT.md) — local setup, repository shape, commands, CI, dependency policy, testing, accessibility, and troubleshooting.
 - [`DATABASE.md`](DATABASE.md) — local Supabase, migrations, grants, RLS, pgTAP, generated types, and database operations.
@@ -74,10 +75,11 @@ GitHub issues, pull requests, commits, and CI remain authoritative when a tempor
 
 1. [`ARCHITECTURE.md`](ARCHITECTURE.md)
 2. [`DEVELOPMENT.md`](DEVELOPMENT.md)
-3. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
-4. Relevant ADRs under [`decisions/`](decisions/README.md)
-5. [`DATABASE.md`](DATABASE.md) and [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md) for schema, identity, authorization, or lifecycle work
-6. The active issue and its matching handoff under [`agent-status/`](agent-status/README.md)
+3. [`ACCESSIBILITY.md`](ACCESSIBILITY.md)
+4. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
+5. Relevant ADRs under [`decisions/`](decisions/README.md)
+6. [`DATABASE.md`](DATABASE.md) and [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md) for schema, identity, authorization, or lifecycle work
+7. The active issue and its matching handoff under [`agent-status/`](agent-status/README.md)
 
 ### Product and design
 
@@ -92,10 +94,11 @@ GitHub issues, pull requests, commits, and CI remain authoritative when a tempor
 
 1. [`../SECURITY.md`](../SECURITY.md)
 2. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially trust boundaries and threat model
-3. [`DATABASE.md`](DATABASE.md)
-4. [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md)
-5. [`decisions/0003-stable-identity-and-public-read-models.md`](decisions/0003-stable-identity-and-public-read-models.md)
-6. Relevant migrations, negative tests, and the active issue handoff
+3. [`ACCESSIBILITY.md`](ACCESSIBILITY.md), especially accessible authentication and public reporting
+4. [`DATABASE.md`](DATABASE.md)
+5. [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md)
+6. [`decisions/0003-stable-identity-and-public-read-models.md`](decisions/0003-stable-identity-and-public-read-models.md)
+7. Relevant migrations, negative tests, and the active issue handoff
 
 Report a vulnerability privately through the route documented in [`../SECURITY.md`](../SECURITY.md); never place exploit details in a public issue or status file.
 
