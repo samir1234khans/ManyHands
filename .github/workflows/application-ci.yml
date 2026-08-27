@@ -1,0 +1,76 @@
+name: Application CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: application-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 24.19.0
+  PNPM_VERSION: 11.20.0
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Build production application
+        run: pnpm build
+
+      - name: Install Chromium for smoke tests
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run browser smoke tests and capture screenshots
+        run: pnpm test:e2e
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-browser-evidence
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: error
+          retention-days: 14

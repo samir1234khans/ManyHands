@@ -2,7 +2,7 @@
 node_modules/
 .pnpm-store/
 
-# Framework output
+# Framework and test output
 .next/
 out/
 dist/
@@ -10,6 +10,7 @@ build/
 coverage/
 playwright-report/
 test-results/
+*.tsbuildinfo
 
 # Environment and secrets
 .env
