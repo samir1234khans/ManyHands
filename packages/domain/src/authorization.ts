@@ -1,9 +1,4 @@
-export const accountStatuses = [
-  "active",
-  "suspended",
-  "deletion_requested",
-  "anonymized",
-] as const;
+export const accountStatuses = ["active", "suspended", "deletion_requested", "anonymized"] as const;
 
 export type AccountStatus = (typeof accountStatuses)[number];
 
@@ -122,10 +117,7 @@ function isActiveAccount(principal: Principal): principal is AccountPrincipal {
   return principal.kind === "account" && principal.status === "active";
 }
 
-function canReadProfile(
-  principal: Principal,
-  resource: ProfileResource,
-): AuthorizationDecision {
+function canReadProfile(principal: Principal, resource: ProfileResource): AuthorizationDecision {
   if (resource.visibility === "public") {
     return allowed;
   }
@@ -138,15 +130,10 @@ function canReadProfile(
     return allowed;
   }
 
-  return principal.accountId === resource.accountId
-    ? allowed
-    : denied("resource_not_visible");
+  return principal.accountId === resource.accountId ? allowed : denied("resource_not_visible");
 }
 
-function canUpdateProfile(
-  principal: Principal,
-  resource: ProfileResource,
-): AuthorizationDecision {
+function canUpdateProfile(principal: Principal, resource: ProfileResource): AuthorizationDecision {
   if (principal.kind === "anonymous") {
     return denied("authentication_required");
   }
@@ -155,15 +142,10 @@ function canUpdateProfile(
     return denied("account_inactive");
   }
 
-  return principal.accountId === resource.accountId
-    ? allowed
-    : denied("profile_owner_required");
+  return principal.accountId === resource.accountId ? allowed : denied("profile_owner_required");
 }
 
-function canUpdateProject(
-  principal: Principal,
-  resource: ProjectResource,
-): AuthorizationDecision {
+function canUpdateProject(principal: Principal, resource: ProjectResource): AuthorizationDecision {
   if (principal.kind === "anonymous") {
     return denied("authentication_required");
   }
@@ -174,9 +156,7 @@ function canUpdateProject(
 
   const role = principal.projectRoles[resource.projectId];
 
-  return role === "steward" || role === "maintainer"
-    ? allowed
-    : denied("project_role_required");
+  return role === "steward" || role === "maintainer" ? allowed : denied("project_role_required");
 }
 
 function canReadPrivateReport(principal: Principal): AuthorizationDecision {
@@ -221,10 +201,7 @@ export class AuthorizationError extends Error {
   }
 }
 
-export function requireAuthorization(
-  principal: Principal,
-  request: AuthorizationRequest,
-): void {
+export function requireAuthorization(principal: Principal, request: AuthorizationRequest): void {
   const decision = decideAuthorization(principal, request);
 
   if (!decision.allowed) {
