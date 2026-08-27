@@ -72,15 +72,28 @@ jobs:
           --level warning
           --fail-on warning
 
-      - name: Generate database types as review evidence
+      - name: Generate and verify database types
         run: |
           set -euo pipefail
           mkdir -p test-results/database
+          generated="test-results/database/database.types.ts"
+          drift="test-results/database/database.types.diff"
+
           pnpm exec supabase gen types typescript \
             --local \
             --schema public,private \
-            > test-results/database/database.types.ts
-          test -s test-results/database/database.types.ts
+            > "$generated"
+
+          test -s "$generated"
+          sha256sum "$generated" > test-results/database/database.types.sha256
+
+          if ! diff -u packages/data/src/database.types.ts "$generated" > "$drift"; then
+            echo "Committed database types do not match the clean migrated schema:" >&2
+            cat "$drift" >&2
+            exit 1
+          fi
+
+          rm -f "$drift"
 
       - name: Upload database evidence
         if: always()
