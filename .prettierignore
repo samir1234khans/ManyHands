@@ -1,6 +1,7 @@
 **/.next
 **/node_modules
 coverage
+packages/data/src/database.types.ts
 playwright-report
 pnpm-lock.yaml
 test-results

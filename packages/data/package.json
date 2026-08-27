@@ -1,0 +1,15 @@
+{
+  "name": "@manyhands/data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generated schema types and typed data boundaries for ManyHands.",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./src/index.ts",
+    "./database.types": "./src/database.types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  }
+}

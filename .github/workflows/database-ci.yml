@@ -1,0 +1,120 @@
+name: Database CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 24.19.0
+  PNPM_VERSION: 11.20.0
+  SUPABASE_TELEMETRY_DISABLED: 1
+
+jobs:
+  verify-database:
+    name: verify database
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Confirm the pinned Supabase CLI
+        run: |
+          set -euo pipefail
+          pnpm exec supabase --version
+          pnpm exec supabase db start --help
+          pnpm exec supabase db lint --help
+          pnpm exec supabase gen types --help
+
+      - name: Start the isolated local database
+        run: pnpm exec supabase db start
+
+      - name: Rebuild from immutable migrations and safe seed
+        run: pnpm exec supabase db reset
+
+      - name: Verify local migration history
+        run: pnpm exec supabase migration list --local
+
+      - name: Run database and RLS tests
+        run: pnpm exec supabase test db
+
+      - name: Lint database functions and schemas
+        run: >-
+          pnpm exec supabase db lint
+          --local
+          --schema public,private
+          --level warning
+          --fail-on warning
+
+      - name: Generate and verify database types
+        run: |
+          set -euo pipefail
+          mkdir -p test-results/database
+          generated="test-results/database/database.types.ts"
+          drift="test-results/database/database.types.diff"
+
+          pnpm exec supabase gen types typescript \
+            --local \
+            --schema public,private \
+            > "$generated"
+
+          test -s "$generated"
+
+          # The CLI currently emits an extra terminal newline. Normalize only
+          # trailing newline bytes before the byte-for-byte drift comparison so
+          # generated source remains Git-clean and deterministic.
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path("test-results/database/database.types.ts")
+          path.write_bytes(path.read_bytes().rstrip(b"\n") + b"\n")
+          PY
+
+          sha256sum "$generated" > test-results/database/database.types.sha256
+
+          if ! diff -u packages/data/src/database.types.ts "$generated" > "$drift"; then
+            echo "Committed database types do not match the clean migrated schema:" >&2
+            cat "$drift" >&2
+            exit 1
+          fi
+
+          rm -f "$drift"
+
+      - name: Upload database evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: database-evidence
+          path: test-results/database
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Stop and delete the isolated database
+        if: always()
+        run: pnpm exec supabase stop --no-backup

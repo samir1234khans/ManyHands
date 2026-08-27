@@ -8,7 +8,9 @@
     "playwright.config.ts",
     "vitest.config.ts",
     "tests/**/*.ts",
-    "apps/web/src/lib/**/*.ts"
+    "apps/web/src/lib/**/*.ts",
+    "packages/domain/src/**/*.ts",
+    "packages/data/src/**/*.ts"
   ],
   "exclude": ["node_modules", "apps/web/.next"]
 }

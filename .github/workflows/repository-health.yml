@@ -50,14 +50,33 @@ jobs:
             docs/ROADMAP.md
             docs/AI_CONTRIBUTIONS.md
             docs/DEVELOPMENT.md
+            docs/DATABASE.md
+            docs/DATA_LIFECYCLE.md
+            docs/decisions/0003-stable-identity-and-public-read-models.md
+            packages/domain/package.json
+            packages/domain/tsconfig.json
+            packages/domain/src/index.ts
+            packages/domain/src/authorization.ts
+            packages/data/package.json
+            packages/data/tsconfig.json
+            packages/data/src/index.ts
+            packages/data/src/database.types.ts
             apps/web/package.json
             apps/web/src/app/layout.tsx
             apps/web/src/app/page.tsx
+            tests/unit/authorization-policy.test.ts
             tests/e2e/home.spec.ts
+            supabase/config.toml
+            supabase/seed.sql
+            supabase/migrations/20260827021954_establish_identity_foundation.sql
+            supabase/tests/database/000_identity_schema.test.sql
+            supabase/tests/database/010_profile_rls.test.sql
+            supabase/tests/database/020_account_lifecycle.test.sql
             .github/CODEOWNERS
             .github/PULL_REQUEST_TEMPLATE.md
             .github/repository-taxonomy.json
             .github/workflows/application-ci.yml
+            .github/workflows/database-ci.yml
             .github/workflows/sync-repository-taxonomy.yml
           )
 
@@ -83,6 +102,7 @@ jobs:
 
           python3 <<'PY'
           import json
+          import re
           from pathlib import Path
 
           package = json.loads(Path("package.json").read_text(encoding="utf-8"))
@@ -94,7 +114,14 @@ jobs:
           node_pin = Path(".nvmrc").read_text(encoding="utf-8").strip()
           if node_pin not in engine:
               raise SystemExit("the Node engine range must include the pinned Node version")
+
+          supabase_version = package.get("devDependencies", {}).get("supabase", "")
+          if not re.fullmatch(r"\d+\.\d+\.\d+", supabase_version):
+              raise SystemExit("the Supabase CLI must be pinned to an exact semantic version")
           PY
+
+          grep -Fq "supabase: true" pnpm-workspace.yaml
+          grep -Fq 'major_version = 17' supabase/config.toml
 
       - name: Verify licensing declaration
         shell: bash
@@ -105,7 +132,7 @@ jobs:
           grep -Fq "SPDX-License-Identifier: AGPL-3.0-or-later" NOTICE
           grep -Fq "GNU AGPL v3 or later" README.md
 
-      - name: Reject tracked secrets and editor debris
+      - name: Reject tracked secrets and generated debris
         shell: bash
         run: |
           set -euo pipefail
@@ -117,10 +144,15 @@ jobs:
             exit 1
           fi
 
-          tracked_debris="$(git ls-files | grep -E '(^|/)(\.DS_Store|Thumbs\.db)$' || true)"
+          tracked_debris="$(git ls-files | grep -E '(^|/)(\.DS_Store|Thumbs\.db)$|(^|/)\.supabase/' || true)"
           if [[ -n "$tracked_debris" ]]; then
-            echo "Operating-system debris is tracked:" >&2
+            echo "Generated or operating-system debris is tracked:" >&2
             echo "$tracked_debris" >&2
+            exit 1
+          fi
+
+          if grep -Eiq '(service[_-]?role|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|password[[:space:]]*=|sk-[A-Za-z0-9_-]{12,})' supabase/seed.sql; then
+            echo "The database seed appears to contain a secret-like value" >&2
             exit 1
           fi
 
@@ -215,6 +247,53 @@ jobs:
               f"{len(milestones)} milestones, {len(issues)} issue assignments"
           )
           PY
+
+      - name: Verify database foundation invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mapfile -t migrations < <(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort)
+          if [[ ${#migrations[@]} -lt 1 ]]; then
+            echo "At least one database migration is required" >&2
+            exit 1
+          fi
+
+          for migration in "${migrations[@]}"; do
+            filename="$(basename "$migration")"
+            if [[ ! "$filename" =~ ^[0-9]{14}_[a-z0-9_]+\.sql$ ]]; then
+              echo "Migration filename is not CLI-shaped: $filename" >&2
+              exit 1
+            fi
+            if [[ ! -s "$migration" ]]; then
+              echo "Migration is empty: $migration" >&2
+              exit 1
+            fi
+          done
+
+          migration="supabase/migrations/20260827021954_establish_identity_foundation.sql"
+          grep -Fq "create schema private" "$migration"
+          grep -Fq "enable row level security" "$migration"
+          grep -Fq "force row level security" "$migration"
+          grep -Fq "security_invoker = true" "$migration"
+          grep -Fq "set search_path = ''" "$migration"
+          grep -Fq "revoke all on table private.accounts from authenticated" "$migration"
+          grep -Fq "manyhands_anonymize_account_before_auth_user_delete" "$migration"
+
+          if grep -Fq "auth.role()" "$migration"; then
+            echo "Database policy must not rely on auth.role()" >&2
+            exit 1
+          fi
+
+          grep -Fq 'capability: "profile.update"' tests/unit/authorization-policy.test.ts
+          grep -Fq 'capability: "project.update"' tests/unit/authorization-policy.test.ts
+          grep -Fq 'capability: "moderation.report.read_private"' tests/unit/authorization-policy.test.ts
+          grep -Fq "supabase test db" .github/workflows/database-ci.yml
+          grep -Fq "supabase db lint" .github/workflows/database-ci.yml
+          grep -Fq "diff -u packages/data/src/database.types.ts" .github/workflows/database-ci.yml
+          grep -Fq "security_invoker" supabase/tests/database/000_identity_schema.test.sql
+          grep -Fq "suspension prevents protected writes" supabase/tests/database/010_profile_rls.test.sql
+          grep -Fq "optional profile data is scrubbed" supabase/tests/database/020_account_lifecycle.test.sql
 
       - name: Check whitespace errors
         shell: bash
