@@ -28,14 +28,14 @@
     "verify:full": "pnpm verify && pnpm test:e2e"
   },
   "devDependencies": {
-    "@playwright/test": "1.55.0",
+    "@playwright/test": "1.62.1",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "eslint": "9.39.4",
+    "eslint": "10.9.1",
     "eslint-config-next": "16.3.3",
-    "prettier": "3.6.2",
+    "prettier": "3.9.6",
     "typescript": "5.9.2",
-    "vitest": "4.1.0"
+    "vitest": "4.1.11"
   }
 }
