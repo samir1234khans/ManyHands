@@ -22,7 +22,7 @@ jobs:
   verify-database:
     name: verify database
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -78,11 +78,31 @@ jobs:
           mkdir -p test-results/database
           generated="test-results/database/database.types.ts"
           drift="test-results/database/database.types.diff"
+          max_attempts=5
 
-          pnpm exec supabase gen types typescript \
-            --local \
-            --schema public,private \
-            > "$generated"
+          for attempt in $(seq 1 "$max_attempts"); do
+            rm -f "$generated"
+            echo "Generating database types (attempt ${attempt}/${max_attempts})..."
+
+            if pnpm exec supabase gen types typescript \
+              --local \
+              --schema public,private \
+              > "$generated"; then
+              echo "Database type generation succeeded on attempt ${attempt}."
+              break
+            fi
+
+            rm -f "$generated"
+
+            if [[ "$attempt" -eq "$max_attempts" ]]; then
+              echo "Database type generation failed after ${max_attempts} attempts." >&2
+              exit 1
+            fi
+
+            delay=$((15 * (2 ** (attempt - 1))))
+            echo "::warning::Database type generation failed on attempt ${attempt}; retrying in ${delay}s. This is commonly caused by transient container-registry throttling."
+            sleep "$delay"
+          done
 
           test -s "$generated"
 
