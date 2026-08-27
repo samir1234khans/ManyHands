@@ -39,6 +39,8 @@ jobs:
             CODE_OF_CONDUCT.md
             SECURITY.md
             CHANGELOG.md
+            AGENTS.md
+            AI_agent.md
             package.json
             pnpm-lock.yaml
             pnpm-workspace.yaml
@@ -49,10 +51,15 @@ jobs:
             docs/ARCHITECTURE.md
             docs/ROADMAP.md
             docs/AI_CONTRIBUTIONS.md
+            docs/BRANCHING.md
+            docs/agent-status/README.md
+            docs/agent-status/issue-5.md
             docs/DEVELOPMENT.md
             docs/DATABASE.md
             docs/DATA_LIFECYCLE.md
             docs/decisions/0003-stable-identity-and-public-read-models.md
+            scripts/validate-agent-context.mjs
+            scripts/validate-branch-name.mjs
             packages/domain/package.json
             packages/domain/tsconfig.json
             packages/domain/src/index.ts
@@ -76,7 +83,9 @@ jobs:
             .github/PULL_REQUEST_TEMPLATE.md
             .github/repository-taxonomy.json
             .github/workflows/application-ci.yml
+            .github/workflows/branch-policy.yml
             .github/workflows/database-ci.yml
+            .github/workflows/delete-merged-branch.yml
             .github/workflows/sync-repository-taxonomy.yml
           )
 
@@ -171,6 +180,15 @@ jobs:
             puts "valid: #{file}"
           end
           RUBY
+
+      - name: Validate agent context and branch automation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/validate-agent-context.mjs
+          grep -Fq "github.event.pull_request.head.repo.full_name == github.repository" .github/workflows/branch-policy.yml
+          grep -Fq "contents: write" .github/workflows/delete-merged-branch.yml
+          grep -Fq "github.event.pull_request.merged == true" .github/workflows/delete-merged-branch.yml
 
       - name: Validate repository taxonomy
         shell: bash

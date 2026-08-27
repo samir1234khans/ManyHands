@@ -10,9 +10,9 @@ The idea is simple:
 
 ## Status
 
-ManyHands is **pre-alpha**. The contributor-ready repository and production-shaped application shell are complete. The source now also contains the first secure PostgreSQL/Supabase foundation: reproducible local migrations, stable internal accounts, privacy-safe contributor profiles, explicit grants, Row Level Security, lifecycle/anonymization tests, typed application authorization, generated schema types, and isolated database CI.
+ManyHands is **pre-alpha**. The contributor-ready repository and production-shaped application shell are complete. The source also contains the first secure PostgreSQL/Supabase foundation: reproducible local migrations, stable internal accounts, privacy-safe contributor profiles, explicit grants, Row Level Security, lifecycle/anonymization tests, typed application authorization, generated schema types, and isolated database CI.
 
-Authentication UI, GitHub sign-in, account recovery, and the first real profile flow remain in [issue #5](../../issues/5). The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
+GitHub sign-in and contributor profiles are now visible as active work in [draft PR #35](../../pull/35) for [issue #5](../../issues/5). Consult [`AGENTS.md`](AGENTS.md) and the issue handoff before joining that branch. The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
 
 This repository is also the first project ManyHands will coordinate. **ManyHands will build ManyHands.**
 
@@ -88,6 +88,7 @@ The database is rebuilt from immutable migrations and a deliberately non-persona
 ### Quality commands
 
 ```bash
+pnpm agent:check
 pnpm format:check
 pnpm lint
 pnpm typecheck
@@ -109,7 +110,8 @@ Read:
 
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;
 - [`docs/DATABASE.md`](docs/DATABASE.md) for migrations, grants, RLS, tests, generated types, and local database operations;
-- [`docs/DATA_LIFECYCLE.md`](docs/DATA_LIFECYCLE.md) for retention, suspension, export, deletion, and anonymization.
+- [`docs/DATA_LIFECYCLE.md`](docs/DATA_LIFECYCLE.md) for retention, suspension, export, deletion, and anonymization;
+- [`docs/BRANCHING.md`](docs/BRANCHING.md) for claiming, promoting, handing off, reviewing, and cleaning up work.
 
 ## Repository shape
 
@@ -131,7 +133,11 @@ tests/
   unit/                   # Fast application and authorization-policy tests
   e2e/                    # Production-server browser smoke tests
 
-docs/                     # Product, architecture, lifecycle, governance, and operations contracts
+scripts/                  # Repository and branch-context validation
+
+docs/
+  agent-status/           # Temporary issue-specific collaboration handoffs
+  decisions/              # Architecture Decision Records
 ```
 
 Shared packages exist only when a real boundary and consumer exist. Empty placeholder packages are deliberately avoided.
@@ -145,7 +151,7 @@ Shared packages exist only when a real boundary and consumer exist. Empty placeh
 - Server actions must also enforce the centralized capability policy; RLS is defense in depth.
 - Suspended users retain attribution but cannot perform protected writes.
 - Account deletion detaches the authentication identity and scrubs optional profile data while preserving neutral historical attribution.
-- Production or service-role secrets never enter the browser, repository, seed, test output, or pull-request workflow.
+- Production or service-role secrets never enter the browser, repository, seed, test output, status handoff, or pull-request workflow.
 
 ## Help build it
 
@@ -153,7 +159,9 @@ Start with the [public roadmap](../../issues/2), the issues marked [`ready`](../
 
 Before contributing, read:
 
+- [`AGENTS.md`](AGENTS.md)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- [`docs/BRANCHING.md`](docs/BRANCHING.md)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - [`docs/AI_CONTRIBUTIONS.md`](docs/AI_CONTRIBUTIONS.md)
@@ -178,6 +186,7 @@ ManyHands uses the GNU Affero General Public License so users of modified networ
 - AI assistance is welcome, but humans remain accountable for every contribution.
 - Accessibility, privacy, security, and moderation are product requirements.
 - Decisions that affect the architecture or community are recorded publicly.
+- Valuable partial work is promoted through draft pull requests instead of being hidden on forgotten branches.
 
 ## Initial technology direction
 

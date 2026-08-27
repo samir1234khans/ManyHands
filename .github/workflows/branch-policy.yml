@@ -1,0 +1,48 @@
+name: Branch policy
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - ready_for_review
+
+permissions:
+  contents: read
+
+concurrency:
+  group: branch-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-internal-branch:
+    name: validate internal branch
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Check out pull-request code
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.19.0
+
+      - name: Validate the issue-linked branch name
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: node scripts/validate-branch-name.mjs "$HEAD_BRANCH"
+
+  acknowledge-fork-branch:
+    name: acknowledge fork branch
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Explain fork handling
+        run: echo 'Fork branch names are recommended but not enforced by the official repository.'
