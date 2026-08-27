@@ -1,0 +1,66 @@
+name: Delete merged branch
+
+on:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+jobs:
+  delete-internal-head:
+    name: delete merged internal head
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref != github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Delete the exact merged branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          repository = os.environ["REPOSITORY"]
+          branch = os.environ["HEAD_BRANCH"]
+          token = os.environ["GITHUB_TOKEN"]
+
+          if branch == "main":
+              raise SystemExit("refusing to delete main")
+
+          encoded = urllib.parse.quote(branch, safe="")
+          request = urllib.request.Request(
+              f"https://api.github.com/repos/{repository}/git/refs/heads/{encoded}",
+              method="DELETE",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {token}",
+                  "User-Agent": "ManyHands-branch-cleanup",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+
+          try:
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  if response.status != 204:
+                      raise RuntimeError(f"unexpected deletion status: {response.status}")
+              print(f"deleted merged branch: {branch}")
+          except urllib.error.HTTPError as error:
+              if error.code == 404:
+                  print(f"branch already absent: {branch}")
+              else:
+                  body = error.read().decode("utf-8", errors="replace")
+                  raise RuntimeError(f"branch deletion failed with {error.code}: {body}") from error
+          PY

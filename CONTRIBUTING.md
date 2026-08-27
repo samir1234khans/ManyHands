@@ -4,12 +4,15 @@ Thank you for helping build a place where people can undertake work that is too 
 
 ## Start here
 
-1. Read the [constitution](docs/CONSTITUTION.md), [product contract](docs/PRODUCT.md), and [roadmap](docs/ROADMAP.md).
+1. Read [`AGENTS.md`](AGENTS.md), the [constitution](docs/CONSTITUTION.md), [product contract](docs/PRODUCT.md), and [roadmap](docs/ROADMAP.md).
 2. Find an open issue. New contributors should prefer issues marked `good first issue` or `help wanted`.
-3. Comment that you would like to work on it and describe your intended approach. A maintainer will help prevent duplicate effort.
-4. Fork the repository, create a short-lived branch, make the change, test it, and open a pull request.
+3. Comment with the outcome you want to own and your intended approach. This prevents duplicate effort and lets maintainers share hidden context.
+4. Fork the repository unless you are an official maintainer, then create one short-lived issue branch from current `main`.
+5. Update the matching agent handoff when work spans sessions or contributors.
+6. Open a draft pull request when a coherent checkpoint is useful but incomplete.
+7. Run the relevant quality gates and make the pull request review-ready only when the exact head is verified.
 
-For a substantial product or architecture change, open a proposal before implementation. Small fixes do not need ceremony.
+For a substantial product or architecture change, open a proposal before implementation. Small fixes do not need ceremony, but they still need a clear issue or reproducible context.
 
 ## Forking is encouraged
 
@@ -17,21 +20,48 @@ For a substantial product or architecture change, open a proposal before impleme
 
 **Copy the homework. Improve the homework. Send the homework back.**
 
-Pull requests are welcome, and independent versions are welcome. Build a cleaner version, a stranger version, or the version that proves us delightfully wrong. Please preserve the project’s open-source obligations and clearly distinguish an independent fork from the official ManyHands instance.
+Pull requests and independent versions are welcome. Build a cleaner version, a stranger version, or the version that proves us delightfully wrong. Preserve the project’s open-source obligations and distinguish an independent fork from the official ManyHands instance.
 
 ## Branching model
 
-ManyHands uses GitHub Flow. There is **no permanent `develop` branch**. `main` should remain releasable; work happens on short-lived branches and enters through pull requests.
+ManyHands uses GitHub Flow. `main` is the only long-lived integration branch. There is **no permanent `develop` branch**, and unclaimed issues do not receive placeholder branches.
 
-Use one of these forms:
+Use:
 
 - `feat/<issue-number>-short-name`
 - `fix/<issue-number>-short-name`
 - `docs/<issue-number>-short-name`
 - `chore/<issue-number>-short-name`
 - `security/<issue-number>-short-name`
+- `research/<issue-number>-short-name`
+- `design/<issue-number>-short-name`
+- `test/<issue-number>-short-name`
+- `refactor/<issue-number>-short-name`
 
-Do not mix unrelated changes in one branch.
+Examples:
+
+```text
+feat/5-github-auth-profile
+docs/19-documentation-map
+research/21-adjacent-platform-study
+```
+
+Do not mix unrelated changes in one branch. Read [`docs/BRANCHING.md`](docs/BRANCHING.md) for claiming, refreshing, promoting, handing off, and cleaning up work.
+
+## Agent and collaborator handoffs
+
+`AGENTS.md` is the concise operational index. Work that spans sessions or contributors uses `docs/agent-status/issue-<number>.md` on the active branch.
+
+Before pausing or transferring work, record:
+
+- exact issue, branch, pull request, base commit, and last verified commit;
+- completed versus planned work;
+- acceptance-criteria state;
+- decisions and security-sensitive areas;
+- next safe action and blockers;
+- checks actually run.
+
+GitHub wins when a handoff disagrees with the issue, branch, PR, or CI evidence. Correct the stale handoff instead of guessing.
 
 ## Commit style
 
@@ -45,27 +75,50 @@ Use clear, imperative commit messages. Conventional Commit prefixes are preferre
 - `chore:` repository or tooling maintenance
 - `security:` security hardening
 
+A coherent checkpoint is more useful than dozens of noisy “work in progress” commits. Do not rewrite a shared branch after other people or agents have recorded its commit IDs without coordinating the change.
+
 ## Pull-request requirements
 
 A pull request should:
 
 - link the issue it addresses;
-- explain the problem and the chosen approach;
+- explain the problem, outcome, non-goals, and chosen approach;
 - remain small enough to review honestly;
-- include or update tests for behavior changes;
+- distinguish completed, pending, blocked, and unverified work;
+- include or update tests for behavior and failure paths;
 - include screenshots or recordings for visible UI changes;
 - include accessibility notes for interaction changes;
 - update documentation and an ADR when the contract changes;
-- disclose material AI assistance as described in [the AI contribution policy](docs/AI_CONTRIBUTIONS.md);
+- update `AGENTS.md` or the matching issue handoff when repository status changes;
+- disclose material AI assistance as described in [`docs/AI_CONTRIBUTIONS.md`](docs/AI_CONTRIBUTIONS.md);
 - contain no secrets, personal data, copied proprietary code, or dependencies with unclear licensing.
 
-Draft pull requests are encouraged for early design feedback. A draft is not a request for final review.
+Draft pull requests are encouraged for early design feedback and valuable partial implementation. A draft is not a request for final review and must not be merged merely because CI happens to be green.
 
 ## Quality bar
 
-Once application code exists, the required local checks will be exposed through repository scripts. Until then, documentation and foundation changes must pass the repository-health workflow.
+Run the relevant commands from the repository root:
 
-A contribution is not finished merely because it compiles. It must preserve authorization boundaries, keyboard access, useful error states, data integrity, and the documented product model.
+```bash
+pnpm agent:check
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+Database work also runs:
+
+```bash
+pnpm db:start
+pnpm db:reset
+pnpm db:test
+pnpm db:lint
+pnpm db:stop
+```
+
+User-facing work requires browser verification and evidence. A contribution is not finished merely because it compiles. It must preserve authorization boundaries, keyboard access, useful error states, data integrity, and the documented product model.
 
 ## Product language
 
@@ -79,11 +132,13 @@ Use these terms consistently:
 
 See [the domain model](docs/DOMAIN_MODEL.md) for authoritative definitions.
 
-## Review and merge
+## Review, merge, and cleanup
 
 Maintainers may request changes, split an oversized pull request, or decline work that conflicts with the constitution or accepted scope. Decisions should explain the reason and point to the relevant contract.
 
-Squash merging is preferred so each pull request becomes one understandable change on `main`.
+Squash merging is preferred so each pull request becomes one understandable change on `main`. Merged same-repository branches are deleted automatically. Do not reuse a merged branch; create a fresh branch from current `main` for new work.
+
+After merge, remove the issue from active status, remove its temporary handoff, confirm CI on `main`, and promote the next dependency honestly.
 
 ## Community safety
 

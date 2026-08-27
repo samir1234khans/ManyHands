@@ -29,3 +29,5 @@ The format follows Keep a Changelog principles, and releases will use semantic v
 - Generated `public` and `private` database types exposed through the real `packages/data` boundary.
 - Database operations, data lifecycle/retention, and stable-identity Architecture Decision Record.
 - Local development, repository-shape, environment, dependency, database, lifecycle, and troubleshooting documentation.
+- Canonical `AGENTS.md` collaboration context with issue-specific handoffs and secret/staleness validation.
+- Issue-linked branch naming, draft-work promotion, automatic merged-branch deletion, and audited stale-branch cleanup.

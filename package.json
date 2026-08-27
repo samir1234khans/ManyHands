@@ -18,9 +18,11 @@
     "dev": "pnpm --filter @manyhands/web dev",
     "build": "pnpm --filter @manyhands/web build",
     "start": "pnpm --filter @manyhands/web start",
+    "agent:check": "node scripts/validate-agent-context.mjs",
+    "branch:check": "node scripts/validate-branch-name.mjs",
     "lint": "eslint . --max-warnings=0",
-    "format": "prettier --write package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/database-ci.yml .github/workflows/repository-health.yml apps/web packages tests",
-    "format:check": "prettier --check package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/database-ci.yml .github/workflows/repository-health.yml apps/web packages tests",
+    "format": "prettier --write package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/branch-policy.yml .github/workflows/database-ci.yml .github/workflows/delete-merged-branch.yml .github/workflows/repository-health.yml scripts apps/web packages tests",
+    "format:check": "prettier --check package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/branch-policy.yml .github/workflows/database-ci.yml .github/workflows/delete-merged-branch.yml .github/workflows/repository-health.yml scripts apps/web packages tests",
     "typecheck": "tsc -p apps/web/tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p packages/data/tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -30,7 +32,7 @@
     "db:test": "supabase test db",
     "db:lint": "supabase db lint --local --schema public,private --level warning --fail-on warning",
     "db:stop": "supabase stop --no-backup",
-    "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "verify": "pnpm agent:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "verify:full": "pnpm verify && pnpm test:e2e"
   },
   "devDependencies": {
