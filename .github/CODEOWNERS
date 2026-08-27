@@ -1,11 +1,19 @@
 # Initial ownership. Add area maintainers as responsibility grows.
 * @samir1234khans
 
-# Community and policy files require lead-maintainer review.
+# Community, policy, licensing, and repository automation require lead-maintainer review.
 /CODE_OF_CONDUCT.md @samir1234khans
 /GOVERNANCE.md @samir1234khans
 /SECURITY.md @samir1234khans
 /LICENSE @samir1234khans
 /docs/CONSTITUTION.md @samir1234khans
 /docs/LICENSING.md @samir1234khans
+/docs/DATABASE.md @samir1234khans
+/docs/DATA_LIFECYCLE.md @samir1234khans
+/docs/decisions/ @samir1234khans
 /.github/ @samir1234khans
+
+# Identity, authorization, generated schema contracts, and migrations are security-sensitive.
+/packages/domain/ @samir1234khans
+/packages/data/ @samir1234khans
+/supabase/ @samir1234khans
