@@ -82,17 +82,10 @@ CI reconstructs an isolated PostgreSQL database from immutable migrations, runs 
 
 ### Risks and mitigations
 
-- **Risk:** a `SECURITY DEFINER` helper bypasses RLS too broadly.  
-  **Mitigation:** helpers live in `private`, accept no caller-selected identity, use an empty `search_path`, return only the current internal account ID, have explicit execute grants, and are covered by tests and database linting.
-
-- **Risk:** a new public column becomes visible unexpectedly.  
-  **Mitigation:** public reads use explicit views and generated types; the secure default revokes implicit grants; review checks schema drift.
-
-- **Risk:** deletion removes project history.  
-  **Mitigation:** domain relations will reference stable account IDs and present neutral attribution after anonymization.
-
-- **Risk:** neutral attribution is used to retain optional personal data.  
-  **Mitigation:** `DATA_LIFECYCLE.md` requires every future field and table to define collection, visibility, retention, export, suspension, and deletion behavior before implementation.
+- **Risk:** a `SECURITY DEFINER` helper bypasses RLS too broadly. **Mitigation:** helpers live in `private`, accept no caller-selected identity, use an empty `search_path`, return only the current internal account ID, have explicit execute grants, and are covered by tests and database linting.
+- **Risk:** a new public column becomes visible unexpectedly. **Mitigation:** public reads use explicit views and generated types; the secure default revokes implicit grants; review checks schema drift.
+- **Risk:** deletion removes project history. **Mitigation:** domain relations will reference stable account IDs and present neutral attribution after anonymization.
+- **Risk:** neutral attribution is used to retain optional personal data. **Mitigation:** `DATA_LIFECYCLE.md` requires every future field and table to define collection, visibility, retention, export, suspension, and deletion behavior before implementation.
 
 ## Alternatives considered
 
