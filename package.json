@@ -21,7 +21,7 @@
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/database-ci.yml .github/workflows/repository-health.yml apps/web packages tests",
     "format:check": "prettier --check package.json pnpm-workspace.yaml tsconfig.base.json tsconfig.tests.json eslint.config.mjs prettier.config.mjs playwright.config.ts vitest.config.ts .github/dependabot.yml .github/workflows/application-ci.yml .github/workflows/database-ci.yml .github/workflows/repository-health.yml apps/web packages tests",
-    "typecheck": "tsc -p apps/web/tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit",
+    "typecheck": "tsc -p apps/web/tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p packages/data/tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
