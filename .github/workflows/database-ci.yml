@@ -85,6 +85,17 @@ jobs:
             > "$generated"
 
           test -s "$generated"
+
+          # The CLI currently emits an extra terminal newline. Normalize only
+          # trailing newline bytes before the byte-for-byte drift comparison so
+          # generated source remains Git-clean and deterministic.
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path("test-results/database/database.types.ts")
+          path.write_bytes(path.read_bytes().rstrip(b"\n") + b"\n")
+          PY
+
           sha256sum "$generated" > test-results/database/database.types.sha256
 
           if ! diff -u packages/data/src/database.types.ts "$generated" > "$drift"; then
