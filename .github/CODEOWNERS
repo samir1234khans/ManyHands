@@ -1,0 +1,11 @@
+# Initial ownership. Add area maintainers as responsibility grows.
+* @samir1234khans
+
+# Community and policy files require lead-maintainer review.
+/CODE_OF_CONDUCT.md @samir1234khans
+/GOVERNANCE.md @samir1234khans
+/SECURITY.md @samir1234khans
+/LICENSE @samir1234khans
+/docs/CONSTITUTION.md @samir1234khans
+/docs/LICENSING.md @samir1234khans
+/.github/ @samir1234khans

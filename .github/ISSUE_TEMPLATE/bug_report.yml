@@ -1,0 +1,78 @@
+name: Bug report
+description: Report reproducible behavior that is incorrect, unsafe, inaccessible, or inconsistent with the product contract.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for making ManyHands more reliable. Do not include secrets, private reports, access tokens, or personal data.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for the same behavior.
+          required: true
+        - label: This is not a security vulnerability requiring private disclosure.
+          required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and why it is incorrect.
+      placeholder: A contributor without project membership can...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest reliable sequence, fixture, or repository state.
+      placeholder: |
+        1. Sign in as...
+        2. Open...
+        3. Select...
+        4. Observe...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Identity and profiles
+        - Problems and demand signals
+        - Projects and stewardship
+        - Contribution needs
+        - Milestones and progress
+        - GitHub integration
+        - Discovery
+        - Trust and safety
+        - Accessibility
+        - Infrastructure or documentation
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Branch or version, browser, operating system, device, and relevant setup.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Logs with secrets removed, screenshots, recordings, failing tests, or links.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and frequency
+      description: Who is affected, how often, and whether a workaround exists.
