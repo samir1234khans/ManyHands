@@ -1,0 +1,99 @@
+name: Accessibility barrier
+description: Report a barrier that prevents or makes it difficult to use ManyHands.
+title: "[Accessibility]: "
+labels:
+  - bug
+  - area: accessibility
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping make ManyHands usable by more people.
+
+        This form is public. Do not include passwords, access tokens, private reports, personal information you do not want public, or security exploit details. Security-sensitive findings must follow `SECURITY.md`.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for the same barrier.
+          required: true
+        - label: This report does not contain a security vulnerability requiring private disclosure.
+          required: true
+  - type: input
+    id: route
+    attributes:
+      label: Page or route
+      description: Where did the barrier occur?
+      placeholder: /accessibility, homepage, profile editor, or the visible page title
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to do?
+      description: Describe the task or information you wanted to complete or understand.
+    validations:
+      required: true
+  - type: textarea
+    id: barrier
+    attributes:
+      label: What barrier did you encounter?
+      description: Explain what happened and what you expected instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: access_method
+    attributes:
+      label: Primary access method involved
+      description: Choose the closest option. You can add detail below.
+      options:
+        - Keyboard or switch input
+        - Screen reader
+        - Screen magnification or browser zoom
+        - Voice input
+        - Reduced motion or vestibular accessibility
+        - High contrast or forced colors
+        - Color or low vision
+        - Cognitive or learning accessibility
+        - Captions, transcripts, or audio access
+        - Touch, small screen, or motor accessibility
+        - Slow device, limited bandwidth, or JavaScript unavailable
+        - Other or not sure
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Optional. Browser, operating system, device, zoom level, and assistive technology/version can help us reproduce the problem. Share only what you are comfortable making public.
+      placeholder: Firefox on Windows with NVDA; Safari on iPhone with VoiceOver; Chrome at 400% zoom
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Privacy-safe reproduction steps or evidence
+      description: Optional. Include concise steps, screenshot, recording, or HTML details only when they contain no private information.
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - I could not complete the task
+        - I completed it only with substantial difficulty or help
+        - Important information was missing or unclear
+        - The experience was uncomfortable or unsafe
+        - Minor friction or improvement opportunity
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround
+      description: Optional. Tell us whether you found another way to complete the task.
+  - type: checkboxes
+    id: follow_up
+    attributes:
+      label: Follow-up
+      options:
+        - label: Maintainers may ask public follow-up questions on this issue.
+          required: true
