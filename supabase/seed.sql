@@ -1,0 +1,5 @@
+-- Intentionally empty.
+--
+-- ManyHands seed data must remain synthetic, non-personal, and secret-free.
+-- Product fixtures belong in explicit development/test scripts once their
+-- domain migrations exist; schema changes never belong in seed files.
