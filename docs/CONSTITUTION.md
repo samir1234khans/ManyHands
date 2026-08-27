@@ -1,6 +1,7 @@
 # The ManyHands Constitution
 
-**Status:** Foundational and normative  
+**Status:** Foundational and normative
+
 **Applies to:** the official ManyHands product, repository, community, and governance
 
 This constitution defines the promises that should survive changing frameworks, maintainers, designs, and funding models. Product decisions that conflict with it require an explicit constitutional amendment—not a quiet shortcut.
