@@ -1,0 +1,191 @@
+name: Bootstrap accessibility baseline
+
+on:
+  push:
+    branches:
+      - feat/14-accessibility-baseline
+    paths:
+      - .github/workflows/bootstrap-accessibility-baseline.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bootstrap-accessibility-baseline
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: 24.19.0
+  PNPM_VERSION: 11.20.0
+
+jobs:
+  normalize:
+    if: github.repository == 'samir1234khans/ManyHands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Check out the accessibility branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/14-accessibility-baseline
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update dependency and repository entry points
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              file = Path(path)
+              text = file.read_text(encoding="utf-8")
+              if text.count(old) != 1:
+                  raise SystemExit(f"expected exactly one match in {path}: {old!r}")
+              file.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          package_path = Path("package.json")
+          package = json.loads(package_path.read_text(encoding="utf-8"))
+          package["devDependencies"]["@axe-core/playwright"] = "4.13.0"
+          package["devDependencies"] = dict(sorted(package["devDependencies"].items()))
+          package_path.write_text(json.dumps(package, indent=2) + "\n", encoding="utf-8")
+
+          replace_once(
+              "apps/web/src/app/page.tsx",
+              '<main id="main-content">',
+              '<main id="main-content" tabIndex={-1}>',
+          )
+          replace_once(
+              "apps/web/src/app/page.tsx",
+              '            <a href={siteConfig.repositoryUrl}>View source</a>\n            <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>',
+              '            <a href={siteConfig.repositoryUrl}>View source</a>\n            <a href={siteConfig.accessibilityUrl}>Accessibility</a>\n            <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>',
+          )
+
+          css_path = Path("apps/web/src/app/globals.css")
+          css = css_path.read_text(encoding="utf-8")
+          marker = ".content-page {"
+          if marker in css:
+              raise SystemExit("accessibility content styles already exist")
+          css += '''\n\n.content-page {\n  display: grid;\n  gap: clamp(3rem, 7vw, 6rem);\n  padding-block: clamp(4rem, 10vw, 7rem);\n}\n\n.content-hero {\n  max-width: 52rem;\n}\n\n.content-hero h1 {\n  max-width: 12ch;\n  margin: 0;\n  font-size: clamp(3rem, 8vw, 6rem);\n  letter-spacing: -0.07em;\n  line-height: 0.94;\n}\n\n.content-lead {\n  max-width: 46rem;\n  margin-top: 1.5rem;\n  color: var(--muted);\n  font-size: clamp(1.08rem, 2vw, 1.28rem);\n}\n\n.content-section {\n  display: grid;\n  grid-template-columns: minmax(0, 0.7fr) minmax(18rem, 1.3fr);\n  gap: clamp(2rem, 7vw, 6rem);\n  padding-top: clamp(2.5rem, 6vw, 4.5rem);\n  border-top: 1px solid var(--line);\n}\n\n.content-section h2 {\n  margin: 0;\n  font-size: clamp(1.9rem, 4vw, 3.2rem);\n  letter-spacing: -0.05em;\n  line-height: 1.02;\n}\n\n.content-section > div > p:not(.section-kicker),\n.prose-stack,\n.privacy-note {\n  color: var(--muted);\n}\n\n.content-check-list {\n  margin-top: 0;\n}\n\n.prose-stack {\n  display: grid;\n  align-content: start;\n  gap: 1rem;\n}\n\n.prose-stack p,\n.privacy-note {\n  margin: 0;\n}\n\n.plain-list {\n  display: grid;\n  gap: 0.75rem;\n  margin: 0 0 1.5rem;\n  padding-left: 1.25rem;\n  color: var(--muted);\n}\n\n.report-section {\n  padding: clamp(2rem, 5vw, 3.5rem);\n  border: 1px solid var(--line);\n  border-radius: var(--radius-large);\n  background: var(--surface);\n  box-shadow: var(--shadow);\n}\n\n.report-section .button {\n  margin-bottom: 1rem;\n}\n\n@media (max-width: 760px) {\n  .content-section {\n    grid-template-columns: 1fr;\n  }\n}\n\n@media (forced-colors: active) {\n  .brand-mark,\n  .button-primary,\n  .state,\n  .status-mark {\n    border: 1px solid ButtonText;\n    forced-color-adjust: auto;\n  }\n\n  .hero-panel,\n  .pillar-card,\n  .contribute-card,\n  .report-section,\n  .state-card {\n    box-shadow: none;\n  }\n}\n'''
+          css_path.write_text(css, encoding="utf-8")
+
+          replace_once(
+              "README.md",
+              "- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;",
+              "- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) for the WCAG 2.2 AA target, engineering rules, automated checks, and manual test protocol;\n- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for setup, commands, package boundaries, CI, and troubleshooting;",
+          )
+          replace_once(
+              "README.md",
+              "- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)\n- [`docs/AI_CONTRIBUTIONS.md`](docs/AI_CONTRIBUTIONS.md)",
+              "- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)\n- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md)\n- [`docs/AI_CONTRIBUTIONS.md`](docs/AI_CONTRIBUTIONS.md)",
+          )
+
+          replace_once(
+              "docs/README.md",
+              "- [`ARCHITECTURE.md`](ARCHITECTURE.md) — system boundaries",
+              "- [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — WCAG 2.2 AA target, interaction rules, automated checks, and manual evidence protocol.\n- [`ARCHITECTURE.md`](ARCHITECTURE.md) — system boundaries",
+          )
+          replace_once(
+              "docs/README.md",
+              "2. [`DEVELOPMENT.md`](DEVELOPMENT.md)\n3. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)",
+              "2. [`DEVELOPMENT.md`](DEVELOPMENT.md)\n3. [`ACCESSIBILITY.md`](ACCESSIBILITY.md)\n4. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)",
+          )
+          replace_once(
+              "docs/README.md",
+              "4. Relevant ADRs under [`decisions/`](decisions/README.md)\n5. [`DATABASE.md`](DATABASE.md)",
+              "5. Relevant ADRs under [`decisions/`](decisions/README.md)\n6. [`DATABASE.md`](DATABASE.md)",
+          )
+          replace_once(
+              "docs/README.md",
+              "6. The active issue and its matching handoff",
+              "7. The active issue and its matching handoff",
+          )
+          replace_once(
+              "docs/README.md",
+              "2. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially trust boundaries and threat model\n3. [`DATABASE.md`](DATABASE.md)",
+              "2. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially trust boundaries and threat model\n3. [`ACCESSIBILITY.md`](ACCESSIBILITY.md), especially accessible authentication and public reporting\n4. [`DATABASE.md`](DATABASE.md)",
+          )
+          replace_once(
+              "docs/README.md",
+              "4. [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md)\n5. [`decisions/0003-stable-identity-and-public-read-models.md`](decisions/0003-stable-identity-and-public-read-models.md)\n6. Relevant migrations",
+              "5. [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md)\n6. [`decisions/0003-stable-identity-and-public-read-models.md`](decisions/0003-stable-identity-and-public-read-models.md)\n7. Relevant migrations",
+          )
+
+          replace_once(
+              ".github/PULL_REQUEST_TEMPLATE.md",
+              "- [ ] UI changes are keyboard accessible and respect reduced motion.",
+              "- [ ] User-facing changes include relevant axe, keyboard, assistive-technology, reflow/zoom, reduced-motion, forced-colors, and narrow-screen evidence from `docs/ACCESSIBILITY.md`; pending manual evidence is stated honestly.",
+          )
+
+          replace_once(
+              ".github/CODEOWNERS",
+              "/docs/BRANCHING.md @samir1234khans",
+              "/docs/BRANCHING.md @samir1234khans\n/docs/ACCESSIBILITY.md @samir1234khans",
+          )
+
+          replace_once(
+              ".github/workflows/repository-health.yml",
+              "            docs/AI_CONTRIBUTIONS.md\n            docs/BRANCHING.md",
+              "            docs/AI_CONTRIBUTIONS.md\n            docs/ACCESSIBILITY.md\n            docs/BRANCHING.md",
+          )
+          replace_once(
+              ".github/workflows/repository-health.yml",
+              "            apps/web/src/app/layout.tsx\n            apps/web/src/app/page.tsx",
+              "            apps/web/src/app/accessibility/page.tsx\n            apps/web/src/app/layout.tsx\n            apps/web/src/app/page.tsx",
+          )
+          replace_once(
+              ".github/workflows/repository-health.yml",
+              "            tests/unit/authorization-policy.test.ts\n            tests/e2e/home.spec.ts",
+              "            tests/unit/authorization-policy.test.ts\n            tests/e2e/accessibility.spec.ts\n            tests/e2e/home.spec.ts",
+          )
+          replace_once(
+              ".github/workflows/repository-health.yml",
+              "            .github/CODEOWNERS\n            .github/PULL_REQUEST_TEMPLATE.md",
+              "            .github/CODEOWNERS\n            .github/ISSUE_TEMPLATE/accessibility_barrier.yml\n            .github/PULL_REQUEST_TEMPLATE.md",
+          )
+
+          replace_once(
+              "CHANGELOG.md",
+              "- Canonical `AGENTS.md` collaboration context with issue-specific handoffs and secret/staleness validation.",
+              "- WCAG 2.2 AA accessibility baseline, public statement and barrier-reporting route, axe-powered browser scans, keyboard/reflow/reduced-motion/forced-colors checks, and manual evidence protocol.\n- Canonical `AGENTS.md` collaboration context with issue-specific handoffs and secret/staleness validation.",
+          )
+          PY
+
+      - name: Refresh the dependency lockfile
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Format maintained source
+        run: pnpm format
+
+      - name: Verify accessibility dependency and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq '@axe-core/playwright' pnpm-lock.yaml
+          test -s apps/web/src/app/accessibility/page.tsx
+          test -s tests/e2e/accessibility.spec.ts
+          test -s docs/ACCESSIBILITY.md
+          test -s .github/ISSUE_TEMPLATE/accessibility_barrier.yml
+
+      - name: Commit normalized work and remove this one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/bootstrap-accessibility-baseline.yml
+          git add package.json pnpm-lock.yaml README.md CHANGELOG.md docs .github apps/web tests
+          git commit -m 'feat: complete the accessibility baseline foundation'
+          git push origin HEAD:feat/14-accessibility-baseline
