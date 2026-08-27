@@ -10,7 +10,9 @@ The idea is simple:
 
 ## Status
 
-ManyHands is in its **foundation phase**. The product contract, architecture, contribution model, governance, and first roadmap are being established before application code is added.
+ManyHands is **pre-alpha**. The contributor-ready repository foundation is complete: the product contract, architecture, domain model, contribution workflow, governance, roadmap, licensing, issue forms, repository taxonomy, and foundation checks are on `main`.
+
+Application implementation begins with [issue #3: bootstrap the TypeScript application workspace and quality gates](../../issues/3) on the short-lived branch `feat/3-bootstrap-application`. The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
 
 This repository is also the first project ManyHands will coordinate. **ManyHands will build ManyHands.**
 
@@ -47,7 +49,7 @@ Read the full product contract in [`docs/PRODUCT.md`](docs/PRODUCT.md) and the n
 
 ## Help build it
 
-Start with the [open issues](../../issues), especially [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+Start with the [public roadmap](../../issues/2), the [next implementation issue](../../issues/3), or the open issues marked [`good first issue`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and [`help wanted`](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
 Before contributing, read:
 
