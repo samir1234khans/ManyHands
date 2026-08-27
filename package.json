@@ -2,6 +2,7 @@
   "name": "manyhands",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "description": "Problem-first coordination for ambitious open-source software.",
   "license": "AGPL-3.0-or-later",
   "packageManager": "pnpm@11.20.0",

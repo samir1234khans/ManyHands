@@ -23,18 +23,24 @@ test.describe("public application shell", () => {
     );
   });
 
-  test("keeps readable content available when JavaScript is disabled", async ({ browser }) => {
+  test("keeps meaningful public content available when JavaScript is disabled", async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
 
-    await page.goto("/");
+    const response = await page.goto("/");
+
+    expect(response?.status()).toBe(200);
     await expect(
       page.getByRole("heading", { level: 1, name: "Big problems. Built together." }),
     ).toBeVisible();
     await expect(
-      page.getByText("The public reading experience remains available without JavaScript."),
+      page.getByText(
+        "ManyHands helps people gather around a shared need, form an open-source project, understand its real progress, and find one clear way to help.",
+      ),
     ).toBeVisible();
+    await expect(page.getByText(siteConfig.boundary, { exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "View public roadmap" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "View source" })).toBeVisible();
 
     await context.close();
   });

@@ -117,12 +117,6 @@ export default function HomePage() {
                 See the contributor loop
               </a>
             </div>
-
-            <noscript>
-              <p className="noscript-note">
-                The public reading experience remains available without JavaScript.
-              </p>
-            </noscript>
           </div>
 
           <aside className="hero-panel" aria-labelledby="hero-panel-title">
