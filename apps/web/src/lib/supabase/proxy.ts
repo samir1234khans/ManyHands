@@ -2,7 +2,7 @@ import type { Database } from "@manyhands/data";
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getPublicSupabaseConfig } from "@/lib/env";
+import { getPublicSupabaseConfig } from "../env";
 
 export async function updateSession(request: NextRequest): Promise<NextResponse> {
   const config = getPublicSupabaseConfig();

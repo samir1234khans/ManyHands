@@ -4,7 +4,7 @@ import type { Database } from "@manyhands/data";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-import { requirePublicSupabaseConfig } from "@/lib/env";
+import { requirePublicSupabaseConfig } from "../env";
 
 export async function createServerSupabaseClient() {
   const { publishableKey, url } = requirePublicSupabaseConfig();

@@ -8,8 +8,8 @@ import {
 } from "@manyhands/domain";
 import type { User } from "@supabase/supabase-js";
 
-import { getPublicSupabaseConfig } from "@/lib/env";
-import { createServerSupabaseClient, type ServerSupabaseClient } from "@/lib/supabase/server";
+import { getPublicSupabaseConfig } from "../env";
+import { createServerSupabaseClient, type ServerSupabaseClient } from "../supabase/server";
 
 export interface CurrentAccountContext {
   readonly accountId: string;

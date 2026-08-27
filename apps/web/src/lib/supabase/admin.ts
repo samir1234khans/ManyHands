@@ -7,7 +7,7 @@ import {
   ApplicationConfigurationError,
   getServerSupabaseSecret,
   requirePublicSupabaseConfig,
-} from "@/lib/env";
+} from "../env";
 
 export function createAdminSupabaseClient() {
   const { url } = requirePublicSupabaseConfig();
