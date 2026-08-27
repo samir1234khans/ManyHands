@@ -32,11 +32,13 @@ const contributorLoop = [
   },
   {
     title: "Show the next useful need",
-    description: "Offer a bounded contribution with context, a reviewer, and an exact onboarding path.",
+    description:
+      "Offer a bounded contribution with context, a reviewer, and an exact onboarding path.",
   },
   {
     title: "Ship through GitHub",
-    description: "Review and merge the work there, then reflect the evidence back as understandable progress.",
+    description:
+      "Review and merge the work there, then reflect the evidence back as understandable progress.",
   },
 ] as const;
 
@@ -140,8 +142,8 @@ export default function HomePage() {
             <p className="section-kicker">Problem first</p>
             <h2 id="principles-title">A coordination layer, not another code host.</h2>
             <p>
-              The first release stays focused on the path from an unmet need to a useful,
-              reviewable contribution.
+              The first release stays focused on the path from an unmet need to a useful, reviewable
+              contribution.
             </p>
           </div>
 
@@ -158,14 +160,18 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section-contrast" id="how-it-works" aria-labelledby="loop-title">
+        <section
+          className="section section-contrast"
+          id="how-it-works"
+          aria-labelledby="loop-title"
+        >
           <div className="shell contrast-grid">
             <div className="section-heading section-heading-compact">
               <p className="section-kicker">The contributor loop</p>
               <h2 id="loop-title">From “someone should build this” to “here is how I can help.”</h2>
               <p>
-                Each step should reduce ambiguity. Nobody should need a private call just to find the
-                right issue.
+                Each step should reduce ambiguity. Nobody should need a private call just to find
+                the right issue.
               </p>
             </div>
 
@@ -206,7 +212,11 @@ export default function HomePage() {
           </ul>
         </section>
 
-        <section className="section shell contribute-section" id="contribute" aria-labelledby="contribute-title">
+        <section
+          className="section shell contribute-section"
+          id="contribute"
+          aria-labelledby="contribute-title"
+        >
           <div className="contribute-card">
             <div>
               <p className="section-kicker">ManyHands builds ManyHands</p>
@@ -239,9 +249,7 @@ export default function HomePage() {
 
       <footer className="site-footer">
         <div className="shell footer-inner">
-          <p>
-            ManyHands is free software. Fork it, improve it, and send the homework back.
-          </p>
+          <p>ManyHands is free software. Fork it, improve it, and send the homework back.</p>
           <nav aria-label="Project resources">
             <a href={siteConfig.repositoryUrl}>View source</a>
             <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>

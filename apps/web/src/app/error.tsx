@@ -1,6 +1,11 @@
 "use client";
 
-export default function ErrorState({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function ErrorState({
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
   return (
     <main className="state-page" id="main-content">
       <div className="state-card" role="alert">

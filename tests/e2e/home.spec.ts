@@ -43,7 +43,9 @@ test.describe("public application shell", () => {
     const response = await page.goto("/this-page-does-not-exist");
 
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole("heading", { level: 1, name: "That page wandered off." })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "That page wandered off." }),
+    ).toBeVisible();
     await expect(page.getByText(/stack|environment|digest/i)).toHaveCount(0);
   });
 });
