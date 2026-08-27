@@ -47,6 +47,8 @@ jobs:
             docs/AI_CONTRIBUTIONS.md
             .github/CODEOWNERS
             .github/PULL_REQUEST_TEMPLATE.md
+            .github/repository-taxonomy.json
+            .github/workflows/sync-repository-taxonomy.yml
           )
 
           for path in "${required[@]}"; do
@@ -99,6 +101,82 @@ jobs:
             puts "valid: #{file}"
           end
           RUBY
+
+      - name: Validate repository taxonomy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          path = Path(".github/repository-taxonomy.json")
+          taxonomy = json.loads(path.read_text(encoding="utf-8"))
+
+          labels = taxonomy.get("labels")
+          milestones = taxonomy.get("milestones")
+          issues = taxonomy.get("issues")
+          if not isinstance(labels, list) or not labels:
+              raise SystemExit("taxonomy.labels must be a non-empty list")
+          if not isinstance(milestones, list) or not milestones:
+              raise SystemExit("taxonomy.milestones must be a non-empty list")
+          if not isinstance(issues, dict) or not issues:
+              raise SystemExit("taxonomy.issues must be a non-empty object")
+
+          label_names = [item.get("name") for item in labels]
+          if None in label_names or len(label_names) != len(set(label_names)):
+              raise SystemExit("custom label names must be present and unique")
+          for label in labels:
+              if not re.fullmatch(r"[0-9a-fA-F]{6}", label.get("color", "")):
+                  raise SystemExit(f"invalid six-digit label color: {label!r}")
+              if not label.get("description"):
+                  raise SystemExit(f"label description is required: {label['name']}")
+
+          milestone_titles = [item.get("title") for item in milestones]
+          if None in milestone_titles or len(milestone_titles) != len(set(milestone_titles)):
+              raise SystemExit("milestone titles must be present and unique")
+          if any(not item.get("description") for item in milestones):
+              raise SystemExit("every milestone requires a description")
+
+          github_defaults = {
+              "bug",
+              "documentation",
+              "duplicate",
+              "enhancement",
+              "good first issue",
+              "help wanted",
+              "invalid",
+              "question",
+              "wontfix",
+          }
+          allowed_labels = set(label_names) | github_defaults
+          allowed_milestones = set(milestone_titles)
+
+          for issue_number, assignment in issues.items():
+              if not issue_number.isdigit() or int(issue_number) < 1:
+                  raise SystemExit(f"invalid issue number: {issue_number!r}")
+              assigned_labels = assignment.get("labels")
+              if not isinstance(assigned_labels, list) or not assigned_labels:
+                  raise SystemExit(f"issue #{issue_number} requires at least one label")
+              unknown_labels = sorted(set(assigned_labels) - allowed_labels)
+              if unknown_labels:
+                  raise SystemExit(
+                      f"issue #{issue_number} references unknown labels: {unknown_labels}"
+                  )
+              if "ready" in assigned_labels and "blocked" in assigned_labels:
+                  raise SystemExit(f"issue #{issue_number} cannot be both ready and blocked")
+              milestone = assignment.get("milestone")
+              if milestone not in allowed_milestones:
+                  raise SystemExit(
+                      f"issue #{issue_number} references unknown milestone: {milestone!r}"
+                  )
+
+          print(
+              f"valid taxonomy: {len(labels)} custom labels, "
+              f"{len(milestones)} milestones, {len(issues)} issue assignments"
+          )
+          PY
 
       - name: Check whitespace errors
         shell: bash

@@ -1,0 +1,211 @@
+{
+  "labels": [
+    {
+      "name": "security",
+      "color": "b60205",
+      "description": "Security, privacy, authorization, or abuse-risk work"
+    },
+    {
+      "name": "research",
+      "color": "5319e7",
+      "description": "Evidence gathering, interviews, and product research"
+    },
+    {
+      "name": "design",
+      "color": "e99695",
+      "description": "Product, interaction, visual, or content design"
+    },
+    {
+      "name": "infrastructure",
+      "color": "0052cc",
+      "description": "Repository, CI, database, deployment, or operations work"
+    },
+    {
+      "name": "roadmap",
+      "color": "1d76db",
+      "description": "Cross-phase planning and outcome tracking"
+    },
+    {
+      "name": "area: identity",
+      "color": "c5def5",
+      "description": "Authentication, accounts, profiles, and identity boundaries"
+    },
+    {
+      "name": "area: problems",
+      "color": "c5def5",
+      "description": "Problem statements, demand signals, follows, and revisions"
+    },
+    {
+      "name": "area: projects",
+      "color": "c5def5",
+      "description": "Projects, membership, stewardship, and project health"
+    },
+    {
+      "name": "area: contributions",
+      "color": "c5def5",
+      "description": "Contribution needs, contributor interest, onboarding, and credit"
+    },
+    {
+      "name": "area: roadmaps",
+      "color": "c5def5",
+      "description": "Milestones, blockers, evidence, and derived progress"
+    },
+    {
+      "name": "area: github",
+      "color": "c5def5",
+      "description": "GitHub App permissions, webhooks, sync, and repository evidence"
+    },
+    {
+      "name": "area: discovery",
+      "color": "c5def5",
+      "description": "Search, filters, public directories, and relevance"
+    },
+    {
+      "name": "area: trust",
+      "color": "c5def5",
+      "description": "Moderation, reports, audit history, rate limits, and appeals"
+    },
+    {
+      "name": "area: accessibility",
+      "color": "c5def5",
+      "description": "Accessible interaction, semantics, reflow, contrast, and testing"
+    },
+    {
+      "name": "needs decision",
+      "color": "fbca04",
+      "description": "A documented product, policy, or architecture decision is required"
+    },
+    {
+      "name": "needs design",
+      "color": "fef2c0",
+      "description": "Implementation should wait for an agreed interaction or content design"
+    },
+    {
+      "name": "ready",
+      "color": "0e8a16",
+      "description": "Scoped and ready for someone to begin"
+    },
+    {
+      "name": "blocked",
+      "color": "b60205",
+      "description": "Cannot proceed until a named dependency or blocker is resolved"
+    },
+    {
+      "name": "needs reproduction",
+      "color": "f9d0c4",
+      "description": "A reliable reproduction or evidence package is still required"
+    }
+  ],
+  "milestones": [
+    {
+      "title": "v0.1 — Foundation",
+      "description": "Runnable, secure, accessible, operable foundation and contributor-ready repository."
+    },
+    {
+      "title": "v0.2 — Problems",
+      "description": "Public problem-first directory, demand signals, follows, revisions, and moderation."
+    },
+    {
+      "title": "v0.3 — Projects",
+      "description": "Project formation, contribution needs, milestones, evidence, and stewardship."
+    },
+    {
+      "title": "v0.4 — GitHub Bridge",
+      "description": "Least-privilege GitHub App integration, signed webhooks, sync, and source evidence."
+    },
+    {
+      "title": "v0.5 — ManyHands Builds ManyHands",
+      "description": "Discovery, trust, project health, founding recognition, and the live dogfooding loop."
+    },
+    {
+      "title": "v1.0 — Stable Contributor Loop",
+      "description": "A dependable stranger-to-merged-contribution loop with self-hosting and no critical blockers."
+    }
+  ],
+  "issues": {
+    "2": {
+      "milestone": "v1.0 — Stable Contributor Loop",
+      "labels": ["roadmap", "documentation"]
+    },
+    "3": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["enhancement", "infrastructure", "ready"]
+    },
+    "4": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["enhancement", "infrastructure", "security", "area: identity", "blocked"]
+    },
+    "5": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["enhancement", "security", "area: identity", "blocked"]
+    },
+    "6": {
+      "milestone": "v0.2 — Problems",
+      "labels": ["enhancement", "area: problems", "area: discovery", "blocked"]
+    },
+    "7": {
+      "milestone": "v0.3 — Projects",
+      "labels": ["enhancement", "area: projects", "blocked"]
+    },
+    "8": {
+      "milestone": "v0.3 — Projects",
+      "labels": ["enhancement", "area: contributions", "blocked"]
+    },
+    "9": {
+      "milestone": "v0.3 — Projects",
+      "labels": ["enhancement", "area: roadmaps", "blocked"]
+    },
+    "10": {
+      "milestone": "v0.4 — GitHub Bridge",
+      "labels": ["enhancement", "infrastructure", "security", "area: github", "blocked"]
+    },
+    "11": {
+      "milestone": "v0.5 — ManyHands Builds ManyHands",
+      "labels": ["enhancement", "area: discovery", "blocked"]
+    },
+    "12": {
+      "milestone": "v0.5 — ManyHands Builds ManyHands",
+      "labels": ["enhancement", "security", "area: trust", "blocked"]
+    },
+    "13": {
+      "milestone": "v0.5 — ManyHands Builds ManyHands",
+      "labels": ["enhancement", "area: projects", "area: roadmaps", "blocked"]
+    },
+    "14": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["enhancement", "design", "area: accessibility", "help wanted", "ready"]
+    },
+    "15": {
+      "milestone": "v0.5 — ManyHands Builds ManyHands",
+      "labels": ["enhancement", "design", "area: contributions", "blocked"]
+    },
+    "16": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["enhancement", "infrastructure", "security", "blocked"]
+    },
+    "17": {
+      "milestone": "v0.5 — ManyHands Builds ManyHands",
+      "labels": ["enhancement", "roadmap", "blocked"]
+    },
+    "18": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["documentation", "infrastructure", "ready"]
+    },
+    "19": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["documentation", "help wanted", "good first issue", "ready"]
+    },
+    "20": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["documentation", "help wanted", "good first issue", "ready"]
+    },
+    "21": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["research", "help wanted", "ready"]
+    },
+    "22": {
+      "milestone": "v0.1 — Foundation",
+      "labels": ["design", "area: accessibility", "help wanted", "ready"]
+    }
+  }
+}
