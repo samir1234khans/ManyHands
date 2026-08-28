@@ -1,1 +1,1 @@
-export type { ProblemFormState, ProblemFormValues } from "@/lib/problems/form-state";
+export type { ProblemFormState, ProblemFormValues } from "../../lib/problems/form-state";
