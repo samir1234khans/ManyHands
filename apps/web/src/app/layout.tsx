@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
+import "./accessibility-hardening.css";
 
 function resolveMetadataBase(): URL {
   const candidate = process.env.SITE_URL;
