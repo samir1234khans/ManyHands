@@ -1,0 +1,35 @@
+name: Bootstrap research whitespace normalization
+
+on:
+  push:
+    branches:
+      - research/21-problem-first-gap
+    paths:
+      - .github/workflows/bootstrap-research-whitespace.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.repository == 'samir1234khans/ManyHands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Check out the research branch
+        uses: actions/checkout@v7
+        with:
+          ref: research/21-problem-first-gap
+
+      - name: Remove trailing whitespace and commit the research document
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -i 's/[[:space:]]\+$//' docs/research/PROBLEM_FIRST_GAP.md
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/research/PROBLEM_FIRST_GAP.md
+          git commit -m 'docs: normalize research brief whitespace'
+          git push origin HEAD:research/21-problem-first-gap
