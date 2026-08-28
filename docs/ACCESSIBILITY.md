@@ -1,6 +1,7 @@
 # Accessibility baseline
 
-**Status:** Foundational engineering and design contract for every public and authenticated ManyHands journey.  
+**Status:** Foundational engineering and design contract for every public and authenticated ManyHands journey.
+
 **Target:** WCAG 2.2 Level AA, supplemented by project-specific interaction and constrained-device requirements.
 
 ManyHands exists to widen participation. A workflow is not complete when it works only with a mouse, perfect vision, high bandwidth, a large display, fast hardware, or an unassisted reading experience.
