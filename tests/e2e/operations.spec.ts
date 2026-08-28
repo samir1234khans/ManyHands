@@ -23,7 +23,9 @@ test("readiness degrades safely when the database is not configured", async ({ r
   expect(text).not.toMatch(/service[_-]?role|token|secret|password|email/i);
 });
 
-test("public export refuses to invent partial data when dependencies are unavailable", async ({ request }) => {
+test("public export refuses to invent partial data when dependencies are unavailable", async ({
+  request,
+}) => {
   const response = await request.get("/api/export/public");
   expect(response.status()).toBe(503);
 

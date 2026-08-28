@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { resolveCorrelationId } from "../../apps/web/src/lib/operations/correlation";
-import { buildOperationalEvent, sanitizeOperationalReason } from "../../apps/web/src/lib/operations/events";
+import {
+  buildOperationalEvent,
+  sanitizeOperationalReason,
+} from "../../apps/web/src/lib/operations/events";
 import { buildPublicExport } from "../../apps/web/src/lib/operations/export-contract";
 
 const profile = (handle: string, accountId: string) => ({
