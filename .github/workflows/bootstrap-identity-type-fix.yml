@@ -1,0 +1,72 @@
+name: Bootstrap identity type fix
+
+on:
+  push:
+    branches:
+      - feat/5-github-auth-profile
+    paths:
+      - .github/workflows/bootstrap-identity-type-fix.yml
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: 24.19.0
+  PNPM_VERSION: 11.20.0
+
+jobs:
+  fix-profile-field-errors:
+    if: github.repository == 'samir1234khans/ManyHands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Check out the active issue branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/5-github-auth-profile
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Make explicit undefined error props compatible with strict optional types
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path('apps/web/src/app/profile/profile-form.tsx')
+          text = path.read_text(encoding='utf-8')
+          old = 'function FieldError({ id, message }: Readonly<{ id: string; message?: string }>) {'
+          new = 'function FieldError({ id, message }: Readonly<{ id: string; message: string | undefined }>) {'
+          if text.count(old) != 1:
+              raise SystemExit('expected exactly one FieldError signature to update')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+          pnpm format
+          pnpm typecheck
+
+      - name: Commit the strict typing fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/web/src/app/profile/profile-form.tsx
+          git commit -m 'fix: make profile field errors explicit under strict optional types'
+          git push origin HEAD:feat/5-github-auth-profile
