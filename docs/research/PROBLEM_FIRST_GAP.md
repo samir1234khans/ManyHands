@@ -1,6 +1,6 @@
 # Validating the problem-first coordination gap
 
-**Research date:** 28 August 2026  
+**Research date:** 28 August 2026
 **Status:** Evidence brief for issue #21; findings are hypotheses to validate, not permission to silently rewrite the ManyHands product contract.
 
 ## Executive finding
