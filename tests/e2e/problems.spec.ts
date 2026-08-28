@@ -47,7 +47,7 @@ test.describe("Problem directory foundation without hosted credentials", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Sign in with GitHub" }),
     ).toBeVisible();
-    await expect(page.getByText(/ordinary login does not install/i)).toBeVisible();
+    await expect(page.getByText(/does not install the ManyHands GitHub App/i)).toBeVisible();
   });
 
   test("does not interpret a query string as executable markup", async ({ page }) => {
