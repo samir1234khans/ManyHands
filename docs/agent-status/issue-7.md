@@ -3,13 +3,13 @@ schema_version: "1"
 issue: "7"
 title: "Project formation, membership, stewardship, and honest status"
 branch: "design/7-project-formation-contract"
-work_state: "in_progress"
+work_state: "needs_reverification"
 contributors: "@samir1234khans"
 base_commit: "793782732af032d9014dad3b935950ec2d013a29"
 last_verified_commit: "793782732af032d9014dad3b935950ec2d013a29"
-updated_at_utc: "2026-08-28T19:37:00Z"
+updated_at_utc: "2026-08-28T19:41:00Z"
 pull_request: "65"
-verification_state: "contract_candidate_ci_pending"
+verification_state: "formatted_contract_candidate_exact_pr_ci_pending"
 ---
 
 # Issue #7 agent handoff
@@ -20,13 +20,14 @@ Deliver the first Project vertical slice under the merged Problem model: multipl
 
 ## Current checkpoint
 
-Draft PR #65 begins with a substantive contract rather than an empty placeholder:
+Draft PR #65 begins with a substantive, executable contract rather than an empty placeholder:
 
-- `docs/PROJECTS.md` defines the Problem→Project relationship, lifecycle, activation requirements, roles, final-steward rule, membership history, GitHub boundary, public read model, accessibility obligations, negative evidence, and delivery sequence.
+- `docs/PROJECTS.md` defines the Problem→Project relationship, lifecycle, activation requirements, roles, final-steward rule, membership history, GitHub boundary, public/private read models, accessibility obligations, negative evidence, and delivery sequence.
 - `packages/domain/src/projects.ts` encodes the initial lifecycle transition table, activation-gap assessment, final-steward departure guard, and the invariant that ManyHands membership never grants GitHub repository permission.
 - `tests/unit/project-contract.test.ts` exercises the accountability, lifecycle, stewardship, and permission boundaries.
+- `packages/domain/src/index.ts` exports the new Project vocabulary and helpers through the real domain boundary.
 
-The first implementation commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`; this handoff update is a documentation-only follow-up. Pull-request CI on the exact latest head remains authoritative.
+The initial contract commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`. The one-shot formatter then applied the repository’s pinned Prettier configuration and deleted itself at `514e9452b2acf8d93d69023a9ad8f07c04bc02dc`. This handoff update exists to trigger ordinary pull-request CI on the formatted candidate; no temporary helper remains active.
 
 ## Decisions another contributor must preserve
 
@@ -40,7 +41,7 @@ The first implementation commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`; t
 
 ## Next implementation checkpoint
 
-1. Review the contract against issue #7 and the existing Problem/identity boundaries.
+1. Review the contract against issue #7 and the existing Problem, identity, accessibility, and operations boundaries.
 2. Add immutable Project, membership, history, and stewardship migrations with explicit grants and forced RLS.
 3. Add transactional activation, lifecycle, membership, and final-steward operations plus pgTAP negative tests.
 4. Generate typed data boundaries and extend centralized Project authorization.
@@ -48,7 +49,7 @@ The first implementation commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`; t
 
 ## Verification state
 
-The branch starts from accessibility-hardened `main` commit `793782732af032d9014dad3b935950ec2d013a29`. The new contract code, tests, and documentation are awaiting Branch policy, Repository health, Application CI/browser evidence, and Database CI. `last_verified_commit` intentionally remains the base until an exact branch head completes those gates.
+The branch starts from accessibility-hardened `main` commit `793782732af032d9014dad3b935950ec2d013a29`. The formatted contract candidate is awaiting Branch policy, Repository health, Application CI—including browser and axe evidence—and Database CI. `last_verified_commit` intentionally remains the base until an exact branch head completes every relevant gate.
 
 ## Known limitations
 
