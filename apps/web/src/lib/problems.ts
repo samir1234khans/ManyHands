@@ -8,9 +8,8 @@ import {
   type ProblemStatus,
 } from "@manyhands/domain";
 
-import type { ProblemFormValues } from "@/app/problems/problem-form-state";
-
 import { getPublicSupabaseConfig } from "./env";
+import type { ProblemFormValues } from "./problems/form-state";
 import { createServerSupabaseClient, type ServerSupabaseClient } from "./supabase/server";
 
 export interface PublicProblem {
