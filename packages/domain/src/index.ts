@@ -10,6 +10,13 @@ export {
   requireAuthorization,
 } from "./authorization";
 
+export {
+  canTransitionProblemStatus,
+  isPublicProblemStatus,
+  problemModerationStates,
+  problemStatuses,
+} from "./problems";
+
 export type {
   AccountPrincipal,
   AccountStatus,
@@ -24,8 +31,12 @@ export type {
   GlobalRole,
   Principal,
   PrivateReportResource,
+  ProblemCollectionResource,
+  ProblemResource,
   ProfileResource,
   ProfileVisibility,
   ProjectResource,
   ProjectRole,
 } from "./authorization";
+
+export type { ProblemModerationState, ProblemStatus } from "./problems";
