@@ -1,5 +1,7 @@
 name: Bootstrap typed Problem create contract
 
+# This helper is intentionally self-removing. This run starts from the current
+# branch after the final shared-form import repair and preserves concurrent refs safely.
 on:
   push:
     branches:
