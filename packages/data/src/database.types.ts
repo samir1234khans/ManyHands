@@ -45,11 +45,71 @@ export type Database = {
         }
         Relationships: []
       }
+      problem_interaction_events: {
+        Row: {
+          account_id: string
+          action: string
+          created_at: string
+          id: string
+          problem_id: string
+        }
+        Insert: {
+          account_id: string
+          action: string
+          created_at?: string
+          id?: string
+          problem_id: string
+        }
+        Update: {
+          account_id?: string
+          action?: string
+          created_at?: string
+          id?: string
+          problem_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problem_interaction_events_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problem_moderation_events: {
+        Row: {
+          created_at: string
+          id: string
+          moderation_state: Database["public"]["Enums"]["problem_moderation_state"]
+          problem_id: string
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          moderation_state: Database["public"]["Enums"]["problem_moderation_state"]
+          problem_id: string
+          reason: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          moderation_state?: Database["public"]["Enums"]["problem_moderation_state"]
+          problem_id?: string
+          reason?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      assert_problem_interaction_rate_limit: {
+        Args: { target_account_id: string }
+        Returns: undefined
+      }
       current_account_id: { Args: never; Returns: string }
       current_active_account_id: { Args: never; Returns: string }
     }
@@ -120,8 +180,256 @@ export type Database = {
         }
         Relationships: []
       }
+      problem_follows: {
+        Row: {
+          account_id: string
+          created_at: string
+          problem_id: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          problem_id: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          problem_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problem_follows_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problem_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problem_follows_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problem_need_signals: {
+        Row: {
+          account_id: string
+          created_at: string
+          private_context: string | null
+          problem_id: string
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          private_context?: string | null
+          problem_id: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          private_context?: string | null
+          problem_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problem_need_signals_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problem_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problem_need_signals_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problem_revisions: {
+        Row: {
+          affected_people: string
+          author_account_id: string
+          change_summary: string
+          context: string
+          created_at: string
+          editor_account_id: string
+          evidence: string | null
+          existing_alternatives: string | null
+          id: string
+          is_public: boolean
+          moderation_state: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms: string[]
+          problem_id: string
+          revision_number: number
+          slug: string
+          status: Database["public"]["Enums"]["problem_status"]
+          summary: string
+          tags: string[]
+          title: string
+        }
+        Insert: {
+          affected_people: string
+          author_account_id: string
+          change_summary: string
+          context: string
+          created_at?: string
+          editor_account_id: string
+          evidence?: string | null
+          existing_alternatives?: string | null
+          id?: string
+          is_public: boolean
+          moderation_state: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms: string[]
+          problem_id: string
+          revision_number: number
+          slug: string
+          status: Database["public"]["Enums"]["problem_status"]
+          summary: string
+          tags: string[]
+          title: string
+        }
+        Update: {
+          affected_people?: string
+          author_account_id?: string
+          change_summary?: string
+          context?: string
+          created_at?: string
+          editor_account_id?: string
+          evidence?: string | null
+          existing_alternatives?: string | null
+          id?: string
+          is_public?: boolean
+          moderation_state?: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms?: string[]
+          problem_id?: string
+          revision_number?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["problem_status"]
+          summary?: string
+          tags?: string[]
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problem_revisions_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problem_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problem_revisions_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problems: {
+        Row: {
+          affected_people: string
+          archived_at: string | null
+          author_account_id: string
+          closed_at: string | null
+          context: string
+          created_at: string
+          evidence: string | null
+          existing_alternatives: string | null
+          id: string
+          last_meaningful_update_at: string
+          moderation_state: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms: string[]
+          published_at: string | null
+          revision_number: number
+          slug: string
+          status: Database["public"]["Enums"]["problem_status"]
+          summary: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affected_people: string
+          archived_at?: string | null
+          author_account_id: string
+          closed_at?: string | null
+          context: string
+          created_at?: string
+          evidence?: string | null
+          existing_alternatives?: string | null
+          id?: string
+          last_meaningful_update_at?: string
+          moderation_state?: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms?: string[]
+          published_at?: string | null
+          revision_number?: number
+          slug: string
+          status?: Database["public"]["Enums"]["problem_status"]
+          summary: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affected_people?: string
+          archived_at?: string | null
+          author_account_id?: string
+          closed_at?: string | null
+          context?: string
+          created_at?: string
+          evidence?: string | null
+          existing_alternatives?: string | null
+          id?: string
+          last_meaningful_update_at?: string
+          moderation_state?: Database["public"]["Enums"]["problem_moderation_state"]
+          platforms?: string[]
+          published_at?: string | null
+          revision_number?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["problem_status"]
+          summary?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
+      problem_directory: {
+        Row: {
+          affected_people: string | null
+          author_account_id: string | null
+          author_display_name: string | null
+          author_handle: string | null
+          context: string | null
+          created_at: string | null
+          evidence: string | null
+          existing_alternatives: string | null
+          follow_count: number | null
+          id: string | null
+          last_meaningful_update_at: string | null
+          need_signal_count: number | null
+          platforms: string[] | null
+          published_at: string | null
+          revision_number: number | null
+          slug: string | null
+          status: Database["public"]["Enums"]["problem_status"] | null
+          summary: string | null
+          tags: string[] | null
+          title: string | null
+          updated_at: string | null
+        }
+        Relationships: []
+      }
       profile_directory: {
         Row: {
           account_id: string | null
@@ -180,9 +488,33 @@ export type Database = {
         Args: { target_auth_user_id: string }
         Returns: boolean
       }
+      admin_set_problem_moderation: {
+        Args: {
+          desired_state: Database["public"]["Enums"]["problem_moderation_state"]
+          reason: string
+          target_problem_id: string
+        }
+        Returns: boolean
+      }
       admin_suspend_account: {
         Args: { reason: string; target_auth_user_id: string }
         Returns: boolean
+      }
+      create_problem: {
+        Args: {
+          change_summary: string
+          desired_status: Database["public"]["Enums"]["problem_status"]
+          problem_affected_people: string
+          problem_context: string
+          problem_evidence: string
+          problem_existing_alternatives: string
+          problem_platforms: string[]
+          problem_slug: string
+          problem_summary: string
+          problem_tags: string[]
+          problem_title: string
+        }
+        Returns: string
       }
       current_account_context: {
         Args: never
@@ -190,6 +522,22 @@ export type Database = {
           account_id: string
           status: Database["private"]["Enums"]["account_status"]
         }[]
+      }
+      current_problem_interactions: {
+        Args: { target_problem_id: string }
+        Returns: {
+          has_need_signal: boolean
+          is_following: boolean
+          private_signal_context: string
+        }[]
+      }
+      problem_follow_count: {
+        Args: { target_problem_id: string }
+        Returns: number
+      }
+      problem_need_signal_count: {
+        Args: { target_problem_id: string }
+        Returns: number
       }
       request_account_deletion: {
         Args: never
@@ -199,9 +547,36 @@ export type Database = {
         Args: { target_auth_user_id: string }
         Returns: boolean
       }
+      save_problem: {
+        Args: {
+          change_summary: string
+          desired_status: Database["public"]["Enums"]["problem_status"]
+          problem_affected_people: string
+          problem_context: string
+          problem_evidence: string
+          problem_existing_alternatives: string
+          problem_platforms: string[]
+          problem_slug: string
+          problem_summary: string
+          problem_tags: string[]
+          problem_title: string
+          target_problem_id: string
+        }
+        Returns: string
+      }
+      toggle_problem_follow: {
+        Args: { target_problem_id: string }
+        Returns: boolean
+      }
+      toggle_problem_need_signal: {
+        Args: { signal_context: string; target_problem_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       availability_level: "unavailable" | "limited" | "open"
+      problem_moderation_state: "clear" | "restricted" | "removed"
+      problem_status: "draft" | "published" | "closed" | "archived"
       profile_visibility: "private" | "members" | "public"
     }
     CompositeTypes: {
@@ -341,6 +716,8 @@ export const Constants = {
   public: {
     Enums: {
       availability_level: ["unavailable", "limited", "open"],
+      problem_moderation_state: ["clear", "restricted", "removed"],
+      problem_status: ["draft", "published", "closed", "archived"],
       profile_visibility: ["private", "members", "public"],
     },
   },

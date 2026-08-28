@@ -16,6 +16,7 @@ export async function SiteHeader() {
         </a>
 
         <nav className="primary-nav" aria-label="Primary navigation">
+          <a href="/problems">Problems</a>
           <a href="/people">People</a>
           <a href={siteConfig.roadmapUrl}>Roadmap</a>
           {account ? (

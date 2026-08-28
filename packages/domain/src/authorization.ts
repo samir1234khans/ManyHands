@@ -1,3 +1,5 @@
+import { isPublicProblemStatus, type ProblemModerationState, type ProblemStatus } from "./problems";
+
 export const accountStatuses = ["active", "suspended", "deletion_requested", "anonymized"] as const;
 
 export type AccountStatus = (typeof accountStatuses)[number];
@@ -58,6 +60,18 @@ export interface ProfileResource {
   readonly visibility: ProfileVisibility;
 }
 
+export interface ProblemCollectionResource {
+  readonly kind: "problem_collection";
+}
+
+export interface ProblemResource {
+  readonly kind: "problem";
+  readonly problemId: string;
+  readonly authorAccountId: string;
+  readonly status: ProblemStatus;
+  readonly moderationState: ProblemModerationState;
+}
+
 export interface ProjectResource {
   readonly kind: "project";
   readonly projectId: string;
@@ -78,6 +92,22 @@ export type AuthorizationRequest =
       readonly resource: ProfileResource;
     }
   | {
+      readonly capability: "problem.create";
+      readonly resource: ProblemCollectionResource;
+    }
+  | {
+      readonly capability: "problem.read";
+      readonly resource: ProblemResource;
+    }
+  | {
+      readonly capability: "problem.update";
+      readonly resource: ProblemResource;
+    }
+  | {
+      readonly capability: "problem.interact";
+      readonly resource: ProblemResource;
+    }
+  | {
       readonly capability: "project.update";
       readonly resource: ProjectResource;
     }
@@ -93,6 +123,9 @@ export type AuthorizationDenialReason =
   | "account_inactive"
   | "resource_not_visible"
   | "profile_owner_required"
+  | "problem_owner_required"
+  | "problem_moderated"
+  | "problem_not_interactive"
   | "project_role_required"
   | "global_moderator_required";
 
@@ -115,6 +148,10 @@ function denied(reason: AuthorizationDenialReason): AuthorizationDenied {
 
 function isActiveAccount(principal: Principal): principal is AccountPrincipal {
   return principal.kind === "account" && principal.status === "active";
+}
+
+function isActiveGlobalModerator(principal: Principal): principal is AccountPrincipal {
+  return isActiveAccount(principal) && principal.globalRoles.includes("moderator");
 }
 
 function canReadProfile(principal: Principal, resource: ProfileResource): AuthorizationDecision {
@@ -143,6 +180,63 @@ function canUpdateProfile(principal: Principal, resource: ProfileResource): Auth
   }
 
   return principal.accountId === resource.accountId ? allowed : denied("profile_owner_required");
+}
+
+function canCreateProblem(principal: Principal): AuthorizationDecision {
+  if (principal.kind === "anonymous") {
+    return denied("authentication_required");
+  }
+
+  return isActiveAccount(principal) ? allowed : denied("account_inactive");
+}
+
+function canReadProblem(principal: Principal, resource: ProblemResource): AuthorizationDecision {
+  if (resource.moderationState === "clear" && isPublicProblemStatus(resource.status)) {
+    return allowed;
+  }
+
+  if (principal.kind === "anonymous") {
+    return denied("resource_not_visible");
+  }
+
+  if (principal.accountId === resource.authorAccountId || isActiveGlobalModerator(principal)) {
+    return allowed;
+  }
+
+  return denied("resource_not_visible");
+}
+
+function canUpdateProblem(principal: Principal, resource: ProblemResource): AuthorizationDecision {
+  if (principal.kind === "anonymous") {
+    return denied("authentication_required");
+  }
+
+  if (!isActiveAccount(principal)) {
+    return denied("account_inactive");
+  }
+
+  if (principal.accountId !== resource.authorAccountId) {
+    return denied("problem_owner_required");
+  }
+
+  return resource.moderationState === "clear" ? allowed : denied("problem_moderated");
+}
+
+function canInteractWithProblem(
+  principal: Principal,
+  resource: ProblemResource,
+): AuthorizationDecision {
+  if (principal.kind === "anonymous") {
+    return denied("authentication_required");
+  }
+
+  if (!isActiveAccount(principal)) {
+    return denied("account_inactive");
+  }
+
+  return resource.status === "published" && resource.moderationState === "clear"
+    ? allowed
+    : denied("problem_not_interactive");
 }
 
 function canUpdateProject(principal: Principal, resource: ProjectResource): AuthorizationDecision {
@@ -182,6 +276,14 @@ export function decideAuthorization(
       return canReadProfile(principal, request.resource);
     case "profile.update":
       return canUpdateProfile(principal, request.resource);
+    case "problem.create":
+      return canCreateProblem(principal);
+    case "problem.read":
+      return canReadProblem(principal, request.resource);
+    case "problem.update":
+      return canUpdateProblem(principal, request.resource);
+    case "problem.interact":
+      return canInteractWithProblem(principal, request.resource);
     case "project.update":
       return canUpdateProject(principal, request.resource);
     case "moderation.report.read_private":

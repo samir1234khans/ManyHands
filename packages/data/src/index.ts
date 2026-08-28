@@ -19,3 +19,9 @@ export type ContributorProfileInsert =
 export type ContributorProfileUpdate =
   Database["public"]["Tables"]["contributor_profiles"]["Update"];
 export type PublicProfileDirectoryRow = Database["public"]["Views"]["profile_directory"]["Row"];
+
+export type ProblemRow = Database["public"]["Tables"]["problems"]["Row"];
+export type ProblemRevisionRow = Database["public"]["Tables"]["problem_revisions"]["Row"];
+export type ProblemNeedSignalRow = Database["public"]["Tables"]["problem_need_signals"]["Row"];
+export type ProblemFollowRow = Database["public"]["Tables"]["problem_follows"]["Row"];
+export type ProblemDirectoryRow = Database["public"]["Views"]["problem_directory"]["Row"];
