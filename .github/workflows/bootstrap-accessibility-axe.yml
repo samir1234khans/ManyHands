@@ -1,5 +1,6 @@
 name: Bootstrap accessibility axe hardening
 
+# Self-removing verifier. This rerun includes the contrast-token repair exposed by axe.
 on:
   push:
     branches:
