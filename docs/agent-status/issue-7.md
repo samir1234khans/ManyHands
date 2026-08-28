@@ -7,7 +7,7 @@ work_state: "needs_reverification"
 contributors: "@samir1234khans"
 base_commit: "793782732af032d9014dad3b935950ec2d013a29"
 last_verified_commit: "793782732af032d9014dad3b935950ec2d013a29"
-updated_at_utc: "2026-08-28T19:41:00Z"
+updated_at_utc: "2026-08-28T19:42:00Z"
 pull_request: "65"
 verification_state: "formatted_contract_candidate_exact_pr_ci_pending"
 ---
@@ -27,7 +27,7 @@ Draft PR #65 begins with a substantive, executable contract rather than an empty
 - `tests/unit/project-contract.test.ts` exercises the accountability, lifecycle, stewardship, and permission boundaries.
 - `packages/domain/src/index.ts` exports the new Project vocabulary and helpers through the real domain boundary.
 
-The initial contract commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`. The one-shot formatter then applied the repository’s pinned Prettier configuration and deleted itself at `514e9452b2acf8d93d69023a9ad8f07c04bc02dc`. This handoff update exists to trigger ordinary pull-request CI on the formatted candidate; no temporary helper remains active.
+The initial contract commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`. The one-shot formatter then applied the repository’s pinned Prettier configuration and deleted itself at `514e9452b2acf8d93d69023a9ad8f07c04bc02dc`. This handoff update triggers ordinary pull-request CI on the formatted candidate; no temporary helper remains active.
 
 ## Decisions another contributor must preserve
 
