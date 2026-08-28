@@ -1,3 +1,6 @@
+"use server";
+
+import type { Route } from "next";
 import { redirect } from "next/navigation";
 
 import { getCurrentAccountContext } from "@/lib/auth/current-account";
@@ -8,12 +11,10 @@ import { getServerSupabaseSecret } from "@/lib/env";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 
 function settingsError(reason: string): never {
-  redirect(`/settings?error=${encodeURIComponent(reason)}`);
+  redirect(`/settings?error=${encodeURIComponent(reason)}` as Route);
 }
 
 export async function deleteAccountAction(formData: FormData): Promise<never> {
-  "use server";
-
   const confirmation = formData.get("confirmation");
   if (confirmation !== "DELETE") {
     settingsError("confirmation");
