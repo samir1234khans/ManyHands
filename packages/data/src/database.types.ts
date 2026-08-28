@@ -500,6 +500,22 @@ export type Database = {
         Args: { reason: string; target_auth_user_id: string }
         Returns: boolean
       }
+      create_problem: {
+        Args: {
+          change_summary: string
+          desired_status: Database["public"]["Enums"]["problem_status"]
+          problem_affected_people: string
+          problem_context: string
+          problem_evidence: string
+          problem_existing_alternatives: string
+          problem_platforms: string[]
+          problem_slug: string
+          problem_summary: string
+          problem_tags: string[]
+          problem_title: string
+        }
+        Returns: string
+      }
       current_account_context: {
         Args: never
         Returns: {
