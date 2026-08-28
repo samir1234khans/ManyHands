@@ -7,9 +7,9 @@ work_state: "in_progress"
 contributors: "@samir1234khans"
 base_commit: "793782732af032d9014dad3b935950ec2d013a29"
 last_verified_commit: "793782732af032d9014dad3b935950ec2d013a29"
-updated_at_utc: "2026-08-28T19:35:00Z"
-pull_request: "0"
-verification_state: "contract_implementation_not_yet_verified"
+updated_at_utc: "2026-08-28T19:37:00Z"
+pull_request: "65"
+verification_state: "contract_candidate_ci_pending"
 ---
 
 # Issue #7 agent handoff
@@ -20,11 +20,13 @@ Deliver the first Project vertical slice under the merged Problem model: multipl
 
 ## Current checkpoint
 
-This branch begins with a substantive contract rather than an empty placeholder:
+Draft PR #65 begins with a substantive contract rather than an empty placeholder:
 
 - `docs/PROJECTS.md` defines the Problem→Project relationship, lifecycle, activation requirements, roles, final-steward rule, membership history, GitHub boundary, public read model, accessibility obligations, negative evidence, and delivery sequence.
 - `packages/domain/src/projects.ts` encodes the initial lifecycle transition table, activation-gap assessment, final-steward departure guard, and the invariant that ManyHands membership never grants GitHub repository permission.
 - `tests/unit/project-contract.test.ts` exercises the accountability, lifecycle, stewardship, and permission boundaries.
+
+The first implementation commit is `3cbba6646dc19a10bbdb421f97656831fe7ffb6a`; this handoff update is a documentation-only follow-up. Pull-request CI on the exact latest head remains authoritative.
 
 ## Decisions another contributor must preserve
 
@@ -46,7 +48,7 @@ This branch begins with a substantive contract rather than an empty placeholder:
 
 ## Verification state
 
-The branch starts from accessibility-hardened `main` commit `793782732af032d9014dad3b935950ec2d013a29`. The new contract code, tests, and documentation have not yet passed the pull-request gates. The exact branch commit and pull request will replace the placeholder values above after the first commit is created.
+The branch starts from accessibility-hardened `main` commit `793782732af032d9014dad3b935950ec2d013a29`. The new contract code, tests, and documentation are awaiting Branch policy, Repository health, Application CI/browser evidence, and Database CI. `last_verified_commit` intentionally remains the base until an exact branch head completes those gates.
 
 ## Known limitations
 
