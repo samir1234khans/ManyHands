@@ -8,9 +8,7 @@ test.describe("authentication entry", () => {
       /Sign in with GitHub|already signed in/i,
     );
     await expect(
-      page.getByText(
-        /Public Problems, Projects, progress, and Contribution Needs remain readable/,
-      ),
+      page.getByText(/Public Problems, Projects, progress, and Contribution Needs remain readable/),
     ).toBeVisible();
     await expect(page.getByText(/does not install the ManyHands GitHub App/i)).toBeVisible();
     await expect(page.getByText(/does not request repository access/i)).toBeVisible();
