@@ -10,9 +10,11 @@ A first-time contributor can understand the project in roughly this order:
 2. [`../AGENTS.md`](../AGENTS.md) — verified operational status, active branch, commands, source-of-truth hierarchy, and handoff rules.
 3. [`CONSTITUTION.md`](CONSTITUTION.md) — promises that product, architecture, governance, and funding decisions must preserve.
 4. [`PRODUCT.md`](PRODUCT.md) — users, v0 scope, explicit non-goals, critical flows, and the self-hosting acceptance test.
-5. [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — how to claim work, create a branch, verify changes, open a pull request, and clean up afterward.
-6. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](https://github.com/samir1234khans/ManyHands/issues/2) — implementation order and current outcomes.
-7. [`BRANCHING.md`](BRANCHING.md) — issue-linked branch naming, draft-work promotion, handoff, review, merge, and cleanup.
+5. [`GLOSSARY.md`](GLOSSARY.md) — plain-language product terms, important distinctions, and a complete Problem-to-Evidence example.
+6. [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — WCAG 2.2 AA target, interaction rules, automated checks, and manual evidence protocol.
+7. [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — how to claim work, create a branch, verify changes, open a pull request, and clean up afterward.
+8. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](https://github.com/samir1234khans/ManyHands/issues/2) — implementation order and current outcomes.
+9. [`BRANCHING.md`](BRANCHING.md) — issue-linked branch naming, draft-work promotion, handoff, review, and cleanup.
 
 After that, choose the path matching the work you intend to do.
 
@@ -47,6 +49,7 @@ Write a new ADR when a decision changes a durable boundary, trust model, data-ow
 
 These explain how to apply the contracts and decisions. They should be updated when the real workflow changes.
 
+- [`GLOSSARY.md`](GLOSSARY.md) — a plain-language reading aid; `DOMAIN_MODEL.md` remains authoritative.
 - [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — WCAG 2.2 AA target, interaction rules, automated checks, and manual evidence protocol.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — system boundaries, modules, GitHub integration rules, threat model, data consistency, observability, and delivery strategy.
 - [`DEVELOPMENT.md`](DEVELOPMENT.md) — local setup, repository shape, commands, CI, dependency policy, testing, accessibility, and troubleshooting.
@@ -85,10 +88,12 @@ GitHub issues, pull requests, commits, and CI remain authoritative when a tempor
 
 1. [`CONSTITUTION.md`](CONSTITUTION.md)
 2. [`PRODUCT.md`](PRODUCT.md)
-3. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
-4. [`ROADMAP.md`](ROADMAP.md)
-5. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially public/private data and accessibility constraints
-6. The product-design and research issues linked from the public roadmap
+3. [`GLOSSARY.md`](GLOSSARY.md)
+4. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
+5. [`ROADMAP.md`](ROADMAP.md)
+6. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially public/private data and accessibility constraints
+7. [`ACCESSIBILITY.md`](ACCESSIBILITY.md), especially interaction, content, error, and responsive requirements
+8. The product-design and research issues linked from the public roadmap
 
 ### Security and privacy review
 
@@ -107,9 +112,10 @@ Report a vulnerability privately through the route documented in [`../SECURITY.m
 1. [`../CODE_OF_CONDUCT.md`](../CODE_OF_CONDUCT.md)
 2. [`../GOVERNANCE.md`](../GOVERNANCE.md)
 3. [`PRODUCT.md`](PRODUCT.md), especially users and product rules
-4. [`MAINTAINER_PLAYBOOK.md`](MAINTAINER_PLAYBOOK.md)
-5. [`LAUNCH_PLAYBOOK.md`](LAUNCH_PLAYBOOK.md)
-6. [`AI_CONTRIBUTIONS.md`](AI_CONTRIBUTIONS.md)
+4. [`ACCESSIBILITY.md`](ACCESSIBILITY.md), especially reporting, communication, and understandable status
+5. [`MAINTAINER_PLAYBOOK.md`](MAINTAINER_PLAYBOOK.md)
+6. [`LAUNCH_PLAYBOOK.md`](LAUNCH_PLAYBOOK.md)
+7. [`AI_CONTRIBUTIONS.md`](AI_CONTRIBUTIONS.md)
 
 ### Maintainers
 
@@ -118,8 +124,9 @@ Report a vulnerability privately through the route documented in [`../SECURITY.m
 3. [`MAINTAINER_PLAYBOOK.md`](MAINTAINER_PLAYBOOK.md)
 4. [`BRANCHING.md`](BRANCHING.md)
 5. [`REPOSITORY_SETTINGS.md`](REPOSITORY_SETTINGS.md)
-6. [`ROADMAP.md`](ROADMAP.md)
-7. [`LAUNCH_PLAYBOOK.md`](LAUNCH_PLAYBOOK.md)
+6. [`ACCESSIBILITY.md`](ACCESSIBILITY.md)
+7. [`ROADMAP.md`](ROADMAP.md)
+8. [`LAUNCH_PLAYBOOK.md`](LAUNCH_PLAYBOOK.md)
 
 ### Operations and self-hosting
 
@@ -127,17 +134,19 @@ Report a vulnerability privately through the route documented in [`../SECURITY.m
 2. [`DATABASE.md`](DATABASE.md)
 3. [`DATA_LIFECYCLE.md`](DATA_LIFECYCLE.md)
 4. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially deployment, observability, and consistency
-5. [`REPOSITORY_SETTINGS.md`](REPOSITORY_SETTINGS.md)
-6. [`LICENSING.md`](LICENSING.md)
-7. Operations issue #16 for deployment, backups, export, recovery, and self-hosting work still in progress
+5. [`ACCESSIBILITY.md`](ACCESSIBILITY.md), especially constrained-device, degraded-state, and public-reporting requirements
+6. [`REPOSITORY_SETTINGS.md`](REPOSITORY_SETTINGS.md)
+7. [`LICENSING.md`](LICENSING.md)
+8. Operations issue #16 for deployment, backups, export, recovery, and self-hosting work still in progress
 
 ### AI-assisted contributors
 
 1. [`../AGENTS.md`](../AGENTS.md)
 2. [`AI_CONTRIBUTIONS.md`](AI_CONTRIBUTIONS.md)
-3. [`BRANCHING.md`](BRANCHING.md)
-4. [`agent-status/README.md`](agent-status/README.md)
-5. The relevant normative and technical documents for the issue
+3. [`ACCESSIBILITY.md`](ACCESSIBILITY.md)
+4. [`BRANCHING.md`](BRANCHING.md)
+5. [`agent-status/README.md`](agent-status/README.md)
+6. The relevant normative and technical documents for the issue
 
 ## Keeping this map accurate
 
