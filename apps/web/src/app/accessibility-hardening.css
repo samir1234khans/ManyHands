@@ -1,0 +1,14 @@
+:root {
+  --accent-on-contrast: #7bd7a4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-on-contrast: #084b31;
+  }
+}
+
+.section-contrast .section-kicker,
+.section-contrast .loop-list li::before {
+  color: var(--accent-on-contrast);
+}
