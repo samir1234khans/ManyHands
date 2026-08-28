@@ -36,6 +36,7 @@
     "verify:full": "pnpm verify && pnpm test:e2e"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/compat": "2.1.0",
     "@playwright/test": "1.62.1",
     "@types/node": "^24.0.0",
