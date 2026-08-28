@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import {
+  getAuthenticationMessage,
+  type AuthenticationErrorCode,
+} from "@/lib/auth/messages";
 import { sanitizeReturnPath } from "@/lib/auth/return-path";
 
 export const metadata: Metadata = {
@@ -9,51 +13,47 @@ export const metadata: Metadata = {
   description: "A safe ManyHands sign-in error with a clear recovery path.",
 };
 
-const errors: Record<string, { detail: string; title: string }> = {
-  configuration: {
-    detail:
-      "GitHub sign-in is not configured correctly in this environment. Public browsing still works.",
-    title: "Sign-in is not available here yet",
-  },
-  exchange_failed: {
-    detail:
-      "The one-time sign-in code could not be exchanged. It may have expired or already been used.",
-    title: "That sign-in link is no longer valid",
-  },
-  identity_invalid: {
-    detail:
-      "ManyHands could not verify a GitHub identity for this session, so the local session was cleared.",
-    title: "We could not verify the GitHub account",
-  },
-  missing_code: {
-    detail: "The callback did not include the one-time code required to finish sign-in.",
-    title: "The sign-in response was incomplete",
-  },
-  provider_denied: {
-    detail: "GitHub reported that authorization was cancelled or denied. Nothing was connected.",
-    title: "GitHub sign-in was cancelled",
-  },
-  provider_error: {
-    detail: "GitHub returned an unexpected provider error. No account change was completed.",
-    title: "GitHub could not complete sign-in",
-  },
-  provider_unavailable: {
-    detail:
-      "ManyHands could not begin the GitHub provider flow. Please try again after checking configuration.",
-    title: "GitHub sign-in could not start",
-  },
+const legacyReasonCodes: Record<string, AuthenticationErrorCode> = {
+  configuration: "configuration",
+  exchange_failed: "callback_invalid",
+  identity_invalid: "session_revoked",
+  missing_code: "callback_invalid",
+  provider_denied: "access_denied",
+  provider_error: "unknown",
+  provider_unavailable: "unknown",
 };
+
+function resolvePublicErrorCode(code: string | undefined, reason: string | undefined): unknown {
+  return code ?? legacyReasonCodes[reason ?? ""] ?? "unknown";
+}
+
+function buildPublicRetryHref(nextValue: string | undefined, nextPath: string): string {
+  if (!nextValue) {
+    return "/sign-in";
+  }
+
+  const search = new URLSearchParams({ returnTo: nextPath });
+  return `/sign-in?${search.toString()}`;
+}
 
 export default async function AuthErrorPage({
   searchParams,
-}: Readonly<{ searchParams: Promise<{ next?: string; reason?: string }> }>) {
+}: Readonly<{
+  searchParams: Promise<{ code?: string; next?: string; reason?: string }>;
+}>) {
   const parameters = await searchParams;
   const nextPath = sanitizeReturnPath(parameters.next, "/profile");
-  const error = errors[parameters.reason ?? ""] ?? {
-    detail: "The sign-in flow stopped safely before a trusted session was established.",
-    title: "Sign-in did not complete",
-  };
-  const retrySearch = new URLSearchParams({ next: nextPath });
+  const message = getAuthenticationMessage(
+    resolvePublicErrorCode(parameters.code, parameters.reason),
+  );
+  const usesLegacyRoute = !parameters.code && Boolean(parameters.reason);
+  const legacyRetrySearch = new URLSearchParams({ next: nextPath });
+  const retryHref = usesLegacyRoute
+    ? `/auth/sign-in?${legacyRetrySearch.toString()}`
+    : message.code === "configuration"
+      ? "/auth/configuration"
+      : buildPublicRetryHref(parameters.next, nextPath);
+  const retryLabel = usesLegacyRoute ? "Try GitHub sign-in again" : message.actionLabel;
 
   return (
     <>
@@ -61,15 +61,16 @@ export default async function AuthErrorPage({
       <main id="main-content" className="shell identity-page" tabIndex={-1}>
         <section className="identity-card state-card" aria-labelledby="auth-error-title">
           <p className="eyebrow">Safe failure</p>
-          <h1 id="auth-error-title">{error.title}</h1>
-          <p className="identity-lead">{error.detail}</p>
+          <h1 id="auth-error-title">{message.title}</h1>
+          <p className="identity-lead">{message.description}</p>
           <p>
             No repository permission is installed by ordinary login, and ManyHands does not expose
-            provider tokens or private account details in this error page.
+            provider responses, callback codes, tokens, private email, or private account details on
+            this page.
           </p>
           <div className="state-actions">
-            <a className="button button-primary" href={`/auth/sign-in?${retrySearch.toString()}`}>
-              Try GitHub sign-in again
+            <a className="button button-primary" href={retryHref}>
+              {retryLabel}
             </a>
             <a className="button button-secondary" href="/">
               Return home
