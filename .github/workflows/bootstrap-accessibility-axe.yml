@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: bootstrap-accessibility-axe
+  cancel-in-progress: false
+
 env:
   NODE_VERSION: 24.19.0
   PNPM_VERSION: 11.20.0
@@ -19,7 +23,7 @@ jobs:
   verify-and-lock:
     if: github.repository == 'samir1234khans/ManyHands'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Check out accessibility work
@@ -44,6 +48,24 @@ jobs:
       - name: Refresh the lockfile
         run: pnpm install --no-frozen-lockfile
 
+      - name: Repair the contrast violation exposed by axe
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path("apps/web/src/app/globals.css")
+          text = path.read_text()
+          old = ".section-contrast .section-kicker {\n  color: var(--accent);\n}"
+          new = ".section-contrast .section-kicker {\n  color: var(--surface);\n}"
+
+          if old not in text and new not in text:
+              raise SystemExit("Expected contrast rule was not found")
+
+          path.write_text(text.replace(old, new))
+          PY
+
       - name: Normalize and verify application source
         run: |
           set -euo pipefail
@@ -55,14 +77,29 @@ jobs:
           pnpm exec playwright install chromium
           pnpm test:e2e
 
-      - name: Commit lockfile and remove this helper
+      - name: Commit verified hardening and remove this helper
         shell: bash
         run: |
           set -euo pipefail
+          branch='test/14-accessibility-automation-hardening'
+          patch='/tmp/accessibility-hardening.patch'
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git rm .github/workflows/bootstrap-accessibility-axe.yml
-          git add package.json pnpm-lock.yaml tests docs .github
+          git rm --ignore-unmatch .github/workflows/bootstrap-accessibility-axe.yml
+          git add apps package.json pnpm-lock.yaml tests docs .github
+          git diff --cached --check
+
+          if git diff --cached --quiet; then
+            echo 'Expected lockfile, contrast, or helper-cleanup changes were not produced.' >&2
+            exit 1
+          fi
+
+          git diff --cached --binary > "$patch"
+          git reset --hard
+          git fetch origin "$branch"
+          git checkout -B "$branch" "origin/$branch"
+          git apply --index "$patch"
           git diff --cached --check
           git commit -m 'test: finalize accessibility automation hardening'
-          git push origin HEAD:test/14-accessibility-automation-hardening
+          git push origin "HEAD:$branch"
