@@ -98,6 +98,24 @@ jobs:
 
           grep -Fq 'create_problem' "$generated"
 
+      - name: Repair the strict server-only import boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path("apps/web/src/lib/problems.ts")
+          text = path.read_text()
+          old = 'import type { ProblemFormValues } from "@/app/problems/problem-form-state";'
+          new = 'import type { ProblemFormValues } from "../app/problems/problem-form-state";'
+
+          if old not in text and new not in text:
+              raise SystemExit("Expected ProblemFormValues import was not found")
+
+          path.write_text(text.replace(old, new))
+          PY
+
       - name: Normalize and run application quality gates
         run: |
           set -euo pipefail
@@ -107,15 +125,23 @@ jobs:
           pnpm test
           pnpm build
 
-      - name: Commit the verified generated contract and remove this helper
+      - name: Commit the verified generated contract and remove temporary helpers
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git rm .github/workflows/bootstrap-problem-create-rpc.yml
+          git rm --ignore-unmatch \
+            .github/workflows/bootstrap-problem-create-rpc.yml \
+            .github/workflows/repair-problem-application.yml
           git add apps packages tests supabase docs .github
           git diff --cached --check
+
+          if git diff --cached --quiet; then
+            echo 'Expected generated, import, or helper-cleanup changes were not produced.' >&2
+            exit 1
+          fi
+
           git commit -m 'fix: finalize the typed Problem create boundary'
           git push origin HEAD:feat/6-problem-directory-foundation
 
