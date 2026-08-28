@@ -10,9 +10,10 @@ A first-time contributor can understand the project in roughly this order:
 2. [`../AGENTS.md`](../AGENTS.md) — verified operational status, active branch, commands, source-of-truth hierarchy, and handoff rules.
 3. [`CONSTITUTION.md`](CONSTITUTION.md) — promises that product, architecture, governance, and funding decisions must preserve.
 4. [`PRODUCT.md`](PRODUCT.md) — users, v0 scope, explicit non-goals, critical flows, and the self-hosting acceptance test.
-5. [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — how to claim work, create a branch, verify changes, open a pull request, and clean up afterward.
-6. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](https://github.com/samir1234khans/ManyHands/issues/2) — implementation order and current outcomes.
-7. [`BRANCHING.md`](BRANCHING.md) — issue-linked branch naming, draft-work promotion, handoff, review, merge, and cleanup.
+5. [`GLOSSARY.md`](GLOSSARY.md) — plain-language product terms, important distinctions, and a complete Problem-to-Evidence example.
+6. [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — how to claim work, create a branch, verify changes, open a pull request, and clean up afterward.
+7. [`ROADMAP.md`](ROADMAP.md) and the [public roadmap issue](https://github.com/samir1234khans/ManyHands/issues/2) — implementation order and current outcomes.
+8. [`BRANCHING.md`](BRANCHING.md) — issue-linked branch naming, draft-work promotion, handoff, review, merge, and cleanup.
 
 After that, choose the path matching the work you intend to do.
 
@@ -47,6 +48,7 @@ Write a new ADR when a decision changes a durable boundary, trust model, data-ow
 
 These explain how to apply the contracts and decisions. They should be updated when the real workflow changes.
 
+- [`GLOSSARY.md`](GLOSSARY.md) — a plain-language reading aid; `DOMAIN_MODEL.md` remains authoritative.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — system boundaries, modules, GitHub integration rules, threat model, data consistency, observability, and delivery strategy.
 - [`DEVELOPMENT.md`](DEVELOPMENT.md) — local setup, repository shape, commands, CI, dependency policy, testing, accessibility, and troubleshooting.
 - [`DATABASE.md`](DATABASE.md) — local Supabase, migrations, grants, RLS, pgTAP, generated types, and database operations.
@@ -83,10 +85,11 @@ GitHub issues, pull requests, commits, and CI remain authoritative when a tempor
 
 1. [`CONSTITUTION.md`](CONSTITUTION.md)
 2. [`PRODUCT.md`](PRODUCT.md)
-3. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
-4. [`ROADMAP.md`](ROADMAP.md)
-5. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially public/private data and accessibility constraints
-6. The product-design and research issues linked from the public roadmap
+3. [`GLOSSARY.md`](GLOSSARY.md)
+4. [`DOMAIN_MODEL.md`](DOMAIN_MODEL.md)
+5. [`ROADMAP.md`](ROADMAP.md)
+6. [`ARCHITECTURE.md`](ARCHITECTURE.md), especially public/private data and accessibility constraints
+7. The product-design and research issues linked from the public roadmap
 
 ### Security and privacy review
 

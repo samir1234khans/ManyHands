@@ -4,7 +4,7 @@ Thank you for helping build a place where people can undertake work that is too 
 
 ## Start here
 
-1. Read [`AGENTS.md`](AGENTS.md) for the verified operational status, then use [`docs/README.md`](docs/README.md) to choose the product, engineering, design, security, community, or operations reading path relevant to your work.
+1. Read [`AGENTS.md`](AGENTS.md) for the verified operational status, then use [`docs/README.md`](docs/README.md) to choose the reading path relevant to your work. Use [`docs/GLOSSARY.md`](docs/GLOSSARY.md) when a ManyHands product term or distinction is unfamiliar.
 2. Read the [constitution](docs/CONSTITUTION.md), [product contract](docs/PRODUCT.md), and [roadmap](docs/ROADMAP.md) before changing product meaning or scope.
 3. Find an open issue. New contributors should prefer issues marked `good first issue` or `help wanted`.
 4. Comment with the outcome you want to own and your intended approach. This prevents duplicate effort and lets maintainers share hidden context.
@@ -131,7 +131,7 @@ Use these terms consistently:
 - **Steward**: the accountable caretaker of a project.
 - **Evidence**: a verifiable signal of progress, such as a release, merged pull request, demo, or completed milestone.
 
-See [the domain model](docs/DOMAIN_MODEL.md) for authoritative definitions and the [documentation map](docs/README.md) for the plain-language and role-specific reading paths.
+See the [plain-language glossary](docs/GLOSSARY.md) for examples and common distinctions, the [domain model](docs/DOMAIN_MODEL.md) for authoritative definitions and invariants, and the [documentation map](docs/README.md) for role-specific reading paths.
 
 ## Review, merge, and cleanup
 
