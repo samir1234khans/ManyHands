@@ -112,6 +112,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          branch='feat/6-problem-directory-foundation'
+          patch='/tmp/problem-finalization.patch'
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git rm --ignore-unmatch \
@@ -125,8 +128,14 @@ jobs:
             exit 1
           fi
 
+          git diff --cached --binary > "$patch"
+          git reset --hard
+          git fetch origin "$branch"
+          git checkout -B "$branch" "origin/$branch"
+          git apply --index "$patch"
+          git diff --cached --check
           git commit -m 'fix: finalize the typed Problem create boundary'
-          git push origin HEAD:feat/6-problem-directory-foundation
+          git push origin "HEAD:$branch"
 
       - name: Stop and delete the isolated database
         if: always()
