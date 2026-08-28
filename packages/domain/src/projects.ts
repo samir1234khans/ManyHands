@@ -114,6 +114,7 @@ export function evaluateProjectMemberDeparture(
     : { allowed: false, reason: "final_steward_handoff_required" };
 }
 
-export function projectMembershipGrantsRepositoryPermission(_role: ProjectMembershipRole): false {
+export function projectMembershipGrantsRepositoryPermission(role: ProjectMembershipRole): false {
+  void role;
   return false;
 }
