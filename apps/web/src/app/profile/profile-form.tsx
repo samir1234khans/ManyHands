@@ -16,7 +16,7 @@ function SubmitButton() {
   );
 }
 
-function FieldError({ id, message }: Readonly<{ id: string; message?: string }>) {
+function FieldError({ id, message }: Readonly<{ id: string; message: string | undefined }>) {
   return message ? (
     <p className="field-error" id={id}>
       {message}
