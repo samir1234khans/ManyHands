@@ -7,6 +7,7 @@ export function SiteFooter() {
         <p>ManyHands is free software. Fork it, improve it, and send the homework back.</p>
         <nav aria-label="Project resources">
           <a href="/people">People</a>
+          <a href="/accessibility">Accessibility</a>
           <a href={siteConfig.repositoryUrl}>View source</a>
           <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>
           <a href={siteConfig.roadmapUrl}>Roadmap</a>
