@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import {
-  getAuthenticationMessage,
-  type AuthenticationErrorCode,
-} from "@/lib/auth/messages";
+import { getAuthenticationMessage, type AuthenticationErrorCode } from "@/lib/auth/messages";
 import { sanitizeReturnPath } from "@/lib/auth/return-path";
 
 export const metadata: Metadata = {
