@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 const AUTH_INTERNAL_PATHS = ["/auth/callback", "/auth/start", "/auth/error"] as const;
 
 export function sanitizeReturnPath(value: unknown, fallback = "/"): string {
@@ -28,11 +30,11 @@ export function sanitizeReturnPath(value: unknown, fallback = "/"): string {
   }
 }
 
-export function createSignInPath(nextPath: string, reason: string): string {
+export function createSignInPath(nextPath: string, reason: string): Route {
   const search = new URLSearchParams({
     next: sanitizeReturnPath(nextPath, "/profile"),
     reason,
   });
 
-  return `/auth/sign-in?${search.toString()}`;
+  return `/auth/sign-in?${search.toString()}` as Route;
 }
