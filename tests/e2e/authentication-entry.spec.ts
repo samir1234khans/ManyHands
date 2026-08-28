@@ -34,9 +34,7 @@ test.describe("authentication entry", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Sign-in could not be completed",
     );
-    await expect(
-      page.getByText(/provider response, callback code, token, private email/),
-    ).toBeVisible();
+    await expect(page.getByText(/provider responses.*private email/i)).toBeVisible();
     await expect(page.locator("body")).not.toContainText("do-not-render");
     await expect(page.locator("body")).not.toContainText("alert(1)");
   });
