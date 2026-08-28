@@ -405,7 +405,7 @@ button {
 }
 
 .section-contrast .section-kicker {
-  color: var(--accent);
+  color: var(--surface);
 }
 
 .section-contrast .section-heading > p:last-child,
