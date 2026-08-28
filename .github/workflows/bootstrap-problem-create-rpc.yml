@@ -97,24 +97,7 @@ jobs:
           PY
 
           grep -Fq 'create_problem' "$generated"
-
-      - name: Repair the strict server-only import boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 <<'PY'
-          from pathlib import Path
-
-          path = Path("apps/web/src/lib/problems.ts")
-          text = path.read_text()
-          old = 'import type { ProblemFormValues } from "@/app/problems/problem-form-state";'
-          new = 'import type { ProblemFormValues } from "../app/problems/problem-form-state";'
-
-          if old not in text and new not in text:
-              raise SystemExit("Expected ProblemFormValues import was not found")
-
-          path.write_text(text.replace(old, new))
-          PY
+          test -s apps/web/src/lib/problems/form-state.ts
 
       - name: Normalize and run application quality gates
         run: |
@@ -138,7 +121,7 @@ jobs:
           git diff --cached --check
 
           if git diff --cached --quiet; then
-            echo 'Expected generated, import, or helper-cleanup changes were not produced.' >&2
+            echo 'Expected generated or helper-cleanup changes were not produced.' >&2
             exit 1
           fi
 
