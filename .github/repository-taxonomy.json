@@ -141,7 +141,7 @@
     },
     "6": {
       "milestone": "v0.2 — Problems",
-      "labels": ["enhancement", "area: problems", "area: discovery", "blocked"]
+      "labels": ["enhancement", "area: problems", "area: discovery", "ready"]
     },
     "7": {
       "milestone": "v0.3 — Projects",
@@ -181,7 +181,7 @@
     },
     "16": {
       "milestone": "v0.1 — Foundation",
-      "labels": ["enhancement", "infrastructure", "security", "blocked"]
+      "labels": ["enhancement", "infrastructure", "security", "ready"]
     },
     "17": {
       "milestone": "v0.5 — ManyHands Builds ManyHands",
@@ -193,11 +193,11 @@
     },
     "19": {
       "milestone": "v0.1 — Foundation",
-      "labels": ["documentation", "help wanted", "good first issue", "ready"]
+      "labels": ["documentation"]
     },
     "20": {
       "milestone": "v0.1 — Foundation",
-      "labels": ["documentation", "help wanted", "good first issue", "ready"]
+      "labels": ["documentation"]
     },
     "21": {
       "milestone": "v0.1 — Foundation",

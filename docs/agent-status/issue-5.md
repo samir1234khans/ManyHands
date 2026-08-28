@@ -3,107 +3,65 @@ schema_version: "1"
 issue: "5"
 title: "GitHub sign-in, account lifecycle, and contributor profiles"
 branch: "feat/5-github-auth-profile"
-work_state: "in_progress"
+work_state: "merged"
 contributors: "@samir1234khans"
-base_commit: "1f829d82381a865fba34df139d5faaa33275cc3b"
-last_verified_commit: "2467c163bca8eed622901a10aa8fa3cac44a8864"
-updated_at_utc: "2026-08-27T23:10:44Z"
+base_commit: "8a864a20c41ae1be5a43293ea42f044a59e52e7c"
+last_verified_commit: "fd72cdec49ef89f1bb402f13ebdf004cdd4697f2"
+updated_at_utc: "2026-08-28T04:06:00Z"
 pull_request: "35"
-verification_state: "foundation_ci_green"
+verification_state: "reviewable_checkpoint_merged_parent_evidence_open"
 ---
 
 # Issue #5 agent handoff
 
-## Outcome
+## Merged checkpoint
 
-Deliver the first complete identity vertical slice: public browsing without signup, GitHub sign-in only when identity is required, privacy-respecting contributor profiles, safe sign-out and session failure behavior, account suspension/deletion semantics, and return to the action that initiated authentication.
+PR #35 was promoted to `main` as `fd72cdec49ef89f1bb402f13ebdf004cdd4697f2` after Repository Health, Application CI, Database CI, unit tests, strict TypeScript, production build, browser journeys, pgTAP, database lint, and generated-type drift all passed on its exact review head.
 
-## Acceptance criteria status
+The merged slice includes:
 
-| Criterion | State | Evidence |
-|---|---|---|
-| Public pages remain readable while signed out | foundation complete | Existing server-rendered application plus successful browser smoke suite on `2467c163` |
-| Protected actions explain identity and return safely after sign-in | in progress | OAuth start/callback and return-path validation are committed; explanation UI remains |
-| GitHub OAuth permissions are minimized | foundation complete | Ordinary Supabase GitHub provider flow; no GitHub App installation or repository permission request |
-| Private GitHub email is never public by default | foundation complete | Public profile schema excludes email and OAuth records |
-| Profile create/edit/view is accessible | pending | Visible profile UI is not implemented |
-| Invalid, expired, revoked, and duplicate callback states fail safely | in progress | Callback/error foundations exist; complete browser and service tests remain |
-| Suspension prevents protected writes without erasing attribution | foundation complete | Forced RLS, centralized authorization, and pgTAP coverage |
-| Account deletion preserves history safely | foundation complete at data layer | Anonymization and lifecycle tests pass; product settings/deletion UI remains |
-| Cross-user profile edits are denied | foundation complete | RLS and authorization tests pass |
-| Logs contain no token or private profile field | in progress | Privacy-safe identity-event helper exists; final audit remains |
+- optional GitHub sign-in intent and clear explanation before provider redirect;
+- same-origin return-path sanitization and safe PKCE callback handling;
+- cookie-backed Supabase session refresh and server-only administration clients;
+- safe configuration, provider-denied, invalid/reused callback, expired-session, revoked-session, and unknown-error experiences;
+- public People directory and public profile routes backed only by the privacy-safe `profile_directory` read model;
+- authenticated profile editing with accessible field errors, preserved values, handle-conflict recovery, HTTPS-only public links, IANA timezone validation, and explicit visibility;
+- reusable public header, footer, and profile-card components;
+- account settings, local sign-out, recent-authentication checks, suspension/deletion-pending behavior, and attribution-preserving account deletion with compensation;
+- centralized capability authorization plus RLS/pgTAP cross-user, suspension, restoration, deletion-lock, and lifecycle evidence;
+- privacy-safe structured identity events that exclude tokens, private email, and profile payloads.
 
-## Completed in this branch
+## Parent issue remains open
 
-- Refreshed the active branch from current `main` without losing React or GitHub Actions updates.
-- Recorded Supabase SSR dependencies in the generated lockfile through a one-time self-removing workflow.
-- Added Supabase SSR server, proxy, and administration clients.
-- Added GitHub OAuth start and PKCE callback routes.
-- Added return-path sanitization and open-redirect protection.
-- Added provider-denied and callback-error foundations.
-- Added current-account, recent-sign-in, environment, structured-event, and profile-validation boundaries.
-- Added service-restricted database RPCs for account context, deletion request/compensation, suspension, and restoration.
-- Added and corrected pgTAP coverage for identity application operations.
-- Regenerated committed database types and verified drift from a clean migrated database.
-- Added environment, local GitHub provider, and authentication setup/security documentation.
-- Repaired formatting, lint, TypeScript, internal import, migration, test-plan, and build defects exposed by CI.
-- Opened draft PR #35 so the work is visible, reviewable, and continuously tested.
+The merged checkpoint is useful and persistent, but issue #5 is not closed because these acceptance-evidence items remain:
 
-## Decisions made
+1. Configure GitHub OAuth and Supabase in a non-production hosted environment without committing credentials.
+2. Record a successful real-provider callback, cookie refresh, sign-out, and return-intent journey.
+3. Verify real revoked/expired provider behavior rather than only deterministic local failure paths.
+4. Complete and record manual keyboard and screen-reader review of sign-in, profile editing, settings, suspended/deletion-pending states, and destructive deletion.
+5. Review the final hosted logs and telemetry for token, private-email, and profile-field leakage.
 
-- Ordinary GitHub login remains separate from the future GitHub App installation.
+## Decisions that must not be reversed
+
+- Ordinary GitHub login is separate from future GitHub App installation and repository permission.
+- Public exploration remains available without an account.
 - Session-derived identity is revalidated server-side before trusted operations.
 - Service-role access stays in server-only modules.
-- Return destinations must be same-origin application paths.
-- Profiles remain private by default until a user explicitly changes visibility.
+- Profiles remain private by default until explicitly changed.
 - Destructive operations require recent verified authentication.
-- This draft is not mergeable merely because infrastructure is green; the complete accessible user journey and negative tests remain required.
-
-## Remaining work
-
-1. Add the sign-in explanation and safe configuration-error pages.
-2. Add the public contributor directory and public profile pages.
-3. Add authenticated profile editing with field-level accessible errors and handle-conflict behavior.
-4. Add account settings, sign-out, recent-authentication, deletion, suspended, and deletion-pending experiences.
-5. Add identity navigation to the public shell.
-6. Add unit and end-to-end tests for successful login, provider denial, invalid/expired/revoked sessions, suspension, cross-user access, and deletion.
-7. Configure a non-production hosted Supabase project and GitHub OAuth App for manual end-to-end verification without committing credentials.
-8. Perform the final accessibility, privacy, structured-log, screenshot, and acceptance-criteria audit.
-9. Make PR #35 review-ready only when the exact final head passes every relevant gate.
+- Authentication deletion preserves neutral historical attribution while scrubbing optional profile data.
 
 ## Next safe action
 
-Implement the sign-in explanation and safe configuration-error pages, then add their unit/browser tests. Keep PR #35 as a draft while the user-facing profile and account-management flows remain incomplete.
-
-## Known blockers
-
-- No code blocker is currently known.
-- Final hosted OAuth verification requires a non-production Supabase project and GitHub OAuth App configured outside the repository.
+Treat the implementation on `main` as the code baseline. Add hosted/manual evidence to issue #5 without creating a competing identity branch unless a concrete defect requires an issue-linked fix branch.
 
 ## Security-sensitive areas
 
 - `apps/web/src/app/auth/`
+- `apps/web/src/app/profile/`
+- `apps/web/src/app/settings/`
 - `apps/web/src/lib/auth/`
 - `apps/web/src/lib/supabase/`
 - `apps/web/src/proxy.ts`
 - `supabase/migrations/20260827123000_add_identity_application_api.sql`
-- account deletion, service-role operations, cookie mutation, redirect handling, recent authentication, and structured logs
-
-## Verification at the last checkpoint
-
-| Check | Result | Exact commit |
-|---|---|---|
-| Main refresh and conflict resolution | passed | `4117b98550fd7194f4980b135ac5919c9c37718b` |
-| Dependency lockfile generation | passed | `e36d0cbe1fafd18b3c252cb8f84cbfece2d6d4b1` |
-| Repository health | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Formatting and lint | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Strict type-check | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Unit tests | 15 passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Production build | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Browser foundation smoke and screenshots | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Database reset, pgTAP/RLS, lint, and type drift | passed | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-| Identity-specific browser journey | not yet implemented | `2467c163bca8eed622901a10aa8fa3cac44a8864` |
-
-## Handoff notes
-
-The earlier branch was four commits behind `main`. It was refreshed with a two-parent merge commit because rewriting the shared AI/human checkpoint would have invalidated recorded commit IDs. The overlapping web package retained React `19.2.8` and current GitHub Actions versions from `main`, plus the Supabase/workspace dependencies from issue #5. CI then exposed several mechanical defects; all structural gates now pass on `2467c163bca8eed622901a10aa8fa3cac44a8864`, but the visible identity product remains intentionally incomplete.
+- cookie mutation, redirect handling, recent authentication, service-role operations, account deletion, and structured logs
