@@ -1,14 +1,13 @@
 import "server-only";
 
-import type {
-  ContributorProfileRow,
-  PublicProfileDirectoryRow,
-  ServerSupabaseClient,
-} from "@manyhands/data";
+import type { ContributorProfileRow, PublicProfileDirectoryRow } from "@manyhands/data";
 
 import { parseStoredPublicLinks, type PublicProfileLink } from "./auth/profile-input";
 import { getPublicSupabaseConfig } from "./env";
-import { createServerSupabaseClient } from "./supabase/server";
+import {
+  createServerSupabaseClient,
+  type ServerSupabaseClient,
+} from "./supabase/server";
 
 export interface PublicContributorProfile {
   readonly accountId: string;
