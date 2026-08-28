@@ -62,7 +62,8 @@ const messages: Record<AuthenticationErrorCode, AuthenticationMessage> = {
 };
 
 export function normalizeAuthenticationErrorCode(value: unknown): AuthenticationErrorCode {
-  return typeof value === "string" && authenticationErrorCodes.includes(value as AuthenticationErrorCode)
+  return typeof value === "string" &&
+    authenticationErrorCodes.includes(value as AuthenticationErrorCode)
     ? (value as AuthenticationErrorCode)
     : "unknown";
 }
