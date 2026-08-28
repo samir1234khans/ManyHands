@@ -1,0 +1,86 @@
+name: Accessibility barrier
+description: Report a public usability barrier involving keyboard, assistive technology, zoom, motion, contrast, reflow, touch, or constrained devices.
+title: "[Accessibility]: "
+labels:
+  - area: accessibility
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping make ManyHands usable by more people.
+
+        Do **not** include private account information, access tokens, harassment details, or security vulnerabilities. Follow `SECURITY.md` for sensitive reports.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for the same barrier.
+          required: true
+        - label: This report contains no private data, token, security exploit, or sensitive moderation information.
+          required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to do?
+      description: Describe the outcome, not only the control that failed.
+      placeholder: I was trying to find a contribution need and open its GitHub issue using only the keyboard.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Include the barrier and where it occurred.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+    validations:
+      required: true
+  - type: checkboxes
+    id: modes
+    attributes:
+      label: Interaction or access modes involved
+      options:
+        - label: Keyboard or switch input
+        - label: Screen reader or other assistive technology
+        - label: Voice input
+        - label: Zoom, text resizing, or narrow viewport
+        - label: Reduced motion or animation
+        - label: Forced colors, contrast, or color perception
+        - label: Touch, target size, hover, or dragging
+        - label: Slow device, slow network, or JavaScript failure
+        - label: Plain language, cognitive load, or unclear consequences
+        - label: Other
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open ...
+        2. Press Tab ...
+        3. Activate ...
+        4. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, operating system, device, viewport/zoom, and assistive technology with version when known.
+      placeholder: Firefox 145, Windows 11, NVDA 2026.2, 200% zoom
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and workaround
+      description: Explain whether the task was difficult or impossible and any workaround you found.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Optional public-safe evidence
+      description: Screenshots, recordings, or reduced test cases that contain no private information.
