@@ -4,8 +4,14 @@ test.describe("authentication entry", () => {
   test("explains optional GitHub identity before redirecting", async ({ page }) => {
     await page.goto("/sign-in");
 
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/Sign in with GitHub|already signed in/i);
-    await expect(page.getByText(/Public Problems, Projects, progress, and Contribution Needs remain readable/)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Sign in with GitHub|already signed in/i,
+    );
+    await expect(
+      page.getByText(
+        /Public Problems, Projects, progress, and Contribution Needs remain readable/,
+      ),
+    ).toBeVisible();
     await expect(page.getByText(/does not install the ManyHands GitHub App/i)).toBeVisible();
     await expect(page.getByText(/does not request repository access/i)).toBeVisible();
     await expect(page.getByText(/does not publish your private GitHub email/i)).toBeVisible();
@@ -30,7 +36,9 @@ test.describe("authentication entry", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Sign-in could not be completed",
     );
-    await expect(page.getByText(/provider response, callback code, token, private email/)).toBeVisible();
+    await expect(
+      page.getByText(/provider response, callback code, token, private email/),
+    ).toBeVisible();
     await expect(page.locator("body")).not.toContainText("do-not-render");
     await expect(page.locator("body")).not.toContainText("alert(1)");
   });
