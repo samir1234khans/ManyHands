@@ -149,7 +149,7 @@ export async function saveProblemAction(
   const intent = readValue(formData, "intent");
   const desiredStatus = desiredStatusForIntent(intent, currentStatus);
   const { value } = validation;
-  const { data, error } = await context.supabase.rpc("save_problem", {
+  const problemPayload = {
     change_summary: value.changeSummary ?? "Initial Problem definition",
     desired_status: desiredStatus,
     problem_affected_people: value.affectedPeople,
@@ -161,8 +161,13 @@ export async function saveProblemAction(
     problem_summary: value.summary,
     problem_tags: value.tags,
     problem_title: value.title,
-    target_problem_id: problemId,
-  });
+  };
+  const { data, error } = problemId
+    ? await context.supabase.rpc("save_problem", {
+        ...problemPayload,
+        target_problem_id: problemId,
+      })
+    : await context.supabase.rpc("create_problem", problemPayload);
 
   if (error || !data) {
     const slugConflict = error?.code === "23505";
