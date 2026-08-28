@@ -4,6 +4,7 @@ import { getCurrentAccountContext } from "@/lib/auth/current-account";
 import { logIdentityEvent } from "@/lib/auth/events";
 import { isRecentSignIn } from "@/lib/auth/recent-sign-in";
 import { createSignInPath } from "@/lib/auth/return-path";
+import { getServerSupabaseSecret } from "@/lib/env";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 
 function settingsError(reason: string): never {
@@ -29,6 +30,10 @@ export async function deleteAccountAction(formData: FormData): Promise<never> {
 
   if (!isRecentSignIn(context.user.last_sign_in_at)) {
     settingsError("recent_authentication_required");
+  }
+
+  if (!getServerSupabaseSecret()) {
+    settingsError("administration_unavailable");
   }
 
   const { error: requestError } = await context.supabase.rpc("request_account_deletion");

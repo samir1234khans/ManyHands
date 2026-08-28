@@ -12,7 +12,7 @@ The idea is simple:
 
 ManyHands is **pre-alpha**. The contributor-ready repository and production-shaped application shell are complete. The source also contains the first secure PostgreSQL/Supabase foundation: reproducible local migrations, stable internal accounts, privacy-safe contributor profiles, explicit grants, Row Level Security, lifecycle/anonymization tests, typed application authorization, generated schema types, and isolated database CI.
 
-GitHub sign-in and contributor profiles are now visible as active work in [draft PR #35](../../pull/35) for [issue #5](../../issues/5). Consult [`AGENTS.md`](AGENTS.md) and the issue handoff before joining that branch. The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
+GitHub sign-in, public contributor profiles, profile editing, and account lifecycle experiences are visible as active work in [draft PR #35](../../pull/35) for [issue #5](../../issues/5). Consult [`AGENTS.md`](AGENTS.md) and the issue handoff before joining that branch. The remaining GitHub administrator controls are tracked transparently in [issue #18](../../issues/18) and should be completed before broad contributor launch.
 
 This repository is also the first project ManyHands will coordinate. **ManyHands will build ManyHands.**
 

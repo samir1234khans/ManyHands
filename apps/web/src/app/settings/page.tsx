@@ -15,11 +15,14 @@ export const metadata: Metadata = {
 };
 
 const errorMessages: Record<string, string> = {
+  administration_unavailable:
+    "Account administration is not configured in this environment. No deletion request was started.",
   account_inactive: "This account is not active, so the deletion request was not changed.",
   confirmation: "Type DELETE exactly before requesting account deletion.",
   deletion_failed_compensated:
     "Authentication deletion failed. The write lock was removed so your account was not left stranded.",
-  deletion_request_failed: "The account could not be write-locked safely. No deletion was attempted.",
+  deletion_request_failed:
+    "The account could not be write-locked safely. No deletion was attempted.",
   recent_authentication_required:
     "Account deletion requires a GitHub sign-in from the last 10 minutes. Sign in again, return here, and review the request.",
 };
@@ -84,10 +87,19 @@ export default async function SettingsPage({
           </div>
           <div>
             <p>
-              Last verified sign-in: {context.user.last_sign_in_at ? new Date(context.user.last_sign_in_at).toLocaleString("en", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }) + " UTC" : "not available"}.
+              Last verified sign-in:{" "}
+              {context.user.last_sign_in_at
+                ? new Date(context.user.last_sign_in_at).toLocaleString("en", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                    timeZone: "UTC",
+                  }) + " UTC"
+                : "not available"}
+              .
             </p>
             <p>
-              Recent authentication for deletion: {recentAuthentication ? "available" : "required again"}.
+              Recent authentication for deletion:{" "}
+              {recentAuthentication ? "available" : "required again"}.
             </p>
             <form action={signOutAction}>
               <button className="button button-secondary" type="submit">

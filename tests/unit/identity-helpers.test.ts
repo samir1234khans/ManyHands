@@ -6,10 +6,7 @@ import {
   validateProfileInput,
 } from "../../apps/web/src/lib/auth/profile-input";
 import { isRecentSignIn } from "../../apps/web/src/lib/auth/recent-sign-in";
-import {
-  createSignInPath,
-  sanitizeReturnPath,
-} from "../../apps/web/src/lib/auth/return-path";
+import { createSignInPath, sanitizeReturnPath } from "../../apps/web/src/lib/auth/return-path";
 
 function validProfileForm(): FormData {
   const form = new FormData();

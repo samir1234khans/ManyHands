@@ -4,10 +4,7 @@ import type { ContributorProfileRow, PublicProfileDirectoryRow } from "@manyhand
 
 import { parseStoredPublicLinks, type PublicProfileLink } from "./auth/profile-input";
 import { getPublicSupabaseConfig } from "./env";
-import {
-  createServerSupabaseClient,
-  type ServerSupabaseClient,
-} from "./supabase/server";
+import { createServerSupabaseClient, type ServerSupabaseClient } from "./supabase/server";
 
 export interface PublicContributorProfile {
   readonly accountId: string;
@@ -29,9 +26,7 @@ export interface PublicProfileListResult {
   readonly profiles: readonly PublicContributorProfile[];
 }
 
-function normalizePublicProfile(
-  row: PublicProfileDirectoryRow,
-): PublicContributorProfile | null {
+function normalizePublicProfile(row: PublicProfileDirectoryRow): PublicContributorProfile | null {
   if (!row.account_id || !row.handle || !row.display_name || !row.availability) {
     return null;
   }

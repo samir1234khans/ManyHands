@@ -143,7 +143,9 @@ export function ProfileForm({ initialValues }: Readonly<{ initialValues: Profile
             placeholder="Product research, accessibility, documentation"
             rows={4}
           />
-          <p className="field-help">Design, testing, translation, moderation, and care work belong here.</p>
+          <p className="field-help">
+            Design, testing, translation, moderation, and care work belong here.
+          </p>
         </div>
       </div>
 
@@ -242,7 +244,9 @@ export function ProfileForm({ initialValues }: Readonly<{ initialValues: Profile
 
       <fieldset className="form-field visibility-fieldset">
         <legend>Profile visibility</legend>
-        <p className="field-help">Profiles begin private. You choose when other people can see them.</p>
+        <p className="field-help">
+          Profiles begin private. You choose when other people can see them.
+        </p>
         <label>
           <input
             defaultChecked={state.values.visibility === "private"}

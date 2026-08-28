@@ -28,12 +28,17 @@ export default async function PeoplePage() {
 
         {!result.configured ? (
           <section className="empty-state" aria-labelledby="directory-setup-title">
-            <h2 id="directory-setup-title">The public directory is not connected in this environment</h2>
+            <h2 id="directory-setup-title">
+              The public directory is not connected in this environment
+            </h2>
             <p>
               The application shell remains public and usable. Contributor data appears after the
               local or hosted Supabase environment is configured.
             </p>
-            <a className="button button-secondary" href="/auth/sign-in?reason=profile&next=/profile">
+            <a
+              className="button button-secondary"
+              href="/auth/sign-in?reason=profile&next=/profile"
+            >
               Read the sign-in explanation
             </a>
           </section>

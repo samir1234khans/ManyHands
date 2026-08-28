@@ -7,10 +7,7 @@ import type { ProfileFormValues } from "./profile-form-state";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getCurrentAccountContext } from "@/lib/auth/current-account";
-import {
-  profileLinksToText,
-  profileListToText,
-} from "@/lib/auth/profile-input";
+import { profileLinksToText, profileListToText } from "@/lib/auth/profile-input";
 import { createSignInPath } from "@/lib/auth/return-path";
 import { getOwnContributorProfile } from "@/lib/profiles";
 

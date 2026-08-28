@@ -7,12 +7,14 @@ const availabilityLabels = {
 } as const;
 
 function initials(displayName: string): string {
-  return displayName
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toLocaleUpperCase("en") ?? "")
-    .join("") || "MH";
+  return (
+    displayName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toLocaleUpperCase("en") ?? "")
+      .join("") || "MH"
+  );
 }
 
 export function ProfileCard({ profile }: Readonly<{ profile: PublicContributorProfile }>) {

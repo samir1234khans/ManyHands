@@ -20,7 +20,8 @@ export async function generateMetadata({
   return profile
     ? {
         title: profile.displayName,
-        description: profile.biography ?? `Public ManyHands contributor profile for @${profile.handle}.`,
+        description:
+          profile.biography ?? `Public ManyHands contributor profile for @${profile.handle}.`,
       }
     : { title: "Contributor not found" };
 }
@@ -83,7 +84,9 @@ export default async function PublicProfilePage({
             <dl>
               <div>
                 <dt>Languages</dt>
-                <dd>{profile.languages.length > 0 ? profile.languages.join(", ") : "Not specified"}</dd>
+                <dd>
+                  {profile.languages.length > 0 ? profile.languages.join(", ") : "Not specified"}
+                </dd>
               </div>
               <div>
                 <dt>Timezone</dt>

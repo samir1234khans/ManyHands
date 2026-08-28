@@ -11,15 +11,18 @@ export const metadata: Metadata = {
 
 const errors: Record<string, { detail: string; title: string }> = {
   configuration: {
-    detail: "GitHub sign-in is not configured correctly in this environment. Public browsing still works.",
+    detail:
+      "GitHub sign-in is not configured correctly in this environment. Public browsing still works.",
     title: "Sign-in is not available here yet",
   },
   exchange_failed: {
-    detail: "The one-time sign-in code could not be exchanged. It may have expired or already been used.",
+    detail:
+      "The one-time sign-in code could not be exchanged. It may have expired or already been used.",
     title: "That sign-in link is no longer valid",
   },
   identity_invalid: {
-    detail: "ManyHands could not verify a GitHub identity for this session, so the local session was cleared.",
+    detail:
+      "ManyHands could not verify a GitHub identity for this session, so the local session was cleared.",
     title: "We could not verify the GitHub account",
   },
   missing_code: {
@@ -35,7 +38,8 @@ const errors: Record<string, { detail: string; title: string }> = {
     title: "GitHub could not complete sign-in",
   },
   provider_unavailable: {
-    detail: "ManyHands could not begin the GitHub provider flow. Please try again after checking configuration.",
+    detail:
+      "ManyHands could not begin the GitHub provider flow. Please try again after checking configuration.",
     title: "GitHub sign-in could not start",
   },
 };

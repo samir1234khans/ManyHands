@@ -6,9 +6,15 @@ test.describe("identity and profile foundations without hosted credentials", () 
   }) => {
     await page.goto("/auth/sign-in?reason=profile&next=/profile");
 
-    await expect(page.getByRole("heading", { level: 1, name: "Sign in with GitHub" })).toBeVisible();
-    await expect(page.getByText("Sign in to create or update your contributor profile.")).toBeVisible();
-    await expect(page.getByText("GitHub sign-in is not configured in this environment yet.")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Sign in with GitHub" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Sign in to create or update your contributor profile."),
+    ).toBeVisible();
+    await expect(
+      page.getByText("GitHub sign-in is not configured in this environment yet."),
+    ).toBeVisible();
     await expect(page.getByText(/Does not install the ManyHands GitHub App/)).toBeVisible();
   });
 
@@ -30,7 +36,9 @@ test.describe("identity and profile foundations without hosted credentials", () 
   }) => {
     await page.goto("/people");
 
-    await expect(page.getByRole("heading", { level: 1, name: "Public contributors" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Public contributors" }),
+    ).toBeVisible();
     await expect(
       page.getByRole("heading", {
         level: 2,
@@ -61,6 +69,8 @@ test.describe("identity and profile foundations without hosted credentials", () 
     const response = await page.goto("/people/no-such-public-profile");
 
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole("heading", { level: 1, name: "This path is still unclaimed." })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "That page wandered off." }),
+    ).toBeVisible();
   });
 });

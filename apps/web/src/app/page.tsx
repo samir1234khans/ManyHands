@@ -1,3 +1,5 @@
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site-config";
 
 const pillars = [
@@ -74,24 +76,9 @@ const contributionKinds = [
 export default function HomePage() {
   return (
     <>
-      <header className="site-header">
-        <div className="shell header-inner">
-          <a className="brand" href="/" aria-label="ManyHands home">
-            <span className="brand-mark" aria-hidden="true">
-              M
-            </span>
-            <span>ManyHands</span>
-          </a>
+      <SiteHeader />
 
-          <nav className="primary-nav" aria-label="Primary navigation">
-            <a href="#principles">Principles</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#contribute">Contribute</a>
-          </nav>
-        </div>
-      </header>
-
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="hero shell" aria-labelledby="hero-title">
           <div className="hero-copy-block">
             <p className="eyebrow">
@@ -241,16 +228,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="shell footer-inner">
-          <p>ManyHands is free software. Fork it, improve it, and send the homework back.</p>
-          <nav aria-label="Project resources">
-            <a href={siteConfig.repositoryUrl}>View source</a>
-            <a href={siteConfig.licenseUrl}>{siteConfig.licenseName}</a>
-            <a href={siteConfig.roadmapUrl}>Roadmap</a>
-          </nav>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
