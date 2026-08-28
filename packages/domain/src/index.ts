@@ -17,6 +17,16 @@ export {
   problemStatuses,
 } from "./problems";
 
+export {
+  canTransitionProjectStatus,
+  evaluateProjectActivation,
+  evaluateProjectMemberDeparture,
+  projectActivationGaps,
+  projectMembershipGrantsRepositoryPermission,
+  projectMembershipRoles,
+  projectStatuses,
+} from "./projects";
+
 export type {
   AccountPrincipal,
   AccountStatus,
@@ -40,3 +50,13 @@ export type {
 } from "./authorization";
 
 export type { ProblemModerationState, ProblemStatus } from "./problems";
+
+export type {
+  ProjectActivationAssessment,
+  ProjectActivationGap,
+  ProjectActivationInput,
+  ProjectMemberDepartureDecision,
+  ProjectMemberDepartureInput,
+  ProjectMembershipRole,
+  ProjectStatus,
+} from "./projects";
