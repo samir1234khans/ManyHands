@@ -88,6 +88,7 @@ export async function updateProfileAction(
 
   const existingProfile = await getOwnContributorProfile(context.supabase, context.accountId);
   const { value } = validation;
+  const publicLinksJson: Json = value.publicLinks.map(({ label, url }) => ({ label, url }));
   const { error } = await context.supabase
     .from("contributor_profiles")
     .update({
@@ -99,7 +100,7 @@ export async function updateProfileAction(
       interests: value.interests,
       languages: value.languages,
       non_code_roles: value.nonCodeRoles,
-      public_links: value.publicLinks as Json,
+      public_links: publicLinksJson,
       skills: value.skills,
       timezone: value.timezone,
       visibility: value.visibility,
