@@ -1,9 +1,6 @@
 "use server";
 
-import {
-  decideAuthorization,
-  type ProblemStatus,
-} from "@manyhands/domain";
+import { decideAuthorization, type ProblemStatus } from "@manyhands/domain";
 import type { Route } from "next";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -38,7 +35,10 @@ function captureValues(formData: FormData): ProblemFormValues {
   };
 }
 
-function desiredStatusForIntent(intent: string, currentStatus: ProblemStatus | null): ProblemStatus {
+function desiredStatusForIntent(
+  intent: string,
+  currentStatus: ProblemStatus | null,
+): ProblemStatus {
   switch (intent) {
     case "publish":
     case "reopen":
@@ -170,7 +170,11 @@ export async function saveProblemAction(
     logProblemEvent({
       name: "save",
       outcome: permissionFailure ? "denied" : "failed",
-      reason: slugConflict ? "slug_conflict" : permissionFailure ? "authorization" : "database_write",
+      reason: slugConflict
+        ? "slug_conflict"
+        : permissionFailure
+          ? "authorization"
+          : "database_write",
     });
     return {
       currentStatus,

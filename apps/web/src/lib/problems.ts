@@ -1,10 +1,6 @@
 import "server-only";
 
-import type {
-  ProblemDirectoryRow,
-  ProblemRevisionRow,
-  ProblemRow,
-} from "@manyhands/data";
+import type { ProblemDirectoryRow, ProblemRevisionRow, ProblemRow } from "@manyhands/data";
 import {
   problemModerationStates,
   problemStatuses,
@@ -67,8 +63,7 @@ function isProblemStatus(value: unknown): value is ProblemStatus {
 
 function isProblemModerationState(value: unknown): value is ProblemModerationState {
   return (
-    typeof value === "string" &&
-    problemModerationStates.includes(value as ProblemModerationState)
+    typeof value === "string" && problemModerationStates.includes(value as ProblemModerationState)
   );
 }
 

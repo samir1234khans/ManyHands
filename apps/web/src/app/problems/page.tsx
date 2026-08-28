@@ -74,7 +74,10 @@ export default async function ProblemsPage({
               navigation remain usable; published Problems appear after a local or hosted database
               is configured and migrated.
             </p>
-            <a className="button button-secondary" href="/auth/sign-in?reason=problem&next=/problems/new">
+            <a
+              className="button button-secondary"
+              href="/auth/sign-in?reason=problem&next=/problems/new"
+            >
               Read the sign-in explanation
             </a>
           </section>
@@ -105,7 +108,8 @@ export default async function ProblemsPage({
             <div className="section-heading">
               <p className="section-kicker">Problem first</p>
               <h2 id="problem-list-title">
-                {result.problems.length} public {result.problems.length === 1 ? "Problem" : "Problems"}
+                {result.problems.length} public{" "}
+                {result.problems.length === 1 ? "Problem" : "Problems"}
               </h2>
               {result.query ? <p>Filtered by “{result.query}”.</p> : null}
             </div>

@@ -14,11 +14,17 @@ export function canTransitionProblemStatus(
 ): boolean {
   switch (currentStatus) {
     case "draft":
-      return desiredStatus === "draft" || desiredStatus === "published" || desiredStatus === "archived";
+      return (
+        desiredStatus === "draft" || desiredStatus === "published" || desiredStatus === "archived"
+      );
     case "published":
-      return desiredStatus === "published" || desiredStatus === "closed" || desiredStatus === "archived";
+      return (
+        desiredStatus === "published" || desiredStatus === "closed" || desiredStatus === "archived"
+      );
     case "closed":
-      return desiredStatus === "closed" || desiredStatus === "published" || desiredStatus === "archived";
+      return (
+        desiredStatus === "closed" || desiredStatus === "published" || desiredStatus === "archived"
+      );
     case "archived":
       return desiredStatus === "archived";
   }

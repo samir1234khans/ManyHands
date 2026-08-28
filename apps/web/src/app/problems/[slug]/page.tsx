@@ -13,10 +13,7 @@ import {
   listPublicProblemRevisions,
 } from "@/lib/problems";
 
-import {
-  toggleProblemFollowAction,
-  toggleProblemNeedSignalAction,
-} from "../actions";
+import { toggleProblemFollowAction, toggleProblemNeedSignalAction } from "../actions";
 import styles from "../problems.module.css";
 
 export const metadata: Metadata = {
@@ -85,7 +82,9 @@ export default async function ProblemDetailPage({
         <main id="main-content" className={`shell ${styles.detailPage}`} tabIndex={-1}>
           <section className={styles.degradedState} aria-labelledby="problem-detail-setup-title">
             <p className="section-kicker">Public shell available</p>
-            <h1 id="problem-detail-setup-title">Problem data is not connected in this environment</h1>
+            <h1 id="problem-detail-setup-title">
+              Problem data is not connected in this environment
+            </h1>
             <p>
               The requested route cannot resolve a public record without a configured database. No
               private configuration value is exposed.
@@ -200,7 +199,8 @@ export default async function ProblemDetailPage({
                   {revisions.map((revision) => (
                     <li key={revision.id}>
                       <p>
-                        <strong>Revision {revision.revisionNumber}:</strong> {revision.changeSummary}
+                        <strong>Revision {revision.revisionNumber}:</strong>{" "}
+                        {revision.changeSummary}
                       </p>
                       <p className={styles.revisionMeta}>
                         {revision.status} · {formatDate(revision.createdAt)}

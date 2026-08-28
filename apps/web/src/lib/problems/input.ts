@@ -31,7 +31,10 @@ function readFormText(formData: FormData, key: string): string {
 }
 
 function normalizeParagraph(value: string): string {
-  return value.replace(/\r\n/g, "\n").replace(/[\t ]+\n/g, "\n").trim();
+  return value
+    .replace(/\r\n/g, "\n")
+    .replace(/[\t ]+\n/g, "\n")
+    .trim();
 }
 
 function normalizeList(value: string, maximumItems: number): string[] {
@@ -79,9 +82,7 @@ export function validateProblemInput(
   const affectedPeople = normalizeParagraph(readFormText(formData, "affectedPeople"));
   const context = normalizeParagraph(readFormText(formData, "context"));
   const evidence = normalizeParagraph(readFormText(formData, "evidence"));
-  const existingAlternatives = normalizeParagraph(
-    readFormText(formData, "existingAlternatives"),
-  );
+  const existingAlternatives = normalizeParagraph(readFormText(formData, "existingAlternatives"));
   const changeSummary = normalizeParagraph(readFormText(formData, "changeSummary"));
   const platforms = normalizeList(readFormText(formData, "platforms"), 12);
   const tags = normalizeList(readFormText(formData, "tags"), 20).map((tag) =>
@@ -107,8 +108,7 @@ export function validateProblemInput(
   }
 
   if (affectedPeople.length < 20 || affectedPeople.length > 600) {
-    fieldErrors.affectedPeople =
-      "Describe the affected people or context in 20–600 characters.";
+    fieldErrors.affectedPeople = "Describe the affected people or context in 20–600 characters.";
   }
 
   if (context.length < 20 || context.length > 3000) {

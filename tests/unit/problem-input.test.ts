@@ -40,9 +40,7 @@ describe("Problem input validation", () => {
     if (result.ok) {
       expect(result.value.platforms).toEqual(["Linux", "low-bandwidth web"]);
       expect(result.value.tags).toEqual(["accessibility", "creative tools"]);
-      expect(result.value.changeSummary).toBe(
-        "Clarified the affected workflow and alternatives",
-      );
+      expect(result.value.changeSummary).toBe("Clarified the affected workflow and alternatives");
     }
   });
 

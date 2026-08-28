@@ -44,7 +44,9 @@ test.describe("Problem directory foundation without hosted credentials", () => {
     await page.goto("/problems/new");
 
     await expect(page).toHaveURL(/\/auth\/sign-in\?next=%2Fproblems%2Fnew&reason=problem$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Sign in with GitHub" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Sign in with GitHub" }),
+    ).toBeVisible();
     await expect(page.getByText(/ordinary login does not install/i)).toBeVisible();
   });
 

@@ -1,8 +1,4 @@
-import {
-  isPublicProblemStatus,
-  type ProblemModerationState,
-  type ProblemStatus,
-} from "./problems";
+import { isPublicProblemStatus, type ProblemModerationState, type ProblemStatus } from "./problems";
 
 export const accountStatuses = ["active", "suspended", "deletion_requested", "anonymized"] as const;
 
@@ -203,10 +199,7 @@ function canReadProblem(principal: Principal, resource: ProblemResource): Author
     return denied("resource_not_visible");
   }
 
-  if (
-    principal.accountId === resource.authorAccountId ||
-    isActiveGlobalModerator(principal)
-  ) {
+  if (principal.accountId === resource.authorAccountId || isActiveGlobalModerator(principal)) {
     return allowed;
   }
 

@@ -153,9 +153,7 @@ export function ProblemForm({ initialState }: Readonly<{ initialState: ProblemFo
           <div className="form-field">
             <label htmlFor="affectedPeople">Who is affected?</label>
             <textarea
-              aria-describedby={
-                invalid("affectedPeople") ? errorId("affectedPeople") : undefined
-              }
+              aria-describedby={invalid("affectedPeople") ? errorId("affectedPeople") : undefined}
               aria-invalid={invalid("affectedPeople")}
               defaultValue={state.values.affectedPeople}
               id="affectedPeople"
@@ -165,10 +163,7 @@ export function ProblemForm({ initialState }: Readonly<{ initialState: ProblemFo
               required
               rows={6}
             />
-            <FieldError
-              id={errorId("affectedPeople")}
-              message={state.fieldErrors.affectedPeople}
-            />
+            <FieldError id={errorId("affectedPeople")} message={state.fieldErrors.affectedPeople} />
           </div>
 
           <div className="form-field">
@@ -279,10 +274,7 @@ export function ProblemForm({ initialState }: Readonly<{ initialState: ProblemFo
             <p className="field-help" id="changeSummary-help">
               Explain what meaning changed. This becomes part of the revision history.
             </p>
-            <FieldError
-              id={errorId("changeSummary")}
-              message={state.fieldErrors.changeSummary}
-            />
+            <FieldError id={errorId("changeSummary")} message={state.fieldErrors.changeSummary} />
           </div>
         </section>
       ) : null}
