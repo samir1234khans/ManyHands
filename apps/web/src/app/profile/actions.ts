@@ -1,3 +1,5 @@
+"use server";
+
 import type { Json } from "@manyhands/data";
 import { decideAuthorization } from "@manyhands/domain";
 import { revalidatePath } from "next/cache";
@@ -34,8 +36,6 @@ export async function updateProfileAction(
   _previousState: ProfileFormState,
   formData: FormData,
 ): Promise<ProfileFormState> {
-  "use server";
-
   const values = captureValues(formData);
   const context = await getCurrentAccountContext();
 
