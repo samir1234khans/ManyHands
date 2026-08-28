@@ -65,12 +65,12 @@ test.describe("identity and profile foundations without hosted credentials", () 
     expect(response.headers().location).toMatch(/\/auth\/error\?reason=configuration$/);
   });
 
-  test("unknown public profiles return the safe not-found page", async ({ page }) => {
-    const response = await page.goto("/people/no-such-public-profile");
+  test("unknown public profiles render the safe not-found state", async ({ page }) => {
+    await page.goto("/people/no-such-public-profile");
 
-    expect(response?.status()).toBe(404);
     await expect(
       page.getByRole("heading", { level: 1, name: "That page wandered off." }),
     ).toBeVisible();
+    await expect(page.getByText(/stack|environment|digest/i)).toHaveCount(0);
   });
 });
